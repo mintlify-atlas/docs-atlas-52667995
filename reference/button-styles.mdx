@@ -1,0 +1,287 @@
+---
+title: Button Styles
+description: Complete reference for button icon styles, sizes, and color configurations
+---
+
+Klassy provides extensive customization for titlebar button appearance, including multiple icon styles, size options, and advanced color configurations.
+
+## Icon Styles
+
+<ParamField path="ButtonIconStyle" type="enum" default="StyleKite">
+  Selects the visual style for button icons. Klassy provides numerous built-in perfectly-pixel-snapped icon styles, plus the ability to use system icon themes.
+
+  <Accordion title="Available Icon Styles">
+    <ParamField path="StyleSystemIconTheme" type="option">
+      Use `window-*-symbolic` icons from the system icon theme. Allows integration with custom icon themes.
+    </ParamField>
+
+    <ParamField path="StyleKite" type="option">
+      **Default.** Modern icon style for the main Kite global theme. Clean, contemporary design.
+    </ParamField>
+
+    <ParamField path="StyleSuessigKite" type="option">
+      Sweet variation of the Kite icon style with softer curves.
+    </ParamField>
+
+    <ParamField path="StyleOxygen" type="option">
+      Classic Oxygen desktop icon style, familiar to long-time KDE users.
+    </ParamField>
+
+    <ParamField path="StyleKlasse" type="option">
+      Inspired by KDE 1, offering a retro aesthetic with modern refinement.
+    </ParamField>
+
+    <ParamField path="StyleTraditional" type="option">
+      Traditional window decoration icons.
+    </ParamField>
+
+    <ParamField path="StyleMetro" type="option">
+      Metro/Modern UI inspired minimalist icons.
+    </ParamField>
+
+    <ParamField path="StyleFluent" type="option">
+      Microsoft Fluent Design inspired icons.
+    </ParamField>
+
+    <ParamField path="StyleArk" type="option">
+      Ark icon style with centered design.
+    </ParamField>
+
+    <ParamField path="StyleArkopal" type="option">
+      Arkopal icon style variation.
+    </ParamField>
+
+    <ParamField path="StyleArkopalLeft" type="option">
+      Arkopal style with left-aligned icons.
+    </ParamField>
+
+    <ParamField path="StyleKisweet" type="option">
+      Sweet, rounded icon style.
+    </ParamField>
+  </Accordion>
+</ParamField>
+
+## Icon Size
+
+<ParamField path="IconSize" type="enum" default="IconLargeMedium">
+  Controls the size of button icons (for built-in icon styles).
+
+  <Accordion title="Size Options">
+    - `IconTiny` - Smallest size
+    - `IconVerySmall`
+    - `IconSmall`
+    - `IconSmallMedium`
+    - `IconMedium` - Medium size
+    - `IconLargeMedium` - **Default**
+    - `IconLarge`
+    - `IconVeryLarge`
+    - `IconGiant`
+    - `IconHumongous` - Largest size
+  </Accordion>
+</ParamField>
+
+<ParamField path="SystemIconSize" type="enum" default="SystemIcon16">
+  Icon size when using `StyleSystemIconTheme`. Specified in pixels.
+
+  <Accordion title="System Icon Sizes">
+    - `SystemIcon8` - 8px
+    - `SystemIcon12` - 12px
+    - `SystemIcon14` - 14px
+    - `SystemIcon16` - **Default** 16px
+    - `SystemIcon18` - 18px
+    - `SystemIcon20` - 20px
+    - `SystemIcon22` - 22px
+    - `SystemIcon24` - 24px
+    - `SystemIcon32` - 32px
+    - `SystemIcon48` - 48px
+  </Accordion>
+</ParamField>
+
+<ParamField path="ForceColorizeSystemIcons" type="bool" default="true">
+  When enabled, colorizes icons from the system icon theme to match the configured button colors. Disable to preserve the original icon colors.
+</ParamField>
+
+## Icon Weight
+
+<ParamField path="BoldButtonIcons" type="enum" default="BoldIconsActiveHiDpi">
+  Controls the boldness/weight of button icons.
+
+  <Accordion title="Bold Options">
+    <ParamField path="BoldIconsBold" type="option">
+      Always use bold/thick icon strokes.
+    </ParamField>
+
+    <ParamField path="BoldIconsFine" type="option">
+      Always use fine/thin icon strokes.
+    </ParamField>
+
+    <ParamField path="BoldIconsHiDpiOnly" type="option">
+      Use bold icons only on HiDPI displays.
+    </ParamField>
+
+    <ParamField path="BoldIconsActive" type="option">
+      Use bold icons only for active windows.
+    </ParamField>
+
+    <ParamField path="BoldIconsActiveHiDpi" type="option">
+      **Default.** Use bold icons for active windows on HiDPI displays.
+    </ParamField>
+  </Accordion>
+</ParamField>
+
+## Icon Colors
+
+<ParamField path="ButtonIconColors" type="enum" default="TitleBarText">
+  Base color scheme for button icons. This setting has separate values for active and inactive windows (`ButtonIconColorsActive` and `ButtonIconColorsInactive`).
+
+  <Accordion title="Color Schemes">
+    <ParamField path="TitleBarText" type="option">
+      **Default.** Use titlebar text color for icons.
+    </ParamField>
+
+    <ParamField path="TitleBarTextNegativeClose" type="option">
+      Titlebar text color, with negative/red color for close button.
+    </ParamField>
+
+    <ParamField path="Accent" type="option">
+      Use system accent color.
+    </ParamField>
+
+    <ParamField path="AccentNegativeClose" type="option">
+      Accent color with negative/red close button.
+    </ParamField>
+
+    <ParamField path="AccentTrafficLights" type="option">
+      Accent color with macOS-style traffic light colors (red/yellow/green).
+    </ParamField>
+  </Accordion>
+</ParamField>
+
+<ParamField path="CloseButtonIconColor" type="enum" default="WhiteWhenHoverPress">
+  Special color handling for the close button icon. Separate settings for active/inactive windows.
+
+  <Accordion title="Close Button Colors">
+    <ParamField path="AsSelected" type="option">
+      Use the color from `ButtonIconColors` setting.
+    </ParamField>
+
+    <ParamField path="NegativeWhenHoverPress" type="option">
+      Use negative/red color when hovering or pressing.
+    </ParamField>
+
+    <ParamField path="White" type="option">
+      Always use white color.
+    </ParamField>
+
+    <ParamField path="WhiteWhenHoverPress" type="option">
+      **Default.** Use white when hovering or pressing the button.
+    </ParamField>
+  </Accordion>
+</ParamField>
+
+## Icon Opacity
+
+<ParamField path="ButtonIconOpacity" type="int" default="100">
+  Opacity percentage for button icons. Separate values for active (`ButtonIconOpacityActive`) and inactive (`ButtonIconOpacityInactive`) windows.
+  
+  - **Min:** 0 (fully transparent)
+  - **Max:** 100 (fully opaque)
+  - **Default:** 100
+</ParamField>
+
+## Poor Contrast Handling
+
+<ParamField path="OnPoorIconContrast" type="enum" default="TitleBarBackground">
+  Action to take when button icon contrast is poor. Separate settings for active/inactive windows.
+
+  <Accordion title="Contrast Actions">
+    <ParamField path="Nothing" type="option">
+      Do nothing, keep original colors even with poor contrast.
+    </ParamField>
+
+    <ParamField path="BlackWhite" type="option">
+      Switch to black or white to improve contrast.
+    </ParamField>
+
+    <ParamField path="TitleBarBackground" type="option">
+      **Default.** Add titlebar background color behind icon to improve contrast.
+    </ParamField>
+  </Accordion>
+</ParamField>
+
+<ParamField path="PoorIconContrastThreshold" type="double" default="1.5">
+  Contrast ratio threshold below which icon contrast is considered poor. Based on WCAG contrast calculations.
+  
+  - **Min:** 1.0 (no contrast)
+  - **Max:** 21.0 (maximum contrast)
+  - **Default:** 1.5
+</ParamField>
+
+## Background Colors
+
+<ParamField path="ButtonBackgroundColors" type="enum" default="AccentNegativeClose">
+  Color scheme for button backgrounds. Separate values for active and inactive windows.
+
+  - `TitleBarText` - Titlebar text color
+  - `TitleBarTextNegativeClose` - Titlebar text with red close
+  - `Accent` - System accent color  
+  - `AccentNegativeClose` - **Default** Accent with red close
+  - `AccentTrafficLights` - Traffic light colors (red/yellow/green)
+</ParamField>
+
+<ParamField path="ButtonBackgroundOpacity" type="int" default="60">
+  Opacity percentage for button backgrounds. Separate values for active/inactive windows.
+  
+  - **Min:** 0 (invisible background)
+  - **Max:** 100 (solid background)
+  - **Default:** 60
+</ParamField>
+
+<ParamField path="NegativeCloseBackgroundHoverPress" type="bool" default="false">
+  Use negative/red color for close button background when hovering or pressing. Separate settings for active/inactive windows.
+</ParamField>
+
+<ParamField path="UseHoverAccent" type="bool" default="false">
+  Use system hover accent color for button backgrounds on hover. Separate settings for active/inactive windows.
+</ParamField>
+
+<ParamField path="AdjustBackgroundColorOnPoorContrast" type="bool" default="true">
+  Automatically adjust background color when contrast with titlebar is poor. Separate settings for active/inactive windows.
+</ParamField>
+
+<ParamField path="PoorBackgroundContrastThreshold" type="double" default="1.1">
+  Contrast ratio threshold for poor background contrast.
+  
+  - **Min:** 1.0
+  - **Max:** 21.0  
+  - **Default:** 1.1
+</ParamField>
+
+## Color Locking
+
+<ParamField path="LockButtonColorsActiveInactive" type="bool" default="true">
+  When enabled, active and inactive window buttons use the same colors.
+</ParamField>
+
+<ParamField path="ButtonColorsInactiveSameHoverPress" type="bool" default="true">
+  For inactive windows, use the same colors for hover and press states.
+</ParamField>
+
+<Note>
+Klassy provides highly granular color control with separate settings for active/inactive windows and normal/hover/press states. The settings above are the base values - many have `Active` and `Inactive` variants in the configuration.
+</Note>
+
+## Touch Mode Scaling
+
+<ParamField path="ScaleTouchMode" type="int" default="150">
+  Scale percentage for button sizes in touch mode, making buttons easier to tap on touchscreens.
+  
+  - **Min:** 100 (normal size)
+  - **Max:** 400 (4x larger)
+  - **Default:** 150 (1.5x larger)
+</ParamField>
+
+## Related Settings
+
+- [Button Shapes](/reference/button-shapes) - Background shape options
+- [Spacing & Alignment](/reference/spacing-alignment) - Button spacing and positioning

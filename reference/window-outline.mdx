@@ -1,0 +1,173 @@
+---
+title: Window Outline
+description: Configuration reference for thin window outline styles and border settings
+---
+
+Klassy supports configurable thin window outlines with optional accent colors and contrast blending. Outlines can enhance window visibility and add visual polish.
+
+## Outline Thickness & Rendering
+
+<ParamField path="WindowOutlineThickness" type="double" default="1.0">
+  Thickness of the window outline in pixels.
+  
+  - **Min:** 0.5
+  - **Max:** 10
+  - **Default:** 1.0
+</ParamField>
+
+<ParamField path="WindowOutlineSnapToWholePixel" type="bool" default="true">
+  When enabled, outline thickness snaps to whole pixel values for crisper rendering. Disable for sub-pixel precision.
+</ParamField>
+
+<ParamField path="WindowOutlineOverlap" type="bool" default="true">
+  When enabled, the outline overlaps the window border slightly. Creates a more integrated appearance.
+</ParamField>
+
+## Outline Style
+
+<ParamField path="WindowOutlineStyle" type="enum" default="WindowOutlineShadowColor">
+  The color and style of the window outline. Separate settings exist for active (`WindowOutlineStyleActive`) and inactive (`WindowOutlineStyleInactive`) windows.
+
+  <Accordion title="Outline Styles">
+    <ParamField path="WindowOutlineNone" type="option">
+      No window outline is drawn.
+    </ParamField>
+
+    <ParamField path="WindowOutlineShadowColor" type="option">
+      **Default.** Use the shadow color for the outline. Provides subtle window definition that matches the shadow.
+    </ParamField>
+
+    <ParamField path="WindowOutlineContrast" type="option">
+      Use a contrasting color calculated from the titlebar color. Automatically adjusts to provide good visibility.
+    </ParamField>
+
+    <ParamField path="WindowOutlineAccentColor" type="option">
+      Use the system accent color for the outline. Creates a colorful, vibrant appearance.
+    </ParamField>
+
+    <ParamField path="WindowOutlineAccentWithContrast" type="option">
+      Blend the accent color with a contrasting color. Balances accent color visibility with outline definition.
+    </ParamField>
+
+    <ParamField path="WindowOutlineCustomColor" type="option">
+      Use a custom color specified by `WindowOutlineCustomColor`.
+    </ParamField>
+
+    <ParamField path="WindowOutlineCustomWithContrast" type="option">
+      Blend custom color with contrast color.
+    </ParamField>
+  </Accordion>
+</ParamField>
+
+<ParamField path="LockWindowOutlineStyleActiveInactive" type="bool" default="false">
+  When enabled, active and inactive windows use the same outline style.
+</ParamField>
+
+## Outline Opacity
+
+Each outline style has its own opacity control, with separate values for active and inactive windows.
+
+<ParamField path="WindowOutlineShadowColorOpacity" type="int" default="20">
+  Opacity percentage for shadow color outline style.
+  
+  - **Min:** 0 (invisible)
+  - **Max:** 100 (fully opaque)
+  - **Default:** 20
+</ParamField>
+
+<ParamField path="WindowOutlineContrastOpacity" type="int" default="25">
+  Opacity percentage for contrast outline style. Separate values for active and inactive windows.
+  
+  - **Min:** 0
+  - **Max:** 100
+  - **Default:** 25
+</ParamField>
+
+<ParamField path="WindowOutlineAccentColorOpacity" type="int">
+  Opacity percentage for accent color outline style. Separate values for active/inactive.
+  
+  - **Min:** 0
+  - **Max:** 100
+  - **Default (Active):** 67
+  - **Default (Inactive):** 25
+</ParamField>
+
+<ParamField path="WindowOutlineAccentWithContrastOpacity" type="int">
+  Opacity percentage for accent with contrast outline style. Separate values for active/inactive.
+  
+  - **Min:** 0
+  - **Max:** 100
+  - **Default (Active):** 50
+  - **Default (Inactive):** 20
+</ParamField>
+
+<ParamField path="WindowOutlineCustomColorOpacity" type="int">
+  Opacity percentage for custom color outline style. Separate values for active/inactive.
+  
+  - **Min:** 0
+  - **Max:** 100
+  - **Default (Active):** 60
+  - **Default (Inactive):** 25
+</ParamField>
+
+<ParamField path="WindowOutlineCustomWithContrastOpacity" type="int">
+  Opacity percentage for custom color with contrast outline style. Separate values for active/inactive.
+  
+  - **Min:** 0
+  - **Max:** 100
+  - **Default (Active):** 40
+  - **Default (Inactive):** 25
+</ParamField>
+
+## Custom Outline Color
+
+<ParamField path="WindowOutlineCustomColor" type="color" default="0, 0, 0">
+  Custom RGB color for window outline when using `WindowOutlineCustomColor` or `WindowOutlineCustomWithContrast` styles. Separate values for active and inactive windows.
+  
+  Format: "R, G, B" where each component is 0-255.
+</ParamField>
+
+<ParamField path="LockWindowOutlineCustomColorActiveInactive" type="bool" default="true">
+  When enabled, active and inactive windows use the same custom outline color.
+</ParamField>
+
+## Border Settings
+
+<ParamField path="WindowCornerRadius" type="double" default="4">
+  Corner radius for window borders in pixels. Affects both the window shape and outline curvature.
+  
+  - **Min:** 0 (sharp corners)
+  - **Max:** 24.0
+  - **Default:** 4
+</ParamField>
+
+<ParamField path="RoundAllCornersWhenNoBorders" type="bool" default="true">
+  When enabled, all four corners are rounded even when window borders are disabled. When disabled, only top corners are rounded when borders are off.
+</ParamField>
+
+<ParamField path="UseTitleBarColorForAllBorders" type="bool" default="true">
+  When enabled, the entire window border uses the titlebar color. When disabled, borders may use different colors.
+</ParamField>
+
+<ParamField path="DrawBorderOnMaximizedWindows" type="bool" default="false">
+  When enabled, window borders are drawn even when windows are maximized.
+</ParamField>
+
+<ParamField path="ColorizeWindowOutlineWithButton" type="bool" default="true">
+  When enabled, the window outline can be tinted based on button hover states, creating visual feedback.
+</ParamField>
+
+## Visual Examples
+
+The README demonstrates thin window outlines with accent colors:
+
+![Window Outline with Accent Color](https://raw.githubusercontent.com/paulmcauley/klassy/plasma6.3//images/thin_window_outline_dark_contrast_accent.png)
+
+<Note>
+Window outlines are particularly effective when combined with accent colors. The `AccentWithContrast` styles provide good visibility while maintaining the accent color aesthetic.
+</Note>
+
+## Related Settings
+
+- [Shadow Settings](/reference/shadow-settings) - Shadow color affects `WindowOutlineShadowColor` style
+- [Spacing & Alignment](/reference/spacing-alignment) - Overall window layout and margins

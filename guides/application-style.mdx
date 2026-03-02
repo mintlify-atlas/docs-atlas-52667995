@@ -1,0 +1,312 @@
+---
+title: Application Style
+description: Configure Klassy's application style for MDI windows, dockable panels, and consistent UI theming
+---
+
+Klassy provides a complete application style that ensures visual consistency across your entire desktop, including MDI (Multiple Document Interface) applications and dockable panels.
+
+## What is Application Style?
+
+The application style controls the appearance of widgets and UI elements within applications:
+
+- Window decorations for MDI child windows
+- Dockable panel titlebars
+- Application tabs and toolbars
+- Scrollbars, buttons, and other controls
+
+<Tip>
+  Enable the Klassy Application Style in System Settings → Appearance → Application Style to ensure consistency with window decorations.
+</Tip>
+
+## MDI Window Support
+
+Klassy provides proper window decorations for MDI (Multiple Document Interface) applications like Kate, Kdevelop, and other applications with internal windows.
+
+### MDI Window Decorations
+
+```cpp
+// From breezestyle.cpp
+// MDI window shadow factory provides shadows for internal windows
+_mdiWindowShadowFactory = std::make_unique<MdiWindowShadowFactory>();
+```
+
+<Tabs>
+  <Tab title="Features">
+    - Consistent button icons matching main window decorations
+    - Proper shadows and borders
+    - Hover and focus states
+    - Touch-friendly sizing options
+  </Tab>
+  
+  <Tab title="Supported Applications">
+    - Kate (text editor with MDI mode)
+    - KDevelop (IDE with multiple document tabs)
+    - Calligra Suite applications
+    - Any Qt application using QMdiArea
+  </Tab>
+</Tabs>
+
+### Example: MDI Configuration
+
+<Steps>
+  <Step title="Enable MDI support">
+    The application style automatically detects MDI areas:
+    
+    ```cpp
+    // Automatic detection from kstyle
+    if (qobject_cast<QMdiArea*>(widget)) {
+        // Apply MDI-specific styling
+    }
+    ```
+  </Step>
+  
+  <Step title="Configure button icons">
+    MDI buttons use the same icon style as main windows. Configure in Klassy Settings → Buttons → Button Icon Style.
+  </Step>
+  
+  <Step title="Adjust shadows">
+    MDI window shadows can be controlled separately from main window shadows for subtler appearance.
+  </Step>
+</Steps>
+
+## Dockable Panels
+
+Dockable panels (like tool windows in IDEs) receive consistent titlebars:
+
+<Note>
+  Dockable panels respect the same color scheme and decoration settings as main windows but with optimized spacing for compact interfaces.
+</Note>
+
+### Panel Titlebar Features
+
+- **Consistent icons**: Same button icon style as main windows
+- **Proper sizing**: Optimized for smaller titlebars
+- **Color matching**: Inherits titlebar colors from active color scheme
+- **Hover states**: Full interaction feedback
+
+### Tools Area Management
+
+```cpp
+// From breezestyle.cpp
+_toolsAreaManager = std::make_unique<ToolsAreaManager>(_helper);
+```
+
+The Tools Area Manager handles:
+
+1. **Titlebar rendering** for docked panels
+2. **Button alignment** in compact spaces
+3. **Color synchronization** with main window theme
+4. **Shadow effects** for visual hierarchy
+
+## Scrollbars
+
+Klassy features arguably the best scrollbars on any platform:
+
+### Scrollbar Features
+
+<Tabs>
+  <Tab title="Behavior">
+    - Smooth animations on hover and scroll
+    - Automatic expansion on mouse hover
+    - Subtle appearance when not in use
+    - Touch-friendly sizing options
+  </Tab>
+  
+  <Tab title="Customization">
+    Available settings:
+    - Width and hover width
+    - Color and opacity
+    - Animation speed
+    - Show/hide buttons
+    - Groove appearance
+  </Tab>
+</Tabs>
+
+### Scrollbar Animation
+
+Scrollbars feature smooth width transitions:
+
+```cpp
+// Scrollbar animation engines
+_animations->scrollBarEngine();
+_animations->scrollBarData();
+```
+
+## Application Style Settings
+
+Configure the application style through Klassy Settings or configuration files:
+
+### Frame Radius
+
+```cpp
+// From breezestyle.cpp
+namespace Metrics {
+    qreal Frame_FrameRadius = 3; // Set in Helper::loadConfig
+    qreal CheckBox_Radius = 0;   // Set in Helper::loadConfig
+}
+```
+
+<Tip>
+  Frame radius is automatically synchronized with window corner radius for visual consistency.
+</Tip>
+
+### Color Integration
+
+The application style uses the decoration color system:
+
+```cpp
+// Shared color palette with window decorations
+DecorationColors decorationColors(useCachedPalette, forAppStyle=true);
+```
+
+This ensures:
+- Consistent accent colors
+- Proper contrast ratios
+- Synchronized semantic colors (negative/neutral/positive)
+
+## Button Rendering
+
+Application buttons use the same rendering system as window decoration buttons:
+
+<Steps>
+  <Step title="Button icon factory">
+    ```cpp
+    RenderDecorationButtonIcon::factory(
+        internalSettings,
+        painter,
+        fromKstyle=true,  // Indicates application style context
+        boldButtonIcons,
+        devicePixelRatio
+    );
+    ```
+  </Step>
+  
+  <Step title="Size optimization">
+    Application style buttons are optimized for smaller sizes while maintaining pixel-perfect rendering.
+  </Step>
+  
+  <Step title="HiDPI support">
+    Full HiDPI scaling with proper pixel alignment for crisp rendering at any scale factor.
+  </Step>
+</Steps>
+
+## Configuration Examples
+
+### Enabling Application Style
+
+<Tabs>
+  <Tab title="System Settings">
+    1. Open System Settings
+    2. Navigate to Appearance → Application Style
+    3. Select "Klassy" from the list
+    4. Click Apply
+  </Tab>
+  
+  <Tab title="Configuration File">
+    Edit `~/.config/kdeglobals`:
+    
+    ```ini
+    [KDE]
+    widgetStyle=klassy
+    ```
+  </Tab>
+</Tabs>
+
+### Touch Mode Scaling
+
+For touch-friendly interfaces:
+
+```xml
+<!-- From breezesettingsdata.kcfg -->
+<entry name="ScaleTouchMode" type="Int">
+   <default>150</default>
+   <min>100</min>
+   <max>400</max>
+</entry>
+```
+
+<Note>
+  Touch mode scaling affects button sizes, scrollbar widths, and other interactive elements proportionally.
+</Note>
+
+## Advanced Features
+
+### Frame Shadows
+
+The application style provides subtle shadows for visual depth:
+
+```cpp
+_frameShadowFactory = std::make_unique<FrameShadowFactory>();
+```
+
+Frame shadows are applied to:
+- Raised and sunken frames
+- Group boxes
+- Toolbar separators
+- Dockable panel edges
+
+### Animation System
+
+Full animation support for smooth interactions:
+
+```cpp
+_animations = std::make_unique<Animations>();
+```
+
+Animated elements include:
+- Button hover and press states
+- Tab transitions
+- Scrollbar expansion
+- Progress indicators
+- Focus transitions
+
+### Blur Helper
+
+Transparent elements can use background blur:
+
+```cpp
+_blurHelper = std::make_unique<BlurHelper>(_helper);
+```
+
+<Warning>
+  Blur effects require compositor support and may impact performance on older hardware.
+</Warning>
+
+## Consistency with GTK Applications
+
+Klassy includes an icon theme generator for GTK consistency:
+
+<Steps>
+  <Step title="Generate system icons">
+    Open Klassy Settings and click "System Icon Generation..."
+  </Step>
+  
+  <Step title="Configure inheritance">
+    ```xml
+    <entry name="KlassyIconThemeInherits" type="String">
+        <default>breeze</default>
+    </entry>
+    
+    <entry name="KlassyDarkIconThemeInherits" type="String">
+        <default>breeze-dark</default>
+    </entry>
+    ```
+  </Step>
+  
+  <Step title="Apply to GTK">
+    The generated icons ensure GTK applications match your Klassy button icon style.
+  </Step>
+</Steps>
+
+## Performance Optimization
+
+The application style uses several optimization techniques:
+
+- **Cached palettes**: Color generation is cached for performance
+- **Shared helpers**: Common rendering code shared between components
+- **Efficient animations**: Hardware-accelerated where possible
+- **Lazy initialization**: Components loaded only when needed
+
+<Tip>
+  Disable animations in Klassy Settings if you experience performance issues on older hardware.
+</Tip>

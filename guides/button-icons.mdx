@@ -1,0 +1,491 @@
+---
+title: Button Icon Styles
+description: Customize window button icons with multiple built-in styles and advanced configuration options
+---
+
+Klassy provides numerous perfectly pixel-snapped button icon styles, along with the ability to use system icon themes. All button icons support full customization of size, boldness, colors, and behavior.
+
+## Available Icon Styles
+
+Klassy includes 12 built-in button icon styles:
+
+```xml
+<!-- From breezesettingsdata.kcfg -->
+<entry name="ButtonIconStyle" type="Enum">
+  <choices>
+      <choice name="StyleSystemIconTheme" />
+      <choice name="StyleKite" />
+      <choice name="StyleSuessigKite" />
+      <choice name="StyleOxygen" />
+      <choice name="StyleKlasse" />
+      <choice name="StyleTraditional" />
+      <choice name="StyleMetro" />
+      <choice name="StyleFluent" />
+      <choice name="StyleArk" />
+      <choice name="StyleArkopal" />
+      <choice name="StyleArkopalLeft" />
+      <choice name="StyleKisweet" />
+  </choices>
+  <default>StyleKite</default>
+</entry>
+```
+
+### Style Descriptions
+
+<Tabs>
+  <Tab title="Kite (Default)">
+    Modern, clean icons inspired by the Breeze Blue Ocean refresh. Features:
+    - Rounded, friendly shapes
+    - Medium line weight
+    - Perfect for everyday use
+    - Designed by Paul A McAuley
+  </Tab>
+  
+  <Tab title="Suessig Kite">
+    Variation of Kite with slightly different proportions and curved elements for a softer appearance.
+  </Tab>
+  
+  <Tab title="Oxygen">
+    Classic KDE Oxygen-style icons:
+    - Familiar to long-time KDE users
+    - Slightly more detailed than Kite
+    - Thinner line weight
+  </Tab>
+  
+  <Tab title="Klasse">
+    Inspired by KDE 1 aesthetics:
+    - Retro appearance
+    - Sharp, defined shapes
+    - Nostalgic for classic KDE users
+  </Tab>
+  
+  <Tab title="Traditional">
+    Simple, traditional window button icons with minimal styling.
+  </Tab>
+  
+  <Tab title="Metro">
+    Windows Metro-inspired minimalist icons:
+    - Very thin lines
+    - Geometric precision
+    - Modern, flat aesthetic
+  </Tab>
+</Tabs>
+
+<Tabs>
+  <Tab title="Fluent">
+    Microsoft Fluent Design-inspired icons:
+    - Balanced line weight
+    - Rounded corners
+    - Contemporary appearance
+  </Tab>
+  
+  <Tab title="Ark">
+    Unique asymmetric style with artistic flair.
+  </Tab>
+  
+  <Tab title="Arkopal">
+    Variation of Ark with circular elements and gem-like shapes.
+  </Tab>
+  
+  <Tab title="Arkopal Left">
+    Left-aligned variant of Arkopal for different button layouts.
+  </Tab>
+  
+  <Tab title="Kisweet">
+    Sweet, friendly icons with playful curves.
+  </Tab>
+  
+  <Tab title="System Icon Theme">
+    Use icons from your system's icon theme (e.g., `window-close-symbolic`, `window-minimize-symbolic`).
+  </Tab>
+</Tabs>
+
+## Icon Sizes
+
+Klassy provides 10 predefined icon sizes:
+
+```xml
+<entry name="IconSize" type="Enum">
+  <choices>
+      <choice name="IconTiny" />
+      <choice name="IconVerySmall" />
+      <choice name="IconSmall" />
+      <choice name="IconSmallMedium" />
+      <choice name="IconMedium" />
+      <choice name="IconLargeMedium" />
+      <choice name="IconLarge" />
+      <choice name="IconVeryLarge" />
+      <choice name="IconGiant" />
+      <choice name="IconHumongous" />
+      </choices>
+  <default>IconLargeMedium</default>
+</entry>
+```
+
+<Note>
+  Icon sizes automatically scale with HiDPI displays for crisp rendering at any resolution.
+</Note>
+
+### System Icon Theme Sizes
+
+When using system icon theme, specify exact pixel size:
+
+```xml
+<entry name="SystemIconSize" type="Enum">
+  <choices>
+      <choice name="SystemIcon8" />
+      <choice name="SystemIcon12" />
+      <choice name="SystemIcon14" />
+      <choice name="SystemIcon16" />
+      <choice name="SystemIcon18" />
+      <choice name="SystemIcon20" />
+      <choice name="SystemIcon22" />
+      <choice name="SystemIcon24" />
+      <choice name="SystemIcon32" />
+      <choice name="SystemIcon48" />
+  </choices>
+  <default>SystemIcon16</default>
+</entry>
+```
+
+## Bold Icons
+
+Control icon boldness for improved visibility:
+
+```xml
+<entry name="BoldButtonIcons" type="Enum">
+  <choices>
+      <choice name="BoldIconsBold" />
+      <choice name="BoldIconsFine" />
+      <choice name="BoldIconsHiDpiOnly" />
+      <choice name="BoldIconsActive" />
+      <choice name="BoldIconsActiveHiDpi" />
+  </choices>
+  <default>BoldIconsActiveHiDpi</default>
+</entry>
+```
+
+<Tabs>
+  <Tab title="Bold">
+    All icons always rendered with bold/thick lines.
+  </Tab>
+  
+  <Tab title="Fine">
+    All icons always rendered with fine/thin lines.
+  </Tab>
+  
+  <Tab title="HiDPI Only">
+    Bold icons only on HiDPI displays for better visibility.
+  </Tab>
+  
+  <Tab title="Active (Window)">
+    Bold icons only for active windows, fine for inactive.
+  </Tab>
+  
+  <Tab title="Active + HiDPI (Default)">
+    Bold icons for active windows on HiDPI, fine otherwise. Provides best balance of clarity and subtlety.
+  </Tab>
+</Tabs>
+
+## Icon Rendering
+
+Klassy uses a sophisticated rendering system for pixel-perfect icons:
+
+### Rendering Factory
+
+```cpp
+// From renderdecorationbuttonicon.h
+static std::pair<std::unique_ptr<RenderDecorationButtonIcon>, int> factory(
+    const QSharedPointer<InternalSettings> internalSettings,
+    QPainter *painter,
+    const bool fromKstyle = false,
+    const bool boldButtonIcons = false,
+    const qreal devicePixelRatio = 1,
+    const QPointF &deviceOffsetFromZeroReference = QPointF(0, 0),
+    const bool forceEvenSquares = false
+);
+```
+
+### Pixel-Perfect Alignment
+
+<Steps>
+  <Step title="Device pixel snapping">
+    Icons are rendered to align with physical device pixels:
+    
+    ```cpp
+    QPointF snapToNearestPixel(
+        QPointF pointLocal,
+        const SnapPixel snapX,
+        const SnapPixel snapY
+    );
+    ```
+  </Step>
+  
+  <Step title="Antialiasing control">
+    ```cpp
+    void translatePainterForAliasedPainting(const bool penWidthOdd);
+    ```
+    
+    Ensures sharp lines on any display scaling.
+  </Step>
+  
+  <Step title="HiDPI optimization">
+    ```cpp
+    qreal convertDevicePixelsToLocal(const qreal devicePixels);
+    qreal convertLocalPixelsToDevice(const qreal localPixels);
+    ```
+  </Step>
+</Steps>
+
+<Tip>
+  Klassy's rendering engine ensures icons remain crisp at any size, scaling factor, or display resolution.
+</Tip>
+
+## System Icon Theme Integration
+
+When using `StyleSystemIconTheme`, Klassy loads icons from your system theme:
+
+### Icon Names
+
+Klassy looks for these icon names:
+- `window-close-symbolic`
+- `window-minimize-symbolic`
+- `window-maximize-symbolic`
+- `window-restore-symbolic`
+- `window-keep-above-symbolic`
+- `window-keep-below-symbolic`
+- `window-pin-symbolic`
+- `window-shade-symbolic`
+- `application-menu-symbolic`
+
+### Force Colorize
+
+```xml
+<entry name="ForceColorizeSystemIcons" type="Bool">
+    <default>true</default>
+</entry>
+```
+
+<Note>
+  When enabled, system icons are automatically recolored to match your button color scheme.
+</Note>
+
+### System Icon Generation
+
+Klassy can generate system icon themes for GTK consistency:
+
+<Steps>
+  <Step title="Open icon generator">
+    Klassy Settings → System Icon Generation...
+  </Step>
+  
+  <Step title="Configure inheritance">
+    ```xml
+    <entry name="KlassyIconThemeInherits" type="String">
+        <default>breeze</default>
+    </entry>
+    
+    <entry name="KlassyDarkIconThemeInherits" type="String">
+        <default>breeze-dark</default>
+    </entry>
+    ```
+  </Step>
+  
+  <Step title="Generate icons">
+    Click generate to create icon theme matching your selected button icon style.
+  </Step>
+</Steps>
+
+## Icon Behavior States
+
+Control when icons are visible:
+
+<Tabs>
+  <Tab title="Normal State">
+    ```xml
+    <entry name="ShowIconNormally" type="Bool">
+        <default>true</default>
+    </entry>
+    ```
+    
+    Show icons when buttons are not being interacted with.
+  </Tab>
+  
+  <Tab title="Hover State">
+    ```xml
+    <entry name="ShowIconOnHover" type="Bool">
+        <default>true</default>
+    </entry>
+    ```
+    
+    Show icons when mouse hovers over button.
+  </Tab>
+  
+  <Tab title="Press State">
+    ```xml
+    <entry name="ShowIconOnPress" type="Bool">
+        <default>true</default>
+    </entry>
+    ```
+    
+    Show icons when button is being clicked.
+  </Tab>
+</Tabs>
+
+<Warning>
+  Disabling icon display in all states makes buttons invisible (only background/outline will show if configured).
+</Warning>
+
+## Icon Colors
+
+Icons can use various color schemes:
+
+```xml
+<entry name="ButtonIconColors" type="Enum">
+    <choices>
+        <choice name="TitleBarText" />
+        <choice name="TitleBarTextNegativeClose" />
+        <choice name="Accent" />
+        <choice name="AccentNegativeClose" />
+        <choice name="AccentTrafficLights" />
+    </choices>
+    <default>TitleBarText</default>
+</entry>
+```
+
+<Tabs>
+  <Tab title="TitleBar Text">
+    Icons match the titlebar text color from your color scheme.
+  </Tab>
+  
+  <Tab title="TitleBar Text + Negative Close">
+    Standard icons use titlebar text color, close button uses red (negative) color.
+  </Tab>
+  
+  <Tab title="Accent">
+    All icons use the system accent color.
+  </Tab>
+  
+  <Tab title="Accent + Negative Close">
+    Standard icons use accent color, close button uses red.
+  </Tab>
+  
+  <Tab title="Accent Traffic Lights">
+    MacOS-style:
+    - Close: Red
+    - Minimize: Orange/Yellow
+    - Maximize: Green
+  </Tab>
+</Tabs>
+
+### Close Button Icon Variants
+
+```xml
+<entry name="CloseButtonIconColor" type="Enum">
+    <choices>
+        <choice name="AsSelected" />
+        <choice name="NegativeWhenHoverPress" />
+        <choice name="White" />
+        <choice name="WhiteWhenHoverPress" />
+    </choices>
+    <default>WhiteWhenHoverPress</default>
+</entry>
+```
+
+<Tip>
+  The default `WhiteWhenHoverPress` provides excellent contrast when the close button has a red background on hover/press.
+</Tip>
+
+## Icon Opacity
+
+```xml
+<entry name="ButtonIconOpacity" type="Int">
+    <default>100</default>
+    <min>0</min>
+    <max>100</max>
+</entry>
+```
+
+Control transparency of button icons (0-100%).
+
+<Note>
+  Separate opacity settings are available for active and inactive windows.
+</Note>
+
+## Advanced Configuration
+
+### Per-Button Color Override
+
+You can override colors for specific buttons:
+
+```xml
+<entry name="ButtonOverrideColorsActive" type="String">
+    <parameter name="ButtonOverrideColorsActiveButtonType" type="Enum">
+        <values>
+            <value>Menu</value>
+            <value>ApplicationMenu</value>
+            <value>OnAllDesktops</value>
+            <value>Minimize</value>
+            <value>Maximize</value>
+            <value>Close</value>
+            <value>ContextHelp</value>
+            <value>Shade</value>
+            <value>KeepBelow</value>
+            <value>KeepAbove</value>
+        </values>
+    </parameter>
+</entry>
+```
+
+Override format (JSON):
+```json
+{
+  "IconNormal": ["TitleBarText"],
+  "IconHover": ["Accent", 80],
+  "IconPress": [255, 0, 0, 100]
+}
+```
+
+### Contrast Correction
+
+```xml
+<entry name="OnPoorIconContrast" type="Enum">
+    <choices>
+        <choice name="Nothing" />
+        <choice name="BlackWhite" />
+        <choice name="TitleBarBackground" />
+</choices>
+    <default>TitleBarBackground</default>
+</entry>
+
+<entry name="PoorIconContrastThreshold" type="Double">
+    <min>1.0</min>
+    <max>21.0</max>
+    <default>1.5</default>
+</entry>
+```
+
+Automatically adjusts icon colors when contrast ratio is below threshold.
+
+## Best Practices
+
+<Steps>
+  <Step title="Choose appropriate size">
+    Larger icons (Large/VeryLarge) work well on high-resolution displays. Smaller icons (Small/Medium) suit compact interfaces.
+  </Step>
+  
+  <Step title="Consider boldness">
+    Use `BoldIconsActiveHiDpi` (default) for best balance. Adjust based on personal preference and display characteristics.
+  </Step>
+  
+  <Step title="Match your aesthetic">
+    - Modern/minimalist: Metro, Fluent, or Kite
+    - Classic: Oxygen or Traditional  
+    - Playful: Kisweet or Arkopal
+    - Retro: Klasse
+  </Step>
+  
+  <Step title="Test visibility">
+    Ensure icons remain visible against your titlebar color at all sizes and states.
+  </Step>
+</Steps>

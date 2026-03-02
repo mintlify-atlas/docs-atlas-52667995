@@ -1,0 +1,443 @@
+---
+title: Architecture
+description: Technical overview of Klassy's architecture, components, and codebase structure
+---
+
+Klassy is a comprehensive theming utility for KDE Plasma that consists of multiple integrated components. This document provides an architectural overview of how these components work together.
+
+## Project Overview
+
+Klassy extends and enhances the Breeze theme with highly customizable window decorations, application styles, and visual elements. The project is built with C++20 and supports both Qt5 and Qt6 simultaneously.
+
+### Version Information
+
+- **Current Version**: 6.5.3
+- **Qt5 Minimum**: 5.15.2
+- **Qt6 Minimum**: 6.6.0
+- **KF5 Minimum**: 5.102.0
+- **KF6 Minimum**: 6.10.0
+- **Plasma Requirement**: 6.3+
+
+## Component Architecture
+
+Klassy consists of several major components that work together to provide a unified theming experience:
+
+<Tabs>
+  <Tab title="Window Decorations">
+    ### KDecoration Plugin (`kdecoration/`)
+
+    The window decoration component provides the titlebar, window buttons, and window frames.
+
+    **Key Files:**
+    - `breezedecoration.cpp/h` - Main decoration logic (96KB+)
+    - `breezebutton.cpp/h` - Window button rendering and behavior
+    - `breezesettingsprovider.cpp/h` - Configuration management
+
+    **Features:**
+    - Custom button rendering with multiple shape options
+    - Configurable titlebar opacity and colors
+    - Window outline styling
+    - Shadow effects
+    - Per-window exception rules
+
+    **Dependencies:**
+    - KDecoration3 (KWin decoration API)
+    - klassycommon6 (shared library)
+    - KF6 frameworks (CoreAddons, GuiAddons, I18n, IconThemes, WindowSystem)
+
+    **Installation:**
+    ```
+    Plugin: /usr/lib64/qt6/plugins/org.kde.kdecoration3/org.kde.klassy.so
+    Config: /usr/lib64/qt6/plugins/org.kde.kdecoration3.kcm/
+    ```
+
+    <Note>
+    Window decorations are only built for Qt6, not Qt5, as KWin uses Qt6.
+    </Note>
+  </Tab>
+
+  <Tab title="Application Style">
+    ### KStyle Plugin (`kstyle/`)
+
+    The application style component controls the appearance of Qt widgets throughout applications.
+
+    **Key Directories:**
+    - `animations/` - Widget animation engines and data
+    - `config/` - Style configuration UI
+    - `debug/` - Widget explorer for development
+
+    **Key Files:**
+    - `breezestyle.cpp` - Main style implementation
+    - `breezestyleplugin.cpp` - Plugin entry point
+    - `breezehelper.cpp` - Drawing helper functions
+    - `breezeblurhelper.cpp` - Window blur effects
+    - `breezeshadowhelper.cpp` - Widget shadow effects
+
+    **Animation Engines:**
+    - Busy indicator animations
+    - Dial widget animations
+    - Header view animations
+    - Scrollbar animations (highly customizable)
+    - Spinbox animations
+    - Stacked widget transitions
+    - Tab bar animations
+    - Toolbox animations
+    - Widget state transitions
+
+    **Features:**
+    - Highly customizable scrollbars
+    - Smooth widget animations
+    - Consistent MDI and dockable panel styling
+    - Integration with system color schemes
+    - Support for both Qt5 and Qt6
+
+    **Installation:**
+    ```
+    Qt5: /usr/lib64/qt5/plugins/styles/klassy5.so
+    Qt6: /usr/lib64/qt6/plugins/styles/klassy6.so
+    Theme: /usr/share/kstyle/themes/klassy.themerc
+    ```
+  </Tab>
+
+  <Tab title="Common Library">
+    ### Shared Library (`libbreezecommon/`)
+
+    The common library contains shared code used by both the window decoration and application style components.
+
+    **Core Components:**
+    - `breezesettingsdata.kcfg` - Configuration schema (37KB+)
+    - `decorationbuttoncolors.cpp` - Button color calculation (62KB+)
+    - `decorationcolors.cpp` - Titlebar and decoration colors
+    - `renderdecorationbuttonicon.cpp` - Button icon rendering
+    - `renderdecorationbuttonicon18by18.cpp` - Pixel-perfect 18×18 icons
+
+    **Preset System:**
+    - `presetsmodel.cpp/h` - Preset management
+    - Multiple built-in button icon styles:
+      - Kite (default)
+      - Ark, Ark Opal
+      - Fluent
+      - Kisweet
+      - Klasse (KDE1-inspired)
+      - Metro
+      - Oxygen
+      - Traditional
+
+    **Utilities:**
+    - `colortools.cpp` - Color manipulation functions
+    - `geometrytools.cpp` - Geometry calculations
+    - `breezeboxshadowrenderer.cpp` - Shadow rendering
+    - `decorationexceptionlist.cpp` - Per-app exception handling
+    - `systemicontheme.cpp` - System icon generation
+
+    **D-Bus Communication:**
+    - `dbusupdatenotifier.cpp` - Live configuration updates
+    - `dbusmessages.h` - Message definitions
+
+    **Built for both Qt versions:**
+    ```
+    klassycommon5.so - For Qt5 application style
+    klassycommon6.so - For Qt6 decorations and style
+    ```
+  </Tab>
+
+  <Tab title="Configuration UI">
+    ### Settings Interface (`kdecoration/config/`)
+
+    A comprehensive Qt-based configuration interface for customizing all aspects of Klassy.
+
+    **Main Components:**
+    - `breezeconfigwidget.cpp` - Main configuration widget (45KB+)
+    - `buttonbehaviour.cpp` - Button behavior settings (60KB+)
+    - `buttoncolors.cpp` - Button color configuration (115KB+)
+    - `buttonsizing.cpp` - Button size and spacing (24KB+)
+    - `titlebaropacity.cpp` - Opacity and transparency settings
+    - `titlebarspacing.cpp` - Spacing and alignment
+    - `windowoutlinestyle.cpp` - Window outline configuration
+    - `shadowstyle.cpp` - Shadow customization
+
+    **Preset Management:**
+    - `loadpreset.cpp` - Preset loading logic
+    - `addpreset.cpp` - Custom preset creation
+    - `presets/` - Built-in preset definitions
+
+    **Exception System:**
+    - `breezeexceptiondialog.cpp` - Exception editor dialog
+    - `breezeexceptionlistwidget.cpp` - Exception list management
+    - `breezeexceptionmodel.cpp` - Data model for exceptions
+    - `breezedetectwidget.cpp` - Window detection tool
+
+    **System Icon Generation:**
+    - `systemicongeneration.cpp` - Generate matching system icons
+
+    **Accessible via:**
+    - System Settings KCM module
+    - Standalone `klassy-settings` application
+  </Tab>
+
+  <Tab title="Theme Resources">
+    ### Global Theme Components
+
+    **Color Schemes (`colors/`):**
+    - `KlassyDark.colors` - Dark color scheme
+    - `KlassyLight.colors` - Light color scheme
+    - `OpalFruitsDark.colors` - Vibrant dark variant
+    - `OpalFruitsLight.colors` - Vibrant light variant
+
+    **Look and Feel (`look-and-feel/`):**
+    Four main global theme variants:
+    - `org.kde.klassykitedarkbottompanel.desktop/` - Dark theme, bottom panel layout
+    - `org.kde.klassykitedarkleftpanel.desktop/` - Dark theme, left panel layout
+    - `org.kde.klassykitelightbottompanel.desktop/` - Light theme, bottom panel layout
+    - `org.kde.klassykitelightleftpanel.desktop/` - Light theme, left panel layout
+
+    **Desktop Theme (`desktoptheme/`):**
+    Plasma widget themes:
+    - `kite-dark/` - Dark Plasma theme
+    - `kite-light/` - Light Plasma theme
+
+    **Layout Templates (`layout-templates/`):**
+    Desktop layouts:
+    - `org.kde.klassy.plasma.desktop.bottomPanel/` - Bottom panel layout (recommended for most displays)
+    - `org.kde.klassy.plasma.desktop.leftPanel/` - Left panel layout (recommended for 16:9 laptops)
+
+    **System Icons (`icons/`):**
+    - `klassy/` - Light icon theme
+    - `klassy-dark/` - Dark icon theme
+
+    Generated icons for window controls that match titlebar button style.
+  </Tab>
+</Tabs>
+
+## Build System
+
+Klassy uses CMake with a sophisticated dual-Qt-version build system.
+
+### Main CMakeLists.txt Structure
+
+```cmake
+project(klassy)
+set(PROJECT_VERSION "6.5.3")
+set(CMAKE_CXX_STANDARD 20)
+```
+
+### Build Functions
+
+**`build_Qt5()` Function:**
+- Sets `QT_MAJOR_VERSION` to 5
+- Includes KDEInstallDirs5
+- Builds kstyle5 and libbreezecommon5
+- Output to `kstyle5/` and `libbreezecommon5/` directories
+
+**`build_Qt6()` Function:**
+- Sets `QT_MAJOR_VERSION` to 6
+- Includes KDEInstallDirs6
+- Builds kstyle6, libbreezecommon6, and kdecoration
+- Conditionally builds decorations based on `WITH_DECORATIONS` option
+- Includes additional components: icons, layout-templates, look-and-feel, desktoptheme
+- Handles translations with `ki18n_install(po)`
+
+### Conditional Compilation
+
+Components are conditionally compiled based on:
+- Available frameworks (KF5FrameworkIntegration, Qt5Quick, etc.)
+- Platform (decorations only on Unix-like systems, not macOS/Android)
+- CMake options (`BUILD_QT5`, `BUILD_QT6`, `WITH_DECORATIONS`)
+
+## Configuration System
+
+Klassy uses KConfig's XML-based configuration system.
+
+### Configuration Schema
+
+The main configuration is defined in `libbreezecommon/breezesettingsdata.kcfg` (37KB+), which includes:
+
+- Button appearance (shape, size, icons, spacing)
+- Button colors (background, foreground, outline)
+- Button behavior (hover, click, animations)
+- Titlebar appearance (opacity, colors, margins)
+- Window outline style and colors
+- Shadow configuration
+- Exception rules
+- Animation settings
+
+### Live Configuration Updates
+
+Changes are propagated via D-Bus:
+
+1. User changes settings in `klassy-settings`
+2. Settings saved to config file
+3. D-Bus signal emitted (`dbusupdatenotifier.cpp`)
+4. Active decorations and styles reload configuration
+5. Windows update appearance instantly
+
+## Rendering Pipeline
+
+### Button Icon Rendering
+
+Buttons are rendered in two ways:
+
+1. **Pixel-Perfect Icons** (`renderdecorationbuttonicon18by18.cpp`):
+   - Hand-crafted for 18×18 base size
+   - Scaled for HiDPI
+   - Multiple built-in styles
+
+2. **Symbolic System Icons** (`renderdecorationbuttonicon.cpp`):
+   - Uses `window-*-symbolic` icons from system theme
+   - Allows third-party icon themes
+   - Color-adjusted to match settings
+
+### Color Calculation
+
+Button colors (`decorationbuttoncolors.cpp`, 62KB+):
+- Can inherit from system color scheme
+- Support for accent color blending
+- Automatic contrast enhancement
+- Traffic light colors (red, yellow, green)
+- Translucent outline modes
+- Per-button customization
+
+### Shadow Rendering
+
+`breezeboxshadowrenderer.cpp` implements efficient box-shadow rendering:
+- Gaussian blur approximation
+- Cached shadow textures
+- Different shadows for active/inactive windows
+- Configurable size, offset, and strength
+
+## Directory Structure
+
+```
+klassy/
+├── CMakeLists.txt              # Main build configuration
+├── README.md                   # Project documentation
+├── AUTHORS                     # Author information
+├── install.sh                  # Installation script
+├── uninstall.sh                # Uninstallation script
+├── kdecoration/                # Window decoration plugin (Qt6)
+│   ├── config/                 # Decoration configuration UI
+│   │   ├── ui/                 # Qt UI files
+│   │   └── presets/            # Built-in preset files
+│   ├── breezebutton.cpp/h      # Button implementation
+│   └── breezedecoration.cpp/h  # Main decoration
+├── kstyle/                     # Application style plugin (Qt5/6)
+│   ├── animations/             # Animation engines
+│   ├── config/                 # Style configuration (Qt6 only)
+│   ├── debug/                  # Widget explorer
+│   └── breezestyle.cpp         # Main style implementation
+├── libbreezecommon/            # Shared library (Qt5/6)
+│   ├── breezesettingsdata.kcfg # Configuration schema
+│   ├── decorationbuttoncolors.cpp
+│   ├── renderdecorationbuttonicon*.cpp
+│   ├── presetsmodel.cpp
+│   ├── style*.cpp              # Button style implementations
+│   └── systemicontheme.cpp
+├── colors/                     # Color scheme files
+├── look-and-feel/              # Global theme definitions
+├── desktoptheme/               # Plasma widget themes
+├── layout-templates/           # Desktop layout definitions
+├── icons/                      # System icon themes
+│   ├── klassy/                 # Light icons
+│   └── klassy-dark/            # Dark icons
+├── po/                         # Translations
+└── cmake/                      # CMake modules
+```
+
+## Data Flow
+
+<Steps>
+  <Step title="User Interaction">
+    User opens `klassy-settings` or System Settings KCM
+  </Step>
+  
+  <Step title="Configuration Change">
+    User modifies settings (button colors, spacing, etc.)
+  </Step>
+  
+  <Step title="Save to Config">
+    Settings written to KConfig files in `~/.config/`
+  </Step>
+  
+  <Step title="D-Bus Notification">
+    `dbusupdatenotifier` emits signal about configuration change
+  </Step>
+  
+  <Step title="Reload Configuration">
+    All active decorations and styles receive signal and reload settings
+  </Step>
+  
+  <Step title="Re-render">
+    Windows update appearance using new configuration:
+    - Button colors recalculated (`decorationbuttoncolors.cpp`)
+    - Icons re-rendered (`renderdecorationbuttonicon*.cpp`)
+    - Geometry updated (`geometrytools.cpp`)
+    - Decorations repainted (`breezedecoration.cpp`)
+  </Step>
+</Steps>
+
+## Extension Points
+
+### Adding New Button Styles
+
+1. Create new style class in `libbreezecommon/style*.cpp`
+2. Inherit from base button rendering interface
+3. Implement icon rendering methods
+4. Add to preset system in `presetsmodel.cpp`
+5. Update configuration UI
+
+### Adding New Presets
+
+1. Create preset file in `kdecoration/config/presets/`
+2. Define all configuration values
+3. Add preset metadata (name, description, author)
+4. Preset automatically appears in `klassy-settings`
+
+### Custom Color Schemes
+
+1. Create `.colors` file in `colors/` directory
+2. Define all color roles for light/dark modes
+3. Install to `/usr/share/color-schemes/`
+
+## Testing and Debugging
+
+Build with testing enabled:
+```bash
+cmake -DBUILD_TESTING=ON ..
+```
+
+### Debug Output
+
+Logging category: `klassy5` or `klassy6`
+
+Enable debug output:
+```bash
+QT_LOGGING_RULES="klassy6.debug=true" klassy-settings
+```
+
+### Widget Explorer
+
+The debug widget explorer (`debug/breezewidgetexplorer.cpp`) helps identify widget types and properties for styling.
+
+## Internationalization
+
+Translations use KDE's ki18n framework:
+- Translation domain: `klassy_kwin_deco`
+- Source strings extracted from C++ code
+- Translations stored in `po/` directory
+- Compiled `.mo` files installed system-wide
+
+Current translations:
+- French (`po/fr/`)
+
+## Performance Considerations
+
+- **Shadow caching**: Shadows are pre-rendered and cached
+- **Color caching**: Button colors calculated once per state change
+- **Icon caching**: Rendered icons cached by size and style
+- **Lazy loading**: Configuration only loaded when needed
+- **D-Bus efficiency**: Configuration updates use signals, not polling
+- **Animation optimization**: GPU-accelerated where possible
+
+<Note>
+Klassy is designed for efficiency with minimal performance impact. The common library ensures code sharing between Qt5 and Qt6 builds.
+</Note>

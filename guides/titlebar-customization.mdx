@@ -1,0 +1,421 @@
+---
+title: Titlebar Customization
+description: Customize titlebar colors, spacing, margins, and appearance in Klassy
+---
+
+Klassy provides extensive titlebar customization options, allowing you to fine-tune spacing, margins, colors, and visual appearance to match your workflow and aesthetic preferences.
+
+## Titlebar Colors
+
+Titlebar colors are read from your active color scheme and can be further customized in Klassy Settings.
+
+### Color Sources
+
+Klassy reads titlebar colors from the color scheme in priority order:
+
+<Steps>
+  <Step title="Header section (preferred)">
+    ```ini
+    [Colors:Header]
+    BackgroundNormal=41,44,48
+    ForegroundNormal=252,252,252
+    
+    [Colors:Header][Inactive]
+    BackgroundNormal=32,35,38
+    ForegroundNormal=161,169,177
+    ```
+  </Step>
+  
+  <Step title="Window Manager section (fallback)">
+    ```ini
+    [WM]
+    activeBackground=70,75,81,191
+    activeForeground=252,252,252
+    inactiveBackground=42,46,50
+    inactiveForeground=161,169,177
+    ```
+    
+    <Note>
+      The fourth value in background colors is the alpha channel (0-255) for transparency.
+    </Note>
+  </Step>
+</Steps>
+
+### Match Titlebar to Application Color
+
+Force titlebar to match the application window color:
+
+```xml
+<!-- From breezesettingsdata.kcfg -->
+<entry name="MatchTitleBarToApplicationColor" type="Bool">
+    <default>false</default>
+</entry>
+```
+
+<Tabs>
+  <Tab title="When Disabled (Default)">
+    Titlebar uses colors from the color scheme's `[WM]` or `[Colors:Header]` section.
+  </Tab>
+  
+  <Tab title="When Enabled">
+    Titlebar matches the application's window background color. Klassy automatically adjusts text color for proper contrast.
+    
+    ```cpp
+    // From decorationcolors.cpp
+    if (decorationSettings->matchTitleBarToApplicationColor()) {
+        ColorTools::getHigherContrastForegroundColor(
+            titleBarText,
+            titleBarBase,
+            1.5,  // Minimum contrast ratio
+            titleBarText
+        );
+    }
+    ```
+  </Tab>
+</Tabs>
+
+<Warning>
+  When matching application colors, some applications with very light or dark backgrounds may result in poor contrast. Klassy attempts to correct this automatically.
+</Warning>
+
+## Titlebar Spacing
+
+Precise control over titlebar dimensions and margins:
+
+### Top and Bottom Margins
+
+<Tabs>
+  <Tab title="Configuration">
+    ```xml
+    <entry name="TitleBarTopMargin" type="Double">
+       <default>3.6</default>
+       <min>0</min>
+       <max>50</max>
+    </entry>
+    
+    <entry name="TitleBarBottomMargin" type="Double">
+       <default>3.6</default>
+       <min>0</min>
+       <max>50</max>
+    </entry>
+    
+    <entry name="LockTitleBarTopBottomMargins" type="Bool">
+        <default>true</default>
+    </entry>
+    ```
+  </Tab>
+  
+  <Tab title="Usage">
+    - **Top margin**: Space above the titlebar buttons
+    - **Bottom margin**: Space below the titlebar buttons
+    - **Lock margins**: Keep top and bottom margins synchronized
+    
+    Default: 3.6px provides balanced appearance
+  </Tab>
+</Tabs>
+
+### Left and Right Margins
+
+```xml
+<entry name="TitleBarLeftMargin" type="Int">
+   <default>0</default>
+   <min>0</min>
+   <max>60</max>
+</entry>
+
+<entry name="TitleBarRightMargin" type="Int">
+   <default>0</default>
+   <min>0</min>
+   <max>60</max>
+</entry>
+
+<entry name="LockTitleBarLeftRightMargins" type="Bool">
+    <default>true</default>
+</entry>
+```
+
+<Tip>
+  Use left/right margins to create space between the window edge and buttons, useful for ultra-wide monitors or specific aesthetic preferences.
+</Tip>
+
+### Maximized Window Margins
+
+Different margins for maximized windows:
+
+```xml
+<entry name="PercentMaximizedTopBottomMargins" type="Int">
+   <default>85</default>
+   <min>0</min>
+   <max>100</max>
+</entry>
+```
+
+This allows reducing titlebar height when windows are maximized (default: 85% of normal margins).
+
+<Note>
+  Setting this to 100 keeps maximized margins the same as floating windows. Lower values create more compact titlebars.
+</Note>
+
+## Title Text Customization
+
+### Title Alignment
+
+```xml
+<entry name="TitleAlignment" type="Enum">
+  <choices>
+      <choice name="AlignLeft" />
+      <choice name="AlignCenter" />
+      <choice name="AlignCenterFullWidth" />
+      <choice name="AlignRight" />
+  </choices>
+  <default>AlignCenterFullWidth</default>
+</entry>
+```
+
+<Tabs>
+  <Tab title="AlignLeft">
+    Title text aligned to the left, after the left button group.
+  </Tab>
+  
+  <Tab title="AlignCenter">
+    Title centered between button groups (shifts with button positions).
+  </Tab>
+  
+  <Tab title="AlignCenterFullWidth">
+    Title centered across full window width (recommended, default).
+  </Tab>
+  
+  <Tab title="AlignRight">
+    Title text aligned to the right, before the right button group.
+  </Tab>
+</Tabs>
+
+### Title Side Padding
+
+```xml
+<entry name="TitleSidePadding" type="Int">
+   <default>4</default>
+   <min>0</min>
+   <max>60</max>
+</entry>
+```
+
+Space between title text and adjacent buttons or window edges.
+
+### Title Text Formatting
+
+<Tabs>
+  <Tab title="Bold Title">
+    ```xml
+    <entry name="BoldTitle" type="Bool">
+        <default>true</default>
+    </entry>
+    ```
+    
+    Makes window title text bold for better readability.
+  </Tab>
+  
+  <Tab title="Underline Title">
+    ```xml
+    <entry name="UnderlineTitle" type="Bool">
+        <default>false</default>
+    </entry>
+    ```
+    
+    Underlines window title text (uncommon, disabled by default).
+  </Tab>
+</Tabs>
+
+## Titlebar Visual Effects
+
+### Background Gradient
+
+```xml
+<entry name="DrawBackgroundGradient" type="Bool">
+    <default>false</default>
+</entry>
+```
+
+Enables a subtle vertical gradient in the titlebar background for depth.
+
+### Titlebar Separator
+
+```xml
+<entry name="DrawTitleBarSeparator" type="Bool">
+    <default>true</default>
+</entry>
+```
+
+Draws a thin line separating the titlebar from the application content.
+
+<Tip>
+  The separator is especially useful with transparent titlebars to maintain visual distinction from window content.
+</Tip>
+
+## Border Customization
+
+### Border Colors
+
+```xml
+<entry name="UseTitleBarColorForAllBorders" type="Bool">
+    <default>true</default>
+</entry>
+```
+
+<Tabs>
+  <Tab title="When Enabled (Default)">
+    All window borders match the titlebar color for a cohesive appearance.
+  </Tab>
+  
+  <Tab title="When Disabled">
+    Borders can use different colors from the color scheme or window outline settings.
+  </Tab>
+</Tabs>
+
+### Maximized Window Borders
+
+```xml
+<entry name="DrawBorderOnMaximizedWindows" type="Bool">
+    <default>false</default>
+</entry>
+```
+
+Controls whether maximized windows show borders (typically disabled to maximize screen space).
+
+## Window Corners
+
+### Corner Radius
+
+```xml
+<entry name="WindowCornerRadius" type="Double">
+   <default>4</default>
+   <min>0</min>
+   <max>24.0</max>
+</entry>
+```
+
+Controls the roundness of window corners (in pixels).
+
+<Tabs>
+  <Tab title="Default (4px)">
+    Subtle rounded corners matching modern design trends.
+  </Tab>
+  
+  <Tab title="Sharp (0px)">
+    Square corners for a more traditional appearance.
+  </Tab>
+  
+  <Tab title="Rounded (8-12px)">
+    More pronounced rounded corners for a modern, friendly look.
+  </Tab>
+</Tabs>
+
+### All Corners Rounded
+
+```xml
+<entry name="RoundAllCornersWhenNoBorders" type="Bool">
+    <default>true</default>
+</entry>
+```
+
+<Note>
+  When borders are hidden, this option rounds all four corners instead of just the top corners.
+</Note>
+
+## Titlebar Opacity
+
+See the [Opacity & Blur](/guides/opacity-blur) guide for detailed transparency configuration.
+
+Quick reference:
+
+```xml
+<entry name="ActiveTitleBarOpacity" type="Int">
+   <default>100</default>
+   <min>0</min>
+   <max>100</max>
+</entry>
+
+<entry name="InactiveTitleBarOpacity" type="Int">
+   <default>100</default>
+   <min>0</min>
+   <max>100</max>
+</entry>
+```
+
+## HiDPI Scaling
+
+All titlebar spacing and margins automatically scale with HiDPI displays:
+
+<Steps>
+  <Step title="Automatic detection">
+    Klassy detects your display scaling factor from the system.
+  </Step>
+  
+  <Step title="Proportional scaling">
+    All margins, padding, and spacing values scale proportionally.
+  </Step>
+  
+  <Step title="Pixel-perfect rendering">
+    Klassy ensures crisp rendering at any scale factor through proper pixel alignment.
+  </Step>
+</Steps>
+
+<Tip>
+  Margins and spacing are specified in logical pixels and automatically convert to physical pixels based on your display scaling.
+</Tip>
+
+## Configuration Examples
+
+### Compact Titlebar
+
+```ini
+# In klassyrc
+[Windeco]
+TitleBarTopMargin=2
+TitleBarBottomMargin=2
+TitleBarLeftMargin=0
+TitleBarRightMargin=0
+PercentMaximizedTopBottomMargins=70
+```
+
+### Spacious Titlebar
+
+```ini
+[Windeco]
+TitleBarTopMargin=6
+TitleBarBottomMargin=6
+TitleBarLeftMargin=8
+TitleBarRightMargin=8
+PercentMaximizedTopBottomMargins=100
+```
+
+### MacOS-Style
+
+```ini
+[Windeco]
+TitleAlignment=AlignCenterFullWidth
+BoldTitle=false
+DrawTitleBarSeparator=false
+TitleBarTopMargin=4
+TitleBarBottomMargin=4
+```
+
+## Best Practices
+
+<Steps>
+  <Step title="Test with different content">
+    Preview your titlebar settings with various applications (browsers, terminals, IDEs) to ensure consistent appearance.
+  </Step>
+  
+  <Step title="Consider screen size">
+    Larger margins work well on high-resolution displays, while compact margins maximize space on smaller screens.
+  </Step>
+  
+  <Step title="Balance with button size">
+    Coordinate titlebar margins with button sizing for proportional appearance.
+  </Step>
+  
+  <Step title="Use maximized-specific margins">
+    Reduce margins for maximized windows to maximize usable space while maintaining aesthetics for floating windows.
+  </Step>
+</Steps>

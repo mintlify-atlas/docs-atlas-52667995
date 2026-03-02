@@ -1,0 +1,510 @@
+---
+title: Opacity & Blur Effects
+description: Configure transparency, opacity, and blur effects for Klassy titlebars and window decorations
+---
+
+Klassy provides comprehensive transparency and blur controls, allowing you to create elegant translucent titlebars with optional background blur effects.
+
+## Titlebar Opacity
+
+Control transparency separately for active and inactive windows:
+
+### Basic Opacity Settings
+
+```xml
+<!-- From breezesettingsdata.kcfg -->
+<group name="TitleBarOpacity">
+    <entry name="ActiveTitleBarOpacity" type="Int">
+       <default>100</default>
+       <min>0</min>
+       <max>100</max>
+    </entry>
+
+    <entry name="InactiveTitleBarOpacity" type="Int">
+       <default>100</default>
+       <min>0</min>
+       <max>100</max>
+    </entry>
+</group>
+```
+
+<Tabs>
+  <Tab title="100% (Fully Opaque)">
+    Default setting. Titlebar is completely solid with no transparency.
+  </Tab>
+  
+  <Tab title="75-90% (Subtle)">
+    Slight transparency that adds depth while maintaining readability.
+  </Tab>
+  
+  <Tab title="50-75% (Moderate)">
+    Noticeable transparency. Works well with blur enabled.
+  </Tab>
+  
+  <Tab title="0-50% (High Transparency)">
+    Very transparent. Blur is highly recommended for readability.
+  </Tab>
+</Tabs>
+
+<Warning>
+  High transparency without blur can make titlebar text difficult to read, especially against busy wallpapers.
+</Warning>
+
+### How Opacity is Applied
+
+Klassy applies opacity to titlebar colors from your color scheme:
+
+```cpp
+// From decorationcolors.cpp
+bool setTitleBarBaseOpacity = false;
+if (!decorationSettings->opaqueTitleBar()) {
+    if (titleBarBase.alpha() == 255) {
+        setTitleBarBaseOpacity = true;
+    } else {
+        bool override = active 
+            ? decorationSettings->overrideActiveTitleBarOpacity() 
+            : decorationSettings->overrideInactiveTitleBarOpacity();
+        if (override) {
+            setTitleBarBaseOpacity = true;
+        }
+    }
+}
+if (setTitleBarBaseOpacity) {
+    titleBarBase.setAlphaF(
+        qreal(active 
+            ? decorationSettings->activeTitleBarOpacity() 
+            : decorationSettings->inactiveTitleBarOpacity()) / 100
+    );
+}
+```
+
+### Override Color Scheme Opacity
+
+Color schemes can specify their own opacity in the alpha channel:
+
+```ini
+# In color scheme file
+[WM]
+activeBackground=70,75,81,191  # 191 = 75% opacity
+activeBlend=252,252,252
+activeForeground=252,252,252
+```
+
+To override this with Klassy settings:
+
+```xml
+<entry name="OverrideActiveTitleBarOpacity" type="Bool">
+    <default>false</default>
+</entry>
+
+<entry name="OverrideInactiveTitleBarOpacity" type="Bool">
+    <default>false</default>
+</entry>
+```
+
+<Note>
+  When override is disabled, Klassy respects the color scheme's built-in opacity. Enable override to force your configured opacity values.
+</Note>
+
+## Blur Effects
+
+Background blur creates a frosted glass effect behind transparent titlebars:
+
+### Enable Blur
+
+```xml
+<entry name="BlurTransparentTitleBars" type="Bool">
+    <default>true</default>
+</entry>
+```
+
+<Tabs>
+  <Tab title="When Enabled (Default)">
+    Klassy applies background blur to transparent titlebars, creating a modern frosted glass appearance.
+    
+    **Requirements:**
+    - Compositor must be running (enabled by default in KDE Plasma)
+    - Compositor must support blur effects
+    - Desktop Effects must be enabled in System Settings
+  </Tab>
+  
+  <Tab title="When Disabled">
+    Transparent titlebars show through to content behind without blur. May improve performance on older hardware.
+  </Tab>
+</Tabs>
+
+### Blur Implementation
+
+Klassy uses KWindowEffects for blur:
+
+```cpp
+// From breezestyle.cpp
+_blurHelper = std::make_unique<BlurHelper>(_helper);
+```
+
+The blur helper manages:
+- Blur region updates when window is resized
+- Proper blur boundaries around rounded corners
+- Performance optimization through region caching
+- Compositor compatibility checking
+
+<Tip>
+  Blur is applied only to the titlebar and header area, not the entire window, for optimal performance.
+</Tip>
+
+## Maximized Windows
+
+Special handling for maximized windows:
+
+```xml
+<entry name="OpaqueMaximizedTitleBars" type="Bool">
+    <default>true</default>
+</entry>
+```
+
+<Tabs>
+  <Tab title="When Enabled (Default)">
+    Maximized windows have fully opaque titlebars (100% opacity), regardless of your opacity settings.
+    
+    **Benefits:**
+    - Better readability in fullscreen applications
+    - Reduced compositor overhead for maximized windows
+    - Cleaner appearance for maximized terminal windows
+  </Tab>
+  
+  <Tab title="When Disabled">
+    Maximized windows respect your configured opacity settings.
+  </Tab>
+</Tabs>
+
+<Note>
+  This setting only affects the opacity override, not the color. Maximized windows still use the same titlebar color.
+</Note>
+
+## Header Area Opacity
+
+Extend opacity to the entire header area:
+
+```xml
+<entry name="ApplyOpacityToHeader" type="Bool">
+    <default>true</default>
+</entry>
+```
+
+<Tabs>
+  <Tab title="When Enabled (Default)">
+    Opacity applies to the entire header area (titlebar + any application header/toolbar area).
+    
+    Works with applications that use:
+    - KDE's Header color role
+    - Client-side decorations (CSD)
+    - Merged titlebar/toolbar areas
+  </Tab>
+  
+  <Tab title="When Disabled">
+    Opacity only affects the window decoration titlebar, not application headers.
+  </Tab>
+</Tabs>
+
+## Window-Specific Opacity
+
+Override opacity for specific windows using exceptions:
+
+### Opaque Titlebar Exception
+
+```xml
+<!-- In exception settings -->
+<entry name="OpaqueTitleBar" type="Bool">
+   <default>false</default>
+</entry>
+```
+
+Force specific windows to have opaque titlebars:
+
+<Steps>
+  <Step title="Add window exception">
+    Klassy Settings → Window-Specific Overrides → Add
+  </Step>
+  
+  <Step title="Configure window pattern">
+    Specify window class name or title pattern to match
+  </Step>
+  
+  <Step title="Enable opaque titlebar">
+    Check "Opaque titlebar" option for the exception
+  </Step>
+</Steps>
+
+<Tip>
+  Useful for terminals, video players, or other applications where you always want solid titlebars.
+</Tip>
+
+### Prevent Header Opacity
+
+```xml
+<entry name="PreventApplyOpacityToHeader" type="Bool">
+   <default>false</default>
+</entry>
+```
+
+Prevents opacity from affecting the header area for specific windows.
+
+## Button Opacity
+
+Separate opacity controls for button components:
+
+### Icon Opacity
+
+```xml
+<entry name="ButtonIconOpacity" type="Int">
+    <default>100</default>
+    <min>0</min>
+    <max>100</max>
+</entry>
+```
+
+Controls transparency of button icons themselves (separate from backgrounds).
+
+### Background Opacity
+
+```xml
+<entry name="ButtonBackgroundOpacity" type="Int">
+    <default>60</default>
+    <min>0</min>
+    <max>100</max>
+</entry>
+```
+
+<Note>
+  Default 60% opacity for button backgrounds provides subtle visibility while maintaining the clean Klassy aesthetic.
+</Note>
+
+## Opacity Variations
+
+Control how opacity changes between button states:
+
+### VaryColor Options
+
+```xml
+<entry name="VaryColorBackground" type="Enum">
+    <choices>
+      <choice name="No" />
+      <choice name="Opaque" />
+      <choice name="MostOpaqueHover" />
+      <choice name="Transparent" />
+      <choice name="MostTransparentHover" />
+      <!-- ... more options ... -->
+    </choices>
+    <default>Opaque</default>
+</entry>
+```
+
+<Tabs>
+  <Tab title="No">
+    No variation - same opacity for all states.
+  </Tab>
+  
+  <Tab title="Opaque">
+    Pressed state becomes more opaque (1.2x), hover state becomes less opaque (0.8x).
+  </Tab>
+  
+  <Tab title="MostOpaqueHover">
+    Hover state becomes more opaque (1.2x), pressed state becomes less opaque (0.8x).
+  </Tab>
+  
+  <Tab title="Transparent">
+    Pressed state becomes more transparent (0.8x), hover state becomes less transparent (1.2x).
+  </Tab>
+  
+  <Tab title="MostTransparentHover">
+    Hover state becomes more transparent (0.8x), pressed state becomes less transparent (1.2x).
+  </Tab>
+</Tabs>
+
+### Implementation
+
+```cpp
+// From decorationbuttoncolors.cpp
+switch (varyColor) {
+    case InternalSettings::EnumVaryColorBackground::Opaque:
+        bistate1 = ColorTools::alphaMix(baseColor, 0.8);
+        bistate2 = ColorTools::alphaMix(baseColor, 1.2);
+        break;
+    case InternalSettings::EnumVaryColorBackground::Transparent:
+        bistate1 = ColorTools::alphaMix(baseColor, 1.2);
+        bistate2 = ColorTools::alphaMix(baseColor, 0.8);
+        break;
+    // ... more cases ...
+}
+```
+
+## Performance Considerations
+
+### Blur Impact
+
+<Warning>
+  Background blur can impact performance on:
+  - Older GPUs
+  - Systems with many windows
+  - High-resolution displays (4K+)
+  - Battery-powered devices
+</Warning>
+
+**Optimization tips:**
+1. Disable blur on battery power
+2. Use higher opacity (75%+) to reduce blur dependency
+3. Reduce blur radius in compositor settings
+4. Disable blur for maximized windows
+
+### Compositor Requirements
+
+Blur requires a compositor with blur support:
+
+<Tabs>
+  <Tab title="KWin (Default)">
+    Full support for background blur effects. Enabled by default in KDE Plasma.
+  </Tab>
+  
+  <Tab title="Picom/Compton">
+    Supports blur with proper configuration. May require manual blur region updates.
+  </Tab>
+  
+  <Tab title="Other Compositors">
+    Support varies. Test blur functionality in your specific setup.
+  </Tab>
+</Tabs>
+
+## Configuration Examples
+
+### Frosted Glass Effect
+
+```ini
+# In klassyrc
+[TitleBarOpacity]
+ActiveTitleBarOpacity=75
+InactiveTitleBarOpacity=60
+BlurTransparentTitleBars=true
+OpaqueMaximizedTitleBars=true
+ApplyOpacityToHeader=true
+```
+
+### Subtle Transparency
+
+```ini
+[TitleBarOpacity]
+ActiveTitleBarOpacity=90
+InactiveTitleBarOpacity=85
+BlurTransparentTitleBars=true
+OpaqueMaximizedTitleBars=true
+```
+
+### Maximum Performance
+
+```ini
+[TitleBarOpacity]
+ActiveTitleBarOpacity=100
+InactiveTitleBarOpacity=100
+BlurTransparentTitleBars=false
+OpaqueMaximizedTitleBars=true
+```
+
+### High Transparency
+
+```ini
+[TitleBarOpacity]
+ActiveTitleBarOpacity=50
+InactiveTitleBarOpacity=40
+BlurTransparentTitleBars=true
+OpaqueMaximizedTitleBars=true
+ApplyOpacityToHeader=true
+
+# Increase button background opacity for visibility
+[ButtonColors]
+ButtonBackgroundOpacity=80
+```
+
+## Best Practices
+
+<Steps>
+  <Step title="Start conservative">
+    Begin with 85-90% opacity and adjust based on preference and wallpaper.
+  </Step>
+  
+  <Step title="Always enable blur for transparency">
+    Blur significantly improves readability with transparent titlebars.
+  </Step>
+  
+  <Step title="Test against your wallpaper">
+    Ensure titlebar text remains readable against your typical wallpaper colors and patterns.
+  </Step>
+  
+  <Step title="Use opaque maximized windows">
+    Keeps fullscreen applications crisp while allowing transparency for floating windows.
+  </Step>
+  
+  <Step title="Adjust button opacity independently">
+    If button backgrounds are hard to see, increase `ButtonBackgroundOpacity` without changing titlebar opacity.
+  </Step>
+  
+  <Step title="Monitor performance">
+    If experiencing lag, try disabling blur or increasing opacity to reduce compositor load.
+  </Step>
+</Steps>
+
+## Troubleshooting
+
+### Blur Not Working
+
+<Steps>
+  <Step title="Check compositor">
+    Ensure compositor is running: System Settings → Display → Compositor
+  </Step>
+  
+  <Step title="Enable desktop effects">
+    System Settings → Workspace Behavior → Desktop Effects → Blur
+  </Step>
+  
+  <Step title="Check blur settings">
+    System Settings → Workspace Behavior → Desktop Effects → Blur → Configure
+  </Step>
+  
+  <Step title="Verify KWindowEffects">
+    Blur requires KWindowEffects support in your compositor.
+  </Step>
+</Steps>
+
+### Titlebar Still Opaque
+
+<Steps>
+  <Step title="Check override settings">
+    Ensure override opacity is enabled if your color scheme has built-in opacity.
+  </Step>
+  
+  <Step title="Verify exception rules">
+    Check that no window-specific exception is forcing opaque titlebars.
+  </Step>
+  
+  <Step title="Restart application">
+    Some applications may need restart to reflect opacity changes.
+  </Step>
+</Steps>
+
+### Poor Text Readability
+
+<Steps>
+  <Step title="Increase opacity">
+    Try 75-85% as a middle ground.
+  </Step>
+  
+  <Step title="Enable blur">
+    Blur significantly improves text contrast.
+  </Step>
+  
+  <Step title="Choose darker wallpaper">
+    Or use a wallpaper with less visual noise behind windows.
+  </Step>
+  
+  <Step title="Increase button background opacity">
+    Makes interactive elements more visible.
+  </Step>
+</Steps>

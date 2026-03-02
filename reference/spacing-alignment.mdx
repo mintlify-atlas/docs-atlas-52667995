@@ -1,0 +1,192 @@
+---
+title: Spacing & Alignment
+description: Configuration reference for titlebar spacing, button alignment, and margin settings
+---
+
+Klassy provides fine-grained control over titlebar spacing, button positioning, and title alignment. All measurements scale properly for HiDPI displays.
+
+## Titlebar Margins
+
+<ParamField path="TitleBarTopMargin" type="double" default="3.6">
+  Top margin of the titlebar in pixels. Creates spacing between the top of the window and titlebar content.
+  
+  - **Min:** 0
+  - **Max:** 50
+  - **Default:** 3.6
+</ParamField>
+
+<ParamField path="TitleBarBottomMargin" type="double" default="3.6">
+  Bottom margin of the titlebar in pixels. Creates spacing between titlebar content and the window content area.
+  
+  - **Min:** 0
+  - **Max:** 50
+  - **Default:** 3.6
+</ParamField>
+
+<ParamField path="LockTitleBarTopBottomMargins" type="bool" default="true">
+  When enabled, top and bottom margins are synchronized - changing one automatically updates the other.
+</ParamField>
+
+<ParamField path="TitleBarLeftMargin" type="int" default="0">
+  Left side margin of the titlebar in pixels.
+  
+  - **Min:** 0
+  - **Max:** 60
+</ParamField>
+
+<ParamField path="TitleBarRightMargin" type="int" default="0">
+  Right side margin of the titlebar in pixels.
+  
+  - **Min:** 0
+  - **Max:** 60
+</ParamField>
+
+<ParamField path="LockTitleBarLeftRightMargins" type="bool" default="true">
+  When enabled, left and right margins are synchronized.
+</ParamField>
+
+## Maximized Window Margins
+
+<ParamField path="PercentMaximizedTopBottomMargins" type="int" default="85">
+  Percentage of normal top/bottom margins to use for maximized windows. Allows maximized windows to have tighter spacing.
+  
+  - **Min:** 0 (no margins when maximized)
+  - **Max:** 100 (same margins as normal windows)
+  - **Default:** 85
+</ParamField>
+
+## Title Alignment
+
+<ParamField path="TitleAlignment" type="enum" default="AlignCenterFullWidth">
+  Controls the horizontal alignment of the window title text.
+
+  <Accordion title="Alignment Options">
+    <ParamField path="AlignLeft" type="option">
+      Align title to the left side of the available space (after left buttons).
+    </ParamField>
+
+    <ParamField path="AlignCenter" type="option">
+      Center title within the available space between left and right buttons.
+    </ParamField>
+
+    <ParamField path="AlignCenterFullWidth" type="option">
+      **Default.** Center title across the full titlebar width, potentially overlapping button areas.
+    </ParamField>
+
+    <ParamField path="AlignRight" type="option">
+      Align title to the right side of available space (before right buttons).
+    </ParamField>
+  </Accordion>
+</ParamField>
+
+<ParamField path="TitleSidePadding" type="int" default="4">
+  Horizontal padding around the title text in pixels.
+  
+  - **Min:** 0
+  - **Max:** 60
+  - **Default:** 4
+</ParamField>
+
+## Button Spacing (Small Shapes)
+
+These settings apply to non-full-height button shapes (small circle, square, rounded square, and integrated rectangles).
+
+<ParamField path="ButtonSpacingLeft" type="int" default="6">
+  Spacing to the left of each button in pixels.
+  
+  - **Min:** 0
+  - **Max:** 100
+  - **Default:** 6
+</ParamField>
+
+<ParamField path="ButtonSpacingRight" type="int" default="10">
+  Spacing to the right of each button in pixels.
+  
+  - **Min:** 0
+  - **Max:** 100
+  - **Default:** 10
+</ParamField>
+
+<ParamField path="LockButtonSpacingLeftRight" type="bool" default="false">
+  When enabled, left and right button spacing values are synchronized.
+</ParamField>
+
+## Button Spacing (Full-Height Shapes)
+
+These settings apply to full-height rectangular and rounded rectangular button shapes.
+
+<ParamField path="FullHeightButtonSpacingLeft" type="int" default="2">
+  Spacing to the left of each full-height button in pixels.
+  
+  - **Min:** 0
+  - **Max:** 100
+  - **Default:** 2
+</ParamField>
+
+<ParamField path="FullHeightButtonSpacingRight" type="int" default="4">
+  Spacing to the right of each full-height button in pixels.
+  
+  - **Min:** 0
+  - **Max:** 100
+  - **Default:** 4
+</ParamField>
+
+<ParamField path="LockFullHeightButtonSpacingLeftRight" type="bool" default="false">
+  When enabled, left and right spacing for full-height buttons are synchronized.
+</ParamField>
+
+## Full-Height Button Width
+
+<ParamField path="FullHeightButtonWidthMarginLeft" type="int" default="6">
+  Left width margin for full-height buttons in pixels. Controls the horizontal padding inside the button.
+  
+  - **Min:** 0
+  - **Max:** 100
+  - **Default:** 6
+</ParamField>
+
+<ParamField path="FullHeightButtonWidthMarginRight" type="int" default="18">
+  Right width margin for full-height buttons in pixels.
+  
+  - **Min:** 0
+  - **Max:** 100
+  - **Default:** 18
+</ParamField>
+
+<ParamField path="LockFullHeightButtonWidthMargins" type="bool" default="false">
+  When enabled, left and right width margins are synchronized.
+</ParamField>
+
+<ParamField path="CloseFullHeightButtonWidthMarginRelative" type="int" default="100">
+  Percentage width of close button relative to other full-height buttons. Allows making the close button wider for easier clicking.
+  
+  - **Min:** 25 (1/4 size)
+  - **Max:** 400 (4x size)
+  - **Default:** 100 (same as other buttons)
+</ParamField>
+
+## Spacer Button
+
+<ParamField path="SpacerButtonWidthRelative" type="int" default="50">
+  Width of spacer buttons as a percentage of normal button width. Spacer buttons create visual separation in button layouts.
+  
+  - **Min:** 1 (nearly invisible)
+  - **Max:** 400 (4x normal width)
+  - **Default:** 50 (half width)
+</ParamField>
+
+<Note>
+Spacing values work together to create the overall titlebar layout. Full-height and small button shapes have independent spacing controls because they have different design requirements.
+</Note>
+
+## Visual Examples
+
+The README shows the spacing and alignment controls in action:
+
+![Spacing and Alignment Configuration](https://raw.githubusercontent.com/paulmcauley/klassy/plasma6.3//images/alignment_and_spacing.png)
+
+## Related Settings
+
+- [Button Shapes](/reference/button-shapes) - Different shapes have different spacing controls
+- [Button Styles](/reference/button-styles) - Icon size affects spacing appearance
+- [Window Outline](/reference/window-outline) - Window borders and outline spacing

@@ -1,0 +1,359 @@
+---
+title: "Animations"
+description: "Configure animation settings for window decorations, buttons, and application elements"
+---
+
+## Overview
+
+Klassy includes smooth, polished animations for window decorations, buttons, scrollbars, and application elements. Animations can be customized or disabled entirely based on your preferences.
+
+## Window Decoration Animations
+
+Animations for window decorations (titlebars, buttons, etc.) are configured separately from application style animations.
+
+### Enable/Disable
+
+Toggle all window decoration animations:
+
+```
+AnimationsEnabled=true  # Default: enabled
+```
+
+<Info>
+Disabling animations completely removes transition effects for button hover states, opacity changes, and window outline effects.
+</Info>
+
+### Animation Speed
+
+Adjust animation speed relative to the system setting:
+
+```
+AnimationsSpeedRelativeSystem=0  # -10 to +10
+```
+
+<Tabs>
+  <Tab title="How It Works">
+    - **0** - Use system animation speed (default)
+    - **Negative values** - Faster animations (-10 is fastest)
+    - **Positive values** - Slower animations (+10 is slowest)
+    
+    Each increment is approximately 10% faster or slower.
+  </Tab>
+  
+  <Tab title="Examples">
+    ```
+    AnimationsSpeedRelativeSystem=-5  # 50% faster
+    AnimationsSpeedRelativeSystem=0   # Normal (default)
+    AnimationsSpeedRelativeSystem=5   # 50% slower
+    ```
+  </Tab>
+</Tabs>
+
+<Note>
+Window decoration animation speed is relative to your system's global animation speed setting in System Settings → Appearance → Animations.
+</Note>
+
+## Application Style Animations
+
+Animations for application elements (widgets, scrollbars, etc.) have separate controls.
+
+### Enable/Disable
+
+Toggle application style animations:
+
+```
+AnimationsEnabled=true  # In the Style group
+```
+
+### Animation Duration
+
+Set the base duration for application animations:
+
+```
+AnimationsDuration=100  # Milliseconds (default: 100ms)
+```
+
+<Info>
+This sets the base duration for most widget animations. Individual effects may use multiples of this value.
+</Info>
+
+### Animation Steps
+
+Control animation smoothness:
+
+```
+AnimationSteps=10  # Default: 10 steps
+```
+
+More steps create smoother animations but use slightly more CPU. Fewer steps create choppier but more performant animations.
+
+## Specific Animation Types
+
+### Button Animations
+
+Button hover and press effects are controlled by window decoration animation settings:
+
+- **Hover transitions** - Smooth fade-in of button backgrounds and outlines
+- **Press effects** - Quick response to button clicks
+- **Color variations** - Smooth color transitions based on `VaryColor*` settings
+
+<Note>
+Button animation speed follows `AnimationsSpeedRelativeSystem` for window decoration.
+</Note>
+
+### Scrollbar Animations
+
+Scrollbar thickness changes on hover:
+
+```
+ScrollBarSliderThicknessMouseOver=8
+ScrollBarSliderThicknessMouseNotOverPercent=75
+```
+
+The transition between these sizes is animated. See the [Scrollbars](/theming/scrollbars) page for details.
+
+### Progress Bar Animations
+
+Busy/indeterminate progress bars can animate:
+
+```
+ProgressBarAnimated=true  # Default: animated
+ProgressBarBusyStepDuration=800  # Milliseconds per step
+```
+
+### Stacked Widget Transitions
+
+Animations when switching between stacked widgets:
+
+```
+StackedWidgetTransitionsEnabled=false  # Default: disabled
+```
+
+<Warning>
+Stacked widget transitions can sometimes interfere with application behavior and are disabled by default.
+</Warning>
+
+## Animation Performance
+
+### Hardware Considerations
+
+<Tabs>
+  <Tab title="Modern Hardware">
+    **Recommended Settings:**
+    
+    ```
+    AnimationsEnabled=true
+    AnimationsSpeedRelativeSystem=0
+    AnimationSteps=10
+    ProgressBarAnimated=true
+    ```
+    
+    Modern GPUs handle Klassy animations with negligible performance impact.
+  </Tab>
+  
+  <Tab title="Older Hardware">
+    **Optimized Settings:**
+    
+    ```
+    AnimationsEnabled=true
+    AnimationsSpeedRelativeSystem=-3  # Faster = shorter
+    AnimationSteps=6
+    ProgressBarAnimated=true
+    ```
+    
+    Faster, simpler animations reduce CPU/GPU load.
+  </Tab>
+  
+  <Tab title="Low-End Hardware">
+    **Performance Settings:**
+    
+    ```
+    AnimationsEnabled=false
+    AnimationsSpeedRelativeSystem=0
+    AnimationSteps=5
+    ProgressBarAnimated=false
+    ```
+    
+    Disable animations entirely for maximum performance.
+  </Tab>
+</Tabs>
+
+### Compositor Requirements
+
+Some animation effects require KWin's compositor to be enabled:
+
+- Titlebar opacity transitions
+- Window outline animations
+- Blur effects on transparent elements
+
+<Info>
+The compositor is usually enabled by default in KDE Plasma. Check System Settings → Display and Monitor → Compositor.
+</Info>
+
+## Coordinating Animation Settings
+
+For a cohesive experience, coordinate animation settings across different components:
+
+### Consistent Speed
+
+Match animation speeds:
+
+```
+# Window decorations
+AnimationsSpeedRelativeSystem=0
+
+# Application style
+AnimationsDuration=100
+
+# System settings (System Settings → Appearance → Animations)
+# Set to "Normal" or your preference
+```
+
+### Accessibility Considerations
+
+Some users prefer reduced motion:
+
+<AccordionGroup>
+  <Accordion title="Reduce Motion">
+    **For users sensitive to motion:**
+    
+    ```
+    AnimationsEnabled=true
+    AnimationsSpeedRelativeSystem=-8  # Very fast (brief)
+    AnimationSteps=3
+    StackedWidgetTransitionsEnabled=false
+    ```
+    
+    This keeps animations enabled for visual polish but makes them very brief.
+  </Accordion>
+  
+  <Accordion title="No Motion">
+    **For users who need no motion:**
+    
+    ```
+    AnimationsEnabled=false
+    ProgressBarAnimated=false
+    StackedWidgetTransitionsEnabled=false
+    ```
+    
+    Additionally, disable system animations in System Settings.
+  </Accordion>
+</AccordionGroup>
+
+## Animation Examples
+
+### Button Hover Animation
+
+![Integrated button dark animation](/images/highlight_gifs/icdark.gif)
+
+Default button hover shows:
+1. Background fade-in (60% opacity)
+2. Outline appearance
+3. Color shift based on `VaryColor*` settings
+4. Smooth transition in ~150ms
+
+### Traffic Lights Animation
+
+![Traffic lights animation](/images/highlight_gifs/icdark_trafficlights.gif)
+
+Traffic light buttons animate color transitions:
+- Close: Red background on hover
+- Maximize: Yellow background on hover  
+- Minimize: Green background on hover
+
+### Scrollbar Hover
+
+![Scrollbar mouseover](/images/scrollbar_mouseover.gif)
+
+Scrollbar expands smoothly from 75% to 100% thickness on hover.
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Animations are choppy">
+    **Possible causes:**
+    
+    1. **Compositor disabled** - Enable in System Settings → Display and Monitor → Compositor
+    2. **Low FPS** - Check compositor rendering backend (OpenGL recommended)
+    3. **High animation steps** - Reduce `AnimationSteps` to 5-6
+    4. **System overload** - Close other applications
+    
+    **Quick fix:** Try `AnimationsSpeedRelativeSystem=-5` to make animations finish faster.
+  </Accordion>
+  
+  <Accordion title="No animations at all">
+    **Check these settings:**
+    
+    1. `AnimationsEnabled=true` in Klassy Settings
+    2. System Settings → Appearance → Animations is not "Instant"
+    3. Compositor is enabled
+    4. Restart applications after changing settings
+  </Accordion>
+  
+  <Accordion title="Animations are too slow">
+    **Solution:**
+    
+    ```
+    AnimationsSpeedRelativeSystem=-5  # Much faster
+    # or
+    AnimationsSpeedRelativeSystem=-10  # Fastest
+    ```
+    
+    Or adjust global animation speed in System Settings → Appearance → Animations.
+  </Accordion>
+  
+  <Accordion title="Animations lag on specific applications">
+    **Solution:**
+    
+    Some applications may have their own animation settings that conflict. Check the application's preferences.
+    
+    For Qt applications, animations should always be smooth. For GTK applications, Klassy animations don't apply (GTK uses its own theme engine).
+  </Accordion>
+</AccordionGroup>
+
+## Best Practices
+
+### Testing Animation Changes
+
+1. Change settings in Klassy Settings
+2. Click **Apply**
+3. Test on a window (hover buttons, resize, etc.)
+4. Fine-tune values
+5. Apply again
+
+<Note>
+Some animations may require restarting applications to take full effect, though most apply immediately.
+</Note>
+
+### Matching Desktop Environment
+
+For consistency, match Klassy animation speed to your desktop:
+
+1. Set System Settings → Appearance → Animations to your preference
+2. Leave `AnimationsSpeedRelativeSystem=0` in Klassy
+3. This ensures all animations feel consistent
+
+### Custom Profiles
+
+Create presets for different use cases:
+
+- **Presentation mode** - Faster animations (`-8`) to feel snappy during demos
+- **Everyday use** - Normal animations (`0`)
+- **Power saving** - Disabled animations to reduce GPU usage
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Button Customization" icon="circle" href="/theming/button-customization">
+    Configure button behavior that animations apply to
+  </Card>
+  <Card title="Scrollbars" icon="arrows-up-down" href="/theming/scrollbars">
+    Configure scrollbar appearance and animations
+  </Card>
+  <Card title="Window Decorations" icon="window-maximize" href="/theming/window-decorations">
+    Set up window elements that animate
+  </Card>
+  <Card title="Presets" icon="palette" href="/theming/presets">
+    Load presets with pre-configured animation settings
+  </Card>
+</CardGroup>

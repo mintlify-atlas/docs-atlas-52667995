@@ -1,0 +1,254 @@
+---
+title: Color Schemes
+description: Customize Klassy's color schemes and apply them to your desktop environment
+---
+
+Klassy includes carefully crafted color schemes designed to work seamlessly with the window decorations and application style. These color schemes provide optimized contrast and visual harmony across your entire desktop.
+
+## Available Color Schemes
+
+Klassy provides several built-in color schemes:
+
+### Klassy Dark
+
+A refined dark theme with carefully balanced colors for comfortable long-term use.
+
+<Tabs>
+  <Tab title="Window Colors">
+    ```ini
+    [Colors:Window]
+    BackgroundNormal=42,46,50
+    BackgroundAlternate=49,54,59
+    ForegroundNormal=252,252,252
+    ForegroundInactive=161,169,177
+    ```
+  </Tab>
+  <Tab title="Titlebar Colors">
+    ```ini
+    [WM]
+    activeBackground=70,75,81,191
+    activeForeground=252,252,252
+    inactiveBackground=42,46,50
+    inactiveForeground=161,169,177
+    ```
+  </Tab>
+</Tabs>
+
+<Note>
+  The active titlebar includes an alpha value (191) for transparency by default.
+</Note>
+
+### Klassy Light
+
+A clean light theme optimized for daylight viewing conditions.
+
+<Tabs>
+  <Tab title="Window Colors">
+    ```ini
+    [Colors:Window]
+    BackgroundNormal=240,240,240
+    BackgroundAlternate=227,229,231
+    ForegroundNormal=35,38,41
+    ForegroundInactive=112,125,138
+    ```
+  </Tab>
+  <Tab title="Titlebar Colors">
+    ```ini
+    [WM]
+    activeBackground=42,46,50,191
+    activeForeground=252,252,252
+    inactiveBackground=239,240,241
+    inactiveForeground=112,125,138
+    ```
+  </Tab>
+</Tabs>
+
+### Opal Fruits Dark
+
+A vibrant dark theme with enhanced saturation and modern aesthetics.
+
+```ini
+[Colors:Header]
+BackgroundNormal=41,44,48
+BackgroundAlternate=32,35,38
+ForegroundNormal=252,252,252
+DecorationFocus=61,174,233
+DecorationHover=61,174,233
+
+[Colors:Header][Inactive]
+BackgroundNormal=32,35,38
+BackgroundAlternate=41,44,48
+ForegroundNormal=252,252,252
+```
+
+<Tip>
+  Opal Fruits schemes include a separate `[Colors:Header]` section for enhanced titlebar customization.
+</Tip>
+
+### Opal Fruits Light
+
+The light variant of the Opal Fruits theme.
+
+## Accent Colors
+
+All Klassy color schemes support KDE's system accent color feature:
+
+<Steps>
+  <Step title="Accent Color Properties">
+    Accent colors are defined in the color scheme through:
+    - `DecorationFocus` - Used for focused elements and window decorations
+    - `DecorationHover` - Used for hover states (Klassy automatically adjusts if same as Focus)
+  </Step>
+  
+  <Step title="Button Integration">
+    Window buttons can inherit accent colors through the Button Colors settings:
+    - **Accent** - Use system accent color for buttons
+    - **AccentNegativeClose** - Accent for regular buttons, red for close
+    - **AccentTrafficLights** - Different colors per button type (red/yellow/green)
+  </Step>
+</Steps>
+
+## Color Scheme Sections
+
+Klassy color schemes support all KDE color sections:
+
+| Section | Purpose | Example Usage |
+|---------|---------|---------------|
+| `Colors:Window` | Main window backgrounds | Application windows |
+| `Colors:View` | Content viewing areas | List views, text editors |
+| `Colors:Button` | Interactive elements | Buttons, controls |
+| `Colors:Selection` | Selected items | Highlighted text, selected files |
+| `Colors:Tooltip` | Tooltip popups | Hover information |
+| `Colors:Complementary` | Panels and docks | System panels |
+| `Colors:Header` | Window titlebars | Window decorations |
+
+## Semantic Colors
+
+Klassy uses semantic color definitions for consistent theming:
+
+<Tabs>
+  <Tab title="Negative (Red)">
+    ```ini
+    ForegroundNegative=218,68,83
+    ```
+    Used for destructive actions like the close button and error states.
+  </Tab>
+  
+  <Tab title="Neutral (Orange)">
+    ```ini
+    ForegroundNeutral=246,116,0
+    ```
+    Used for warning states and the minimize button in traffic light mode.
+  </Tab>
+  
+  <Tab title="Positive (Green)">
+    ```ini
+    ForegroundPositive=39,174,96
+    ```
+    Used for success states and the maximize button in traffic light mode.
+  </Tab>
+</Tabs>
+
+## Creating Custom Color Schemes
+
+You can create custom color schemes compatible with Klassy:
+
+<Steps>
+  <Step title="Create the file">
+    Create a new `.colors` file in `~/.local/share/color-schemes/`:
+    
+    ```ini
+    [General]
+    ColorScheme=MyCustomScheme
+    Name=My Custom Scheme
+    shadeSortColumn=true
+    
+    [KDE]
+    contrast=4
+    ```
+  </Step>
+  
+  <Step title="Define color sections">
+    Add all required color sections (Window, View, Button, Selection, etc.):
+    
+    ```ini
+    [Colors:Window]
+    BackgroundNormal=40,40,40
+    ForegroundNormal=255,255,255
+    # ... other colors
+    ```
+  </Step>
+  
+  <Step title="Configure titlebar colors">
+    Set the window manager colors with optional transparency:
+    
+    ```ini
+    [WM]
+    activeBackground=50,50,50,200
+    activeForeground=255,255,255
+    inactiveBackground=40,40,40
+    inactiveForeground=180,180,180
+    ```
+    
+    <Note>
+      The fourth value in `activeBackground` is the alpha channel (0-255). Use 255 for fully opaque.
+    </Note>
+  </Step>
+  
+  <Step title="Apply the color scheme">
+    Select your custom color scheme in System Settings → Colors & Themes → Colors.
+  </Step>
+</Steps>
+
+## Color Scheme Integration
+
+Klassy's window decorations automatically read colors from the active color scheme:
+
+```cpp
+// From decorationcolors.cpp
+void DecorationColors::readSystemTitleBarColors(
+    KSharedConfig::Ptr kdeGlobalConfig,
+    QColor &systemBaseActive,
+    QColor &systemBaseInactive,
+    QColor &systemTextActive,
+    QColor &systemTextInactive)
+{
+    // Reads from [Colors:Header] if available,
+    // otherwise falls back to [WM] section
+}
+```
+
+<Tip>
+  Use the `[Colors:Header]` section for better titlebar color control, especially with transparency.
+</Tip>
+
+## Contrast and Accessibility
+
+Klassy includes automatic contrast enhancement:
+
+- **Minimum contrast ratio**: 1.5:1 for titlebar text
+- **Poor contrast detection**: Automatically adjusts text color to black or white when needed
+- **Configurable thresholds**: Can be adjusted in Klassy Settings
+
+<Warning>
+  When creating custom color schemes, ensure adequate contrast between background and foreground colors for accessibility.
+</Warning>
+
+## Testing Your Color Scheme
+
+<Steps>
+  <Step title="Test with different states">
+    Check your colors with:
+    - Active and inactive windows
+    - Hovered and pressed buttons
+    - Maximized and floating windows
+  </Step>
+  
+  <Step title="Verify transparency">
+    If using transparent titlebars, test against different wallpapers to ensure readability.
+  </Step>
+  
+  <Step title="Check semantic colors">
+    Ensure negative (red), neutral (orange), and positive (green) colors are clearly distinguishable.
+  </Step>
+</Steps>

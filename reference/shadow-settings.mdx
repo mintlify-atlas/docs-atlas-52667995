@@ -1,0 +1,126 @@
+---
+title: Shadow Settings
+description: Configuration reference for window shadow size, strength, and color
+---
+
+Klassy provides configurable window shadows to enhance depth perception and window separation. Shadows can be customized for size, intensity, and color.
+
+## Shadow Size
+
+<ParamField path="ShadowSize" type="enum" default="ShadowLarge">
+  Determines the size of the drop shadow around windows.
+
+  <Accordion title="Size Options">
+    <ParamField path="ShadowNone" type="option">
+      No shadow is rendered. Creates a flat appearance with no depth.
+    </ParamField>
+
+    <ParamField path="ShadowSmall" type="option">
+      Small shadow with minimal spread. Subtle depth effect.
+    </ParamField>
+
+    <ParamField path="ShadowMedium" type="option">
+      Medium-sized shadow. Balanced visibility and subtlety.
+    </ParamField>
+
+    <ParamField path="ShadowLarge" type="option">
+      **Default.** Large shadow with good visibility. Recommended for most use cases.
+    </ParamField>
+
+    <ParamField path="ShadowVeryLarge" type="option">
+      Very large shadow with extended spread. Maximum depth perception.
+    </ParamField>
+  </Accordion>
+</ParamField>
+
+## Shadow Strength
+
+<ParamField path="ShadowStrength" type="int" default="255">
+  Controls the opacity/intensity of the shadow. Higher values create darker, more prominent shadows.
+  
+  - **Min:** 25 (very faint shadow)
+  - **Max:** 255 (maximum darkness)
+  - **Default:** 255
+  
+  <Note>
+  This value represents alpha transparency where 255 is fully opaque. The value is internally converted to percentage (0-100%) in the UI.
+  </Note>
+</ParamField>
+
+## Shadow Color
+
+<ParamField path="ShadowColor" type="color" default="0, 0, 0">
+  RGB color of the window shadow. Typically black or dark gray for natural-looking shadows.
+  
+  - **Format:** "R, G, B" where each component is 0-255
+  - **Default:** "0, 0, 0" (black)
+  
+  <Accordion title="Color Usage">
+  While black is the most common shadow color, you can experiment with colored shadows for artistic effects:
+  
+  - **Black (0, 0, 0)** - Standard shadow, works in all contexts
+  - **Dark Gray (32, 32, 32)** - Softer shadow for light themes  
+  - **Dark Blue (0, 0, 64)** - Cool shadow tone
+  - **Custom colors** - Match your theme or create unique effects
+  </Accordion>
+</ParamField>
+
+## Shadow Overlap
+
+Shadows have a built-in overlap with window borders defined by the constant `Decoration_Shadow_Overlap = 3` pixels. This creates a smooth transition between the window border and shadow.
+
+## Shadow Interaction with Other Settings
+
+<Note>
+The shadow color is also used by the `WindowOutlineShadowColor` window outline style. Changing the shadow color will affect both shadows and outlines if that style is selected.
+</Note>
+
+## Visual Configuration
+
+Shadow settings can be configured in the Klassy Settings application under the "Shadow Style" dialog. The interface provides:
+
+- Shadow size dropdown
+- Shadow strength slider (displayed as percentage)
+- Color picker for shadow color
+- Real-time preview of changes
+
+## Performance Considerations
+
+<Accordion title="Shadow Performance">
+  <ParamField path="ShadowNone" type="option">
+    Best performance - no shadow rendering overhead.
+  </ParamField>
+  
+  <ParamField path="ShadowSmall" type="option">
+    Minimal performance impact.
+  </ParamField>
+  
+  <ParamField path="ShadowMedium" type="option">
+    Low performance impact.
+  </ParamField>
+  
+  <ParamField path="ShadowLarge" type="option">
+    Moderate performance impact - recommended balance.
+  </ParamField>
+  
+  <ParamField path="ShadowVeryLarge" type="option">
+    Higher performance impact due to larger render area.
+  </ParamField>
+</Accordion>
+
+On modern systems, the performance difference between shadow sizes is negligible. Choose the size that looks best for your setup.
+
+## Implementation Details
+
+Shadows in Klassy are implemented using KDecoration's shadow system. The shadow strength value (0-255) represents the alpha channel of the shadow color and is converted to percentage (0-100) in the user interface for easier adjustment.
+
+The internal conversion formula:
+```
+UI Percentage = (ShadowStrength * 100) / 255
+ShadowStrength = (UI Percentage * 255) / 100
+```
+
+## Related Settings
+
+- [Window Outline](/reference/window-outline) - Window outline styles including shadow color outline
+- [Button Styles](/reference/button-styles) - Button colors can complement shadow appearance

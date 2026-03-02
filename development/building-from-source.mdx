@@ -1,0 +1,365 @@
+---
+title: Building from Source
+description: Complete instructions for building and installing Klassy from source code on all supported Linux distributions
+---
+
+Klassy can be built from source on any Linux distribution with Plasma 6.3 or later. This guide provides detailed build instructions for all major distributions.
+
+## Prerequisites
+
+Before building Klassy, ensure your system meets these requirements:
+
+- **Plasma Version**: 6.3 or later (check with `kinfocenter`)
+- **CMake**: Version 3.16 or higher
+- **C++ Compiler**: Supporting C++20 standard
+- **Qt Versions**: Both Qt5 (5.15.2+) and Qt6 (6.6.0+) are supported
+- **KDE Frameworks**: KF5 (5.102.0+) and/or KF6 (6.10.0+)
+
+<Note>
+The build system supports both Qt5 and Qt6 simultaneously. By default, both versions are built unless explicitly disabled via CMake options.
+</Note>
+
+## Installing Dependencies
+
+Select your distribution to see the required build dependencies:
+
+<Tabs>
+  <Tab title="OpenSUSE">
+    ### OpenSUSE Tumbleweed/Leap
+
+    <Steps>
+      <Step title="Install basic build tools">
+        ```bash
+        sudo zypper in git cmake kf6-extra-cmake-modules gettext
+        ```
+      </Step>
+
+      <Step title="Install KDE and Qt dependencies">
+        ```bash
+        sudo zypper in "cmake(KF5Config)" "cmake(KF5CoreAddons)" \
+          "cmake(KF5FrameworkIntegration)" "cmake(KF5GuiAddons)" \
+          "cmake(KF5Kirigami2)" "cmake(KF5WindowSystem)" "cmake(KF5I18n)" \
+          "cmake(KF5KCMUtils)" "cmake(Qt5DBus)" "cmake(Qt5Quick)" \
+          "cmake(Qt5Widgets)" "cmake(Qt5X11Extras)" "cmake(KDecoration3)" \
+          "cmake(KF6ColorScheme)" "cmake(KF6Config)" "cmake(KF6CoreAddons)" \
+          "cmake(KF6FrameworkIntegration)" "cmake(KF6GuiAddons)" \
+          "cmake(KF6I18n)" "cmake(KF6KCMUtils)" "cmake(KF6KirigamiPlatform)" \
+          "cmake(KF6WindowSystem)" "cmake(Qt6Core)" "cmake(Qt6DBus)" \
+          "cmake(Qt6Quick)" "cmake(Qt6Svg)" "cmake(Qt6Widgets)" "cmake(Qt6Xml)"
+        ```
+      </Step>
+    </Steps>
+  </Tab>
+
+  <Tab title="Debian/Ubuntu">
+    ### Debian/Ubuntu
+
+    <Steps>
+      <Step title="Install all dependencies">
+        ```bash
+        sudo apt install git build-essential cmake extra-cmake-modules \
+          libkirigami-dev libkf5style-dev libkf6kcmutils-dev \
+          libkf6colorscheme-dev libkf5config-dev libkf5configwidgets-dev \
+          libkf5coreaddons-dev libkf5guiaddons-dev libkf6i18n-dev \
+          libkf6iconthemes-dev kirigami2-dev libkf6package-dev \
+          libkf6service-dev libkf6windowsystem-dev kwayland-dev libx11-dev \
+          libkdecorations3-dev libkf5configwidgets-dev libkf5i18n-dev \
+          libkf5iconthemes-dev libkf5kcmutils-dev libkf5package-dev \
+          libkf5service-dev libkf5wayland-dev libkf5windowsystem-dev \
+          libplasma-dev libqt5x11extras5-dev qt6-base-dev \
+          qt6-declarative-dev qtbase5-dev qtdeclarative5-dev gettext qt6-svg-dev
+        ```
+      </Step>
+    </Steps>
+  </Tab>
+
+  <Tab title="KDE Neon">
+    ### KDE Neon
+
+    <Steps>
+      <Step title="Install all dependencies">
+        ```bash
+        sudo apt install git build-essential cmake kf6-extra-cmake-modules \
+          kf6-frameworkintegration-dev kf6-kcmutils-dev kf6-kcolorscheme-dev \
+          kf6-kconfig-dev kf6-kconfigwidgets-dev kf6-kcoreaddons-dev \
+          kf6-kguiaddons-dev kf6-ki18n-dev kf6-kiconthemes-dev \
+          kf6-kirigami2-dev kf6-kpackage-dev kf6-kservice-dev \
+          kf6-kwindowsystem-dev kirigami2-dev kwayland-dev libx11-dev \
+          libkdecorations3-dev libkf5config-dev libkf5configwidgets-dev \
+          libkf5coreaddons-dev libkf5guiaddons-dev libkf5i18n-dev \
+          libkf5iconthemes-dev libkf5kcmutils-dev libkf5package-dev \
+          libkf5service-dev libkf5style-dev libkf5wayland-dev \
+          libkf5windowsystem-dev libplasma-dev libqt5x11extras5-dev \
+          qt6-base-dev qt6-declarative-dev qtbase5-dev qtdeclarative5-dev \
+          gettext qt6-svg-dev
+        ```
+      </Step>
+    </Steps>
+  </Tab>
+
+  <Tab title="Arch/Manjaro">
+    ### Arch Linux/Manjaro
+
+    <Steps>
+      <Step title="Install all dependencies">
+        ```bash
+        sudo pacman -S git frameworkintegration gcc-libs glibc kcmutils \
+          kcolorscheme kconfig kcoreaddons kdecoration kguiaddons ki18n \
+          kiconthemes kirigami kwidgetsaddons kwindowsystem qt6-base \
+          qt6-declarative qt6-svg xdg-utils extra-cmake-modules kcmutils5 \
+          frameworkintegration5 kconfigwidgets5 kiconthemes5 kirigami2 \
+          kwindowsystem5
+        ```
+      </Step>
+    </Steps>
+  </Tab>
+
+  <Tab title="Fedora">
+    ### Fedora
+
+    <Steps>
+      <Step title="Install basic build tools">
+        ```bash
+        sudo dnf install git cmake extra-cmake-modules gettext
+        ```
+      </Step>
+
+      <Step title="Install KDE and Qt dependencies">
+        ```bash
+        sudo dnf install "cmake(KF5Config)" "cmake(KF5CoreAddons)" \
+          "cmake(KF5FrameworkIntegration)" "cmake(KF5GuiAddons)" \
+          "cmake(KF5Kirigami2)" "cmake(KF5WindowSystem)" "cmake(KF5I18n)" \
+          "cmake(Qt5DBus)" "cmake(Qt5Quick)" "cmake(Qt5Widgets)" \
+          "cmake(Qt5X11Extras)" "cmake(KDecoration3)" "cmake(KF6ColorScheme)" \
+          "cmake(KF6Config)" "cmake(KF6CoreAddons)" \
+          "cmake(KF6FrameworkIntegration)" "cmake(KF6GuiAddons)" \
+          "cmake(KF6I18n)" "cmake(KF6KCMUtils)" "cmake(KF6KirigamiPlatform)" \
+          "cmake(KF6WindowSystem)" "cmake(Qt6Core)" "cmake(Qt6DBus)" \
+          "cmake(Qt6Quick)" "cmake(Qt6Svg)" "cmake(Qt6Widgets)" "cmake(Qt6Xml)"
+        ```
+      </Step>
+    </Steps>
+  </Tab>
+
+  <Tab title="Gentoo">
+    ### Gentoo Linux
+
+    Klassy is available in the [guru](https://github.com/gentoo/guru) repository.
+
+    <Steps>
+      <Step title="Install eselect repository module">
+        ```bash
+        sudo emerge -av app-eselect/eselect-repository
+        ```
+      </Step>
+
+      <Step title="Enable guru repository">
+        ```bash
+        sudo eselect repository enable guru
+        ```
+      </Step>
+
+      <Step title="Sync repositories">
+        ```bash
+        sudo emaint sync -r guru
+        ```
+      </Step>
+
+      <Step title="Add package keywords">
+        ```bash
+        echo "gui-apps/klassy ~amd64" | sudo tee /etc/portage/package.accept_keywords/klassy
+        ```
+      </Step>
+
+      <Step title="Install Klassy">
+        ```bash
+        sudo emerge -av gui-apps/klassy
+        ```
+      </Step>
+    </Steps>
+
+    <Note>
+    For Gentoo, the package is pre-built and maintained in the guru repository, so manual compilation is not required.
+    </Note>
+  </Tab>
+</Tabs>
+
+## Building Klassy
+
+Once dependencies are installed, follow these steps to build Klassy:
+
+<Steps>
+  <Step title="Clone the repository">
+    ```bash
+    git clone https://github.com/paulmcauley/klassy
+    cd klassy
+    ```
+  </Step>
+
+  <Step title="Checkout the correct branch">
+    For Plasma 6.3+, use the plasma6.3 branch:
+    ```bash
+    git checkout plasma6.3
+    ```
+  </Step>
+
+  <Step title="Run the installation script">
+    The provided installation script handles the entire build process:
+    ```bash
+    ./install.sh
+    ```
+
+    This script will:
+    - Remove any previous build directory
+    - Uninstall previous versions if found
+    - Create a fresh build directory
+    - Configure the build with CMake
+    - Compile using all available CPU cores
+    - Install system-wide with sudo
+  </Step>
+</Steps>
+
+## Build Configuration
+
+The `install.sh` script uses these CMake configuration options:
+
+```bash
+cmake -DCMAKE_INSTALL_PREFIX=/usr \
+      -DCMAKE_BUILD_TYPE=Release \
+      -DBUILD_TESTING=OFF \
+      -DKDE_INSTALL_USE_QT_SYS_PATHS=ON ..
+```
+
+### CMake Options
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `CMAKE_INSTALL_PREFIX` | `/usr` | Installation directory prefix |
+| `CMAKE_BUILD_TYPE` | `Release` | Build type (Debug/Release) |
+| `BUILD_TESTING` | `OFF` | Enable/disable test building |
+| `BUILD_QT5` | `ON` | Build Qt5 application style |
+| `BUILD_QT6` | `ON` | Build Qt6 components |
+| `WITH_DECORATIONS` | `ON` | Build KWin window decorations (Qt6 only) |
+| `KDE_INSTALL_USE_QT_SYS_PATHS` | `ON` | Use Qt system paths |
+
+### Manual Build Process
+
+If you prefer to build manually instead of using the script:
+
+<Steps>
+  <Step title="Create build directory">
+    ```bash
+    mkdir build
+    cd build
+    ```
+  </Step>
+
+  <Step title="Configure with CMake">
+    ```bash
+    cmake -DCMAKE_INSTALL_PREFIX=/usr \
+          -DCMAKE_BUILD_TYPE=Release \
+          -DBUILD_TESTING=OFF \
+          -DKDE_INSTALL_USE_QT_SYS_PATHS=ON ..
+    ```
+
+    <Note>
+    You can disable Qt5 or Qt6 builds by adding `-DBUILD_QT5=OFF` or `-DBUILD_QT6=OFF`.
+    </Note>
+  </Step>
+
+  <Step title="Build">
+    ```bash
+    make -j$(nproc)
+    ```
+
+    The `-j$(nproc)` flag uses all available CPU cores for faster compilation.
+  </Step>
+
+  <Step title="Install">
+    ```bash
+    sudo make install
+    ```
+  </Step>
+</Steps>
+
+## Uninstalling
+
+To uninstall Klassy, use the provided uninstall script:
+
+```bash
+./uninstall.sh
+```
+
+The uninstall script will:
+- Look for the installation manifest in the `build/` directory
+- Remove all installed files
+- Clean up the build directory
+- If no manifest is found, offer to rebuild and create one for proper uninstallation
+
+### Manual Uninstallation
+
+If you built manually, you can uninstall from the build directory:
+
+```bash
+cd build
+sudo make uninstall
+```
+
+<Warning>
+After uninstalling, some files may remain in these locations:
+- `/usr/bin/`
+- `/usr/lib64/` or `/usr/lib/`
+- `/usr/share/color-schemes/`
+- `/usr/share/icons/`
+- `/usr/share/plasma/`
+- `/usr/share/kstyle/`
+
+Manually check and remove any files containing "klassy" in their names from these directories if needed.
+</Warning>
+
+## Troubleshooting
+
+### Build Fails with Missing Dependencies
+
+If the build fails due to missing dependencies, carefully review the error messages. CMake will indicate which packages are missing. Ensure you've installed all dependencies listed for your distribution.
+
+### Qt Version Conflicts
+
+If you encounter Qt version conflicts:
+
+1. Build only the Qt version you need:
+   ```bash
+   cmake -DBUILD_QT5=OFF -DBUILD_QT6=ON ..
+   ```
+
+2. Ensure the correct Qt version is in your PATH
+
+### Permission Errors
+
+Make sure to use `sudo` for the installation step:
+```bash
+sudo make install
+```
+
+### Clean Build
+
+If you encounter persistent build issues, perform a clean build:
+
+```bash
+cd ..
+sudo rm -rf build
+./install.sh
+```
+
+## Post-Installation
+
+After successful installation:
+
+1. **Restart Plasma**: Log out and log back in, or restart your system
+2. **Apply the theme**: Go to System Settings → Colours & Themes → Global Theme
+3. **Select Kite**: Choose one of the Kite theme variants (left panel or bottom panel)
+4. **Configure**: Use `klassy-settings` to customize your installation
+
+<Note>
+You must initially apply the Global Theme via System Settings (not Quick Settings) to ensure the full Desktop & window layout is applied correctly.
+</Note>

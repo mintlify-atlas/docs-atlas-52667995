@@ -1,80 +1,311 @@
 ---
-title: "Quickstart"
-description: "Start building awesome documentation in minutes"
+title: "Quick Start"
+description: "Get started with Klassy by enabling the Kite global theme and exploring customization options through the Klassy Settings application."
 ---
 
-## Get started in three steps
+# Quick Start Guide
 
-Get your documentation site running locally and make your first customization.
-
-### Step 1: Set up your local environment
-
-<AccordionGroup>
-  <Accordion icon="copy" title="Clone your docs locally">
-    During the onboarding process, you created a GitHub repository with your docs content if you didn't already have one. You can find a link to this repository in your [dashboard](https://dashboard.mintlify.com).
-    
-    To clone the repository locally so that you can make and preview changes to your docs, follow the [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) guide in the GitHub docs.
-  </Accordion>
-  <Accordion icon="rectangle-terminal" title="Start the preview server">
-    1. Install the Mintlify CLI: `npm i -g mint`
-    2. Navigate to your docs directory and run: `mint dev`
-    3. Open `http://localhost:3000` to see your docs live!
-    
-    <Tip>Your preview updates automatically as you edit files.</Tip>
-  </Accordion>
-</AccordionGroup>
-
-### Step 2: Deploy your changes
-
-<AccordionGroup>
-  <Accordion icon="github" title="Install our GitHub app">
-    Install the Mintlify GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app).
-    
-    Our GitHub app automatically deploys your changes to your docs site, so you don't need to manage deployments yourself.
-</Accordion>
-<Accordion icon="palette" title="Update your site name and colors">
-    For a first change, let's update the name and colors of your docs site.
-
-    1. Open `docs.json` in your editor.
-    2. Change the `"name"` field to your project name.
-    3. Update the `"colors"` to match your brand.
-    4. Save and see your changes instantly at `http://localhost:3000`.
-
-    <Tip>Try changing the primary color to see an immediate difference!</Tip>
-  </Accordion>
-</AccordionGroup>
-
-### Step 3: Go live
-
-<Accordion icon="rocket" title="Publish your docs">
-  1. Commit and push your changes.
-  2. Your docs will update and be live in moments!
-</Accordion>
-
-## Next steps
-
-Now that you have your docs running, explore these key features:
-
-<CardGroup cols={2}>
-
-<Card title="Write Content" icon="pen-to-square" href="/essentials/markdown">
-  Learn MDX syntax and start writing your documentation.
-</Card>
-
-<Card title="Customize style" icon="palette" href="/essentials/settings">
-  Make your docs match your brand perfectly.
-</Card>
-
-<Card title="Add code examples" icon="square-code" href="/essentials/code">
-  Include syntax-highlighted code blocks.
-</Card>
-
-<Card title="API documentation" icon="code" href="/api-reference/introduction">
-  Auto-generate API docs from OpenAPI specs.
-</Card>
-
-</CardGroup>
+This guide will help you get Klassy up and running with the main **Kite** global theme.
 
 <Note>
-  **Need help?** See our [full documentation](https://mintlify.com/docs) or join our [community](https://mintlify.com/community).
+  Make sure you have [installed Klassy](/installation) and are running Plasma 6.3 or later before proceeding.
 </Note>
+
+---
+
+## Applying the Kite Theme
+
+After installing Klassy, the recommended first step is to apply the main **Kite** global theme.
+
+<Warning>
+  You **must** initially use the Global Theme settings screen to apply the theme properly. If you initially apply via the Quick Settings screen or the Light/Dark selector, the full Desktop & window layout will not be applied.
+</Warning>
+
+<Steps>
+  <Step title="Open System Settings">
+    Launch KDE System Settings from your application menu or by pressing `Alt+Space` and typing "System Settings".
+  </Step>
+  
+  <Step title="Navigate to Global Theme">
+    Go to **Colours & Themes → Global Theme**
+  </Step>
+  
+  <Step title="Select a Kite variant">
+    Choose one of the four Kite theme variants based on your preference:
+    
+    - **Kite Dark - Left Panel** (recommended for 16:9 laptops)
+    - **Kite Dark - Bottom Panel** (recommended for everything else)
+    - **Kite Light - Left Panel**
+    - **Kite Light - Bottom Panel**
+  </Step>
+  
+  <Step title="Apply the theme">
+    Click **Apply** to activate the theme. The changes will be applied immediately.
+  </Step>
+</Steps>
+
+### Theme Layout Options
+
+Klassy provides two main panel layouts:
+
+#### Left Panel Theme
+Recommended for **16:9 laptops** - maximizes vertical space for content.
+
+![Left panel theme selection](https://raw.githubusercontent.com/paulmcauley/klassy/plasma6.3//images/left_panel_light_dark.png)
+
+#### Bottom Panel Theme  
+Recommended for **everything else** - traditional desktop layout.
+
+![Bottom panel theme selection](https://raw.githubusercontent.com/paulmcauley/klassy/plasma6.3//images/bottom_panel_light_dark.png)
+
+<Tip>
+  After the initial application, you can use the Quick Settings screen or the Light/Dark selector to switch between light and dark modes for day/night switching.
+</Tip>
+
+---
+
+## Exploring Klassy Settings
+
+Klassy comes with a powerful configuration application called **Klassy Settings** that allows you to customize every aspect of your theme.
+
+### Launching Klassy Settings
+
+You can launch Klassy Settings in several ways:
+
+<CodeGroup>
+
+```bash Command Line
+klassy-settings
+```
+
+```bash With Options
+# View all available command-line options
+klassy-settings --help
+```
+
+</CodeGroup>
+
+Or search for "Klassy" in your application launcher.
+
+### Klassy Settings Features
+
+The Klassy Settings application provides:
+
+- **Preset Management**: Load and import pre-configured style presets
+- **Button Customization**: Icon selection, shapes, colors, and spacing
+- **Window Decoration**: Titlebar styling, transparency, and borders  
+- **Animations**: Configure button and window animations
+- **System Icon Generation**: Create matching system icons
+
+### Command-Line Options
+
+Klassy Settings supports several command-line options:
+
+```bash
+klassy-settings --help          # Show all available options
+klassy-settings --import <file> # Import a preset file
+klassy-settings --load <preset> # Load a specific preset
+```
+
+---
+
+## Trying Built-in Presets
+
+<Tip>
+  Before fine-tuning individual settings, try the bundled presets to find a style you like. Presets provide perfectly-configured combinations of settings.
+</Tip>
+
+<Steps>
+  <Step title="Open Klassy Settings">
+    Launch the Klassy Settings application.
+  </Step>
+  
+  <Step title="Navigate to Presets">
+    Look for the Presets section or button in the interface.
+  </Step>
+  
+  <Step title="Browse available presets">
+    Klassy includes several built-in presets:
+    
+    - **Kite** - The default, pragmatic theme
+    - **ClassiK v3** - Full-height rounded rectangles
+    - **ClassikStyles** - Full-height rectangular highlights
+    - **Classik-Aurorae** - Circular button highlights
+    - **Glassy Klassy** - Translucent, modern appearance
+    - **Chroma** - Colorful accent-based theme
+    - And many more...
+  </Step>
+  
+  <Step title="Apply a preset">
+    Click on a preset to preview it, then apply to activate.
+  </Step>
+</Steps>
+
+![Preset selection screen](https://raw.githubusercontent.com/paulmcauley/klassy/plasma6.3//images/presets_opal_fruits.png)
+
+---
+
+## Customization Examples
+
+Here are some of the customization options available:
+
+### Button Icons
+
+Klassy provides numerous perfectly-pixel-snapped button icons, plus support for `window-*-symbolic` system icons.
+
+![Button icon menu](https://raw.githubusercontent.com/paulmcauley/klassy/plasma6.3//images/button_icon_menu.png)
+
+### Alignment & Spacing
+
+Fine-tune button spacing, titlebar margins, and corner radius with HiDPI scaling support.
+
+![Alignment and spacing settings](https://raw.githubusercontent.com/paulmcauley/klassy/plasma6.3//images/alignment_and_spacing.png)
+
+### Scrollbar Customization
+
+Klassy features arguably the best scrollbars on any platform, with extensive customization options.
+
+<img src="https://raw.githubusercontent.com/paulmcauley/klassy/plasma6.3//images/configurable_scrollbars.png" width="80%" />
+
+![Scrollbar animation](https://raw.githubusercontent.com/paulmcauley/klassy/plasma6.3//images/scrollbar_mouseover.gif)
+
+### Window Outlines
+
+Add thin window outlines with optional accent colors for better window separation.
+
+![Window outlines with accent colors](https://raw.githubusercontent.com/paulmcauley/klassy/plasma6.3//images/thin_window_outline_dark_contrast_accent.png)
+
+---
+
+## Enabling the Application Style
+
+For consistent styling across all applications, make sure to enable the Klassy Application Style:
+
+<Steps>
+  <Step title="Open System Settings">
+    Launch KDE System Settings.
+  </Step>
+  
+  <Step title="Navigate to Application Style">
+    Go to **Appearance → Application Style**
+  </Step>
+  
+  <Step title="Select Klassy">
+    Choose **Klassy** from the list of available application styles.
+  </Step>
+  
+  <Step title="Apply">
+    Click **Apply** to activate the Klassy application style.
+  </Step>
+</Steps>
+
+This ensures icons in dockable panels, MDI applications, and application tabs are consistent.
+
+<img src="https://raw.githubusercontent.com/paulmcauley/klassy/plasma6.3//images/mdi_test.png" alt="MDI application example" width="512" />
+
+---
+
+## Configuring System Icons
+
+For GTK applications and context menus to match your titlebar icons:
+
+<Steps>
+  <Step title="Enable Klassy icon theme">
+    Go to **System Settings → Appearance → Icons** and select the **Klassy** icon theme.
+  </Step>
+  
+  <Step title="Generate system icons">
+    Open Klassy Settings and click **System Icon Generation...** to configure the icons to match your window decoration settings.
+  </Step>
+  
+  <Step title="Apply changes">
+    The generated icons will be applied to match your current Klassy configuration.
+  </Step>
+</Steps>
+
+<img src="https://raw.githubusercontent.com/paulmcauley/klassy/plasma6.3//images/gedit.png" alt="GTK application with matching icons" width="512" />
+
+---
+
+## Button Style Examples
+
+Klassy supports multiple button styles that you can configure in Klassy Settings:
+
+### Integrated Rounded Rectangles (Default)
+
+Translucent outlined accent colors with large clickable areas.
+
+![Integrated rounded rectangles - dark](https://raw.githubusercontent.com/paulmcauley/klassy/plasma6.3//images/highlight_gifs/icdark.gif)
+
+### Traffic Lights
+
+Familiar red, yellow, and green background colors.
+
+![Traffic lights - dark](https://raw.githubusercontent.com/paulmcauley/klassy/plasma6.3//images/highlight_gifs/icdark_trafficlights.gif)
+
+### Full-height Rounded Rectangle
+
+Classic button shapes from the ClassiK v3 preset.
+
+<div style={{display: 'flex', gap: '1rem'}}>
+  <img src="https://raw.githubusercontent.com/paulmcauley/klassy/plasma6.3//images/highlight_gifs/cdark.gif" alt="Rounded rectangle dark" />
+  <img src="https://raw.githubusercontent.com/paulmcauley/klassy/plasma6.3//images/highlight_gifs/clight.gif" alt="Rounded rectangle light" />
+</div>
+
+### Highlight Styles
+
+Full-height rectangular or circular button highlights.
+
+<div style={{display: 'flex', gap: '1rem'}}>
+  <img src="https://raw.githubusercontent.com/paulmcauley/klassy/plasma6.3//images/highlight_gifs/squareHighlight.gif" alt="Square highlight" />
+  <img src="https://raw.githubusercontent.com/paulmcauley/klassy/plasma6.3//images/highlight_gifs/circleHighlight.gif" alt="Circle highlight" />
+</div>
+
+---
+
+## Next Steps
+
+Now that you have Klassy up and running:
+
+<CardGroup cols={2}>
+  <Card title="Explore Presets" icon="swatchbook">
+    Try different built-in presets to find your perfect style
+  </Card>
+  
+  <Card title="Fine-tune Settings" icon="sliders">
+    Customize individual aspects like button spacing, colors, and animations
+  </Card>
+  
+  <Card title="System Icons" icon="icons">
+    Configure system icon generation for complete theme consistency
+  </Card>
+  
+  <Card title="Join the Community" icon="users" href="https://github.com/paulmcauley/klassy">
+    Visit the GitHub repository for support and to share your customizations
+  </Card>
+</CardGroup>
+
+---
+
+## Troubleshooting
+
+<Warning>
+  If the theme doesn't apply correctly, make sure you used **System Settings → Colours & Themes → Global Theme** for the initial application, not the Quick Settings panel.
+</Warning>
+
+### Common Issues
+
+**Theme not applying completely**
+- Ensure you're on Plasma 6.3 or later
+- Apply the theme through the Global Theme settings screen, not Quick Settings
+- Log out and log back in if changes don't appear
+
+**Icons don't match**
+- Enable the Klassy icon theme in System Settings → Icons
+- Run System Icon Generation in Klassy Settings
+
+**Scrollbars look wrong**
+- Ensure you've enabled the Klassy Application Style
+- Check that the application is using Qt/KDE frameworks
+
+For more help, visit the [Klassy GitHub repository](https://github.com/paulmcauley/klassy) or check existing issues and discussions.

@@ -1,0 +1,336 @@
+---
+title: "Window Decorations"
+description: "Customize titlebar appearance, window borders, shadows, and corner radius"
+---
+
+## Overview
+
+Klassy provides extensive window decoration customization options, allowing you to fine-tune every aspect of your window appearance from titlebars to borders to shadows.
+
+## Titlebar Settings
+
+### Basic Appearance
+
+<Tabs>
+  <Tab title="Text Styling">
+    Control how the window title appears:
+    
+    - **Bold Title** - Makes the window title text bold (default: enabled)
+    - **Underline Title** - Adds an underline to the title text (default: disabled)
+    
+    ```cpp
+    BoldTitle=true
+    UnderlineTitle=false
+    ```
+  </Tab>
+  
+  <Tab title="Background">
+    Customize the titlebar background:
+    
+    - **Match Titlebar to Application Color** - Uses the application's color scheme for the titlebar
+    - **Draw Background Gradient** - Adds a subtle gradient to the titlebar background
+    - **Draw Titlebar Separator** - Shows a line separating titlebar from content (default: enabled)
+    
+    <Note>
+    Matching the titlebar to application colors creates a more integrated look but may reduce visual distinction between windows.
+    </Note>
+  </Tab>
+</Tabs>
+
+### Titlebar Opacity
+
+Control transparency of active and inactive window titlebars:
+
+```
+ActiveTitleBarOpacity=100    # 0-100%
+InactiveTitleBarOpacity=100  # 0-100%
+```
+
+**Special Options:**
+
+<AccordionGroup>
+  <Accordion title="Opaque Maximized Titlebars">
+    Forces maximized windows to have fully opaque titlebars, regardless of the opacity setting.
+    
+    ```
+    OpaqueMaximizedTitleBars=true
+    ```
+    
+    **Why use this?** Transparency on maximized windows can sometimes interfere with content readability. This option ensures maximized windows always have solid titlebars.
+  </Accordion>
+  
+  <Accordion title="Blur Transparent Titlebars">
+    Applies a blur effect behind transparent titlebars.
+    
+    ```
+    BlurTransparentTitleBars=true
+    ```
+    
+    **Requires:** KWin blur effects to be enabled in System Settings
+  </Accordion>
+  
+  <Accordion title="Apply Opacity to Header">
+    Extends opacity settings to the entire header area, not just the titlebar.
+    
+    ```
+    ApplyOpacityToHeader=true
+    ```
+  </Accordion>
+</AccordionGroup>
+
+### Titlebar Spacing
+
+![Alignment & Spacing screenshot](/images/alignment_and_spacing.png)
+
+Fine-tune titlebar margins and spacing:
+
+<Tabs>
+  <Tab title="Top/Bottom Margins">
+    Adjust vertical spacing:
+    
+    ```
+    TitleBarTopMargin=3.6        # 0-50
+    TitleBarBottomMargin=3.6     # 0-50
+    LockTitleBarTopBottomMargins=true
+    ```
+    
+    <Info>
+    Enable the lock to maintain equal top and bottom margins automatically.
+    </Info>
+  </Tab>
+  
+  <Tab title="Left/Right Margins">
+    Adjust horizontal spacing:
+    
+    ```
+    TitleBarLeftMargin=0         # 0-60
+    TitleBarRightMargin=0        # 0-60
+    LockTitleBarLeftRightMargins=true
+    ```
+  </Tab>
+  
+  <Tab title="Maximized Windows">
+    Apply different margins when windows are maximized:
+    
+    ```
+    PercentMaximizedTopBottomMargins=85  # 0-100%
+    ```
+    
+    This percentage reduces the top/bottom margins when maximized to save space.
+  </Tab>
+</Tabs>
+
+### Title Alignment
+
+Choose how the window title is positioned:
+
+- **AlignLeft** - Title aligns to the left
+- **AlignCenter** - Title centers between buttons
+- **AlignCenterFullWidth** - Title centers across full titlebar width (default)
+- **AlignRight** - Title aligns to the right
+
+```
+TitleAlignment=AlignCenterFullWidth
+TitleSidePadding=4  # Extra padding around title (0-60)
+```
+
+## Window Borders
+
+### Corner Radius
+
+Set the roundness of window corners:
+
+```
+WindowCornerRadius=4.0  # 0-24.0
+```
+
+<Info>
+Higher values create more rounded corners. Set to 0 for sharp, square corners.
+</Info>
+
+**Additional Options:**
+
+- **Round All Corners When No Borders** - Rounds all four corners when window borders are disabled
+  ```
+  RoundAllCornersWhenNoBorders=true
+  ```
+
+### Border Colors
+
+Control how window borders are colored:
+
+- **Use Titlebar Color for All Borders** - Matches border color to titlebar
+  ```
+  UseTitleBarColorForAllBorders=true
+  ```
+
+- **Draw Border on Maximized Windows** - Shows borders even when maximized
+  ```
+  DrawBorderOnMaximizedWindows=false
+  ```
+
+## Window Outlines
+
+Klassy offers configurable thin window outlines with accent colors:
+
+![Thin window outline with accent](/images/thin_window_outline_dark_contrast_accent.png)
+
+### Outline Thickness
+
+```
+WindowOutlineThickness=1.0          # 0.5-10.0
+WindowOutlineSnapToWholePixel=true  # Crisp pixel rendering
+WindowOutlineOverlap=true           # Overlap with window content
+```
+
+### Outline Styles
+
+Choose outline style for active and inactive windows:
+
+<Tabs>
+  <Tab title="Active Windows">
+    ```
+    WindowOutlineStyleActive=WindowOutlineShadowColor
+    ```
+    
+    Available styles:
+    - `WindowOutlineNone` - No outline
+    - `WindowOutlineShadowColor` - Uses shadow color (default)
+    - `WindowOutlineContrast` - Automatic contrast color
+    - `WindowOutlineAccentColor` - System accent color
+    - `WindowOutlineAccentWithContrast` - Accent blended with contrast
+    - `WindowOutlineCustomColor` - Custom color
+    - `WindowOutlineCustomWithContrast` - Custom blended with contrast
+  </Tab>
+  
+  <Tab title="Inactive Windows">
+    ```
+    WindowOutlineStyleInactive=WindowOutlineShadowColor
+    LockWindowOutlineStyleActiveInactive=false
+    ```
+    
+    Set the lock to use the same outline style for both active and inactive windows.
+  </Tab>
+</Tabs>
+
+### Outline Opacity
+
+Fine-tune outline transparency for each style:
+
+```
+WindowOutlineShadowColorOpacity=20              # 0-100%
+WindowOutlineContrastOpacityActive=25           # 0-100%
+WindowOutlineAccentColorOpacityActive=67        # 0-100%
+WindowOutlineAccentWithContrastOpacityActive=50 # 0-100%
+```
+
+### Custom Outline Colors
+
+When using custom outline styles:
+
+```
+WindowOutlineCustomColorActive=0,0,0  # RGB color
+WindowOutlineCustomColorOpacityActive=60
+LockWindowOutlineCustomColorActiveInactive=true
+```
+
+### Colorize Window Outline with Button
+
+Automatically color the window outline based on hovered button:
+
+```
+ColorizeWindowOutlineWithButton=true
+```
+
+<Note>
+This creates a subtle visual connection between buttons and the window outline when hovering.
+</Note>
+
+## Shadows
+
+Configure drop shadows for windows:
+
+### Shadow Size
+
+Choose from predefined shadow sizes:
+
+```
+ShadowSize=ShadowLarge
+```
+
+Available sizes:
+- `ShadowNone` - No shadow
+- `ShadowSmall`
+- `ShadowMedium`
+- `ShadowLarge` (default)
+- `ShadowVeryLarge`
+
+### Shadow Strength
+
+Adjust shadow intensity:
+
+```
+ShadowStrength=255  # 25-255
+```
+
+<Info>
+Lower values create softer, more subtle shadows. Higher values create darker, more pronounced shadows.
+</Info>
+
+### Shadow Color
+
+Customize shadow color:
+
+```
+ShadowColor=0,0,0  # RGB values
+```
+
+<Note>
+Black (0,0,0) is the most common shadow color, but you can use any RGB color for creative effects.
+</Note>
+
+## Window-Specific Exceptions
+
+Klassy allows you to create exceptions for specific applications or window types. This is configured through the Exceptions dialog in Klassy Settings.
+
+### Exception Options
+
+- **Hide Titlebar** - When to hide the titlebar:
+  - Never (default)
+  - Always
+  - Maximized
+  - Any Maximization
+  - Kept Behind
+  - Any Maximization or Kept Behind
+
+- **Opaque Titlebar** - Force titlebar opacity for specific windows
+- **Match Titlebar to Application Color** - Per-window override
+- **Prevent Apply Opacity to Header** - Disable header opacity for specific apps
+- **Custom Border Size** - Override border size per application
+
+### Matching Windows
+
+Exceptions can match windows by:
+
+- **Program Name Pattern** - Regular expression matching executable name
+- **Window Class Name** - X11 window class
+- **Window Title** - Window title pattern
+
+<Warning>
+Exceptions are powerful but complex. Test your patterns carefully to ensure they match the intended windows.
+</Warning>
+
+## HiDPI Scaling
+
+All spacing, sizing, and thickness values in Klassy automatically scale for HiDPI displays. You don't need to adjust values manually for different DPI settings.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Button Customization" icon="circle" href="/theming/button-customization">
+    Customize button appearance and behavior
+  </Card>
+  <Card title="Animations" icon="wand-magic-sparkles" href="/theming/animations">
+    Configure window decoration animations
+  </Card>
+</CardGroup>

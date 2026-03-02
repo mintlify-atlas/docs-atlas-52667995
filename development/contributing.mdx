@@ -1,0 +1,550 @@
+---
+title: Contributing
+description: Guidelines for contributing to Klassy development, including code standards, workflow, and submission process
+---
+
+Klassy welcomes contributions from the community! Whether you're fixing bugs, adding features, improving documentation, or translating the interface, your help is appreciated.
+
+## Getting Started
+
+Before contributing, make sure you have:
+
+- Read the [Architecture](/development/architecture) documentation
+- Successfully [built Klassy from source](/development/building-from-source)
+- Familiarized yourself with the codebase structure
+- Checked existing issues and pull requests on GitHub
+
+## Project Information
+
+### Repository
+
+- **GitHub**: https://github.com/paulmcauley/klassy
+- **Main Branch**: `plasma6.3` (for Plasma 6.3+)
+- **License**: Multiple licenses (see `LICENSES/` directory)
+
+### Author
+
+**Klassy** is developed by:
+- Paul A McAuley (kde@paulmcauley.com)
+
+Based on **Breeze** by:
+- Hugo Pereira Da Costa (Developer)
+- Andrew Lake (Designer)
+- Ken Vermette (Cursors)
+
+### Communication
+
+- **Issues**: Report bugs and request features on [GitHub Issues](https://github.com/paulmcauley/klassy/issues)
+- **Discussions**: Design decisions and feature discussions on [GitHub Discussions](https://github.com/paulmcauley/klassy/discussions)
+- **Design Document**: [Kite defaults design decisions](https://github.com/paulmcauley/klassy/discussions/263)
+
+## Development Workflow
+
+<Steps>
+  <Step title="Fork the repository">
+    Create your own fork of the Klassy repository on GitHub:
+    ```bash
+    # Click "Fork" on GitHub, then clone your fork
+    git clone https://github.com/YOUR_USERNAME/klassy.git
+    cd klassy
+    ```
+  </Step>
+
+  <Step title="Create a feature branch">
+    ```bash
+    git checkout plasma6.3
+    git checkout -b feature/your-feature-name
+    ```
+
+    Use descriptive branch names:
+    - `feature/add-new-button-style`
+    - `fix/scrollbar-animation`
+    - `docs/improve-installation-guide`
+    - `translation/add-spanish`
+  </Step>
+
+  <Step title="Set up development environment">
+    Build with testing and debugging enabled:
+    ```bash
+    mkdir build-dev
+    cd build-dev
+    cmake -DCMAKE_INSTALL_PREFIX=/usr \
+          -DCMAKE_BUILD_TYPE=Debug \
+          -DBUILD_TESTING=ON \
+          -DKDE_INSTALL_USE_QT_SYS_PATHS=ON ..
+    make -j$(nproc)
+    ```
+  </Step>
+
+  <Step title="Make your changes">
+    - Write clean, readable code following the project's style
+    - Add comments for complex logic
+    - Update documentation if needed
+    - Test your changes thoroughly
+  </Step>
+
+  <Step title="Test your changes">
+    ```bash
+    # Install your development build
+    sudo make install
+    
+    # Restart KWin to load new decoration
+    kwin_x11 --replace &  # For X11
+    # or
+    kwin_wayland --replace &  # For Wayland
+    
+    # Test the changes in klassy-settings
+    klassy-settings
+    ```
+  </Step>
+
+  <Step title="Commit your changes">
+    ```bash
+    git add .
+    git commit -m "Brief description of changes
+    
+    More detailed explanation of what changed and why.
+    Fixes #issue_number (if applicable)"
+    ```
+  </Step>
+
+  <Step title="Push and create pull request">
+    ```bash
+    git push origin feature/your-feature-name
+    ```
+    
+    Then create a pull request on GitHub targeting the `plasma6.3` branch.
+  </Step>
+</Steps>
+
+## Code Standards
+
+### C++ Style Guidelines
+
+Klassy follows KDE coding standards with some specifics:
+
+#### Formatting
+
+- **C++ Standard**: C++20
+- **Indentation**: 4 spaces (no tabs)
+- **Line length**: Aim for 120 characters max
+- **Braces**: Opening brace on same line for functions, classes, and control structures
+
+```cpp
+// Good
+void MyClass::myFunction()
+{
+    if (condition) {
+        doSomething();
+    }
+}
+
+// Not preferred
+void MyClass::myFunction() {
+    if (condition)
+    {
+        doSomething();
+    }
+}
+```
+
+#### Clang-Format
+
+Klassy uses clang-format for consistent code formatting:
+
+```bash
+# Format all source files
+make clang-format
+
+# Or manually
+clang-format -i path/to/file.cpp
+```
+
+<Note>
+The project includes a pre-commit git hook that runs clang-format automatically. Install it with:
+```bash
+kde_configure_git_pre_commit_hook(CHECKS CLANG_FORMAT)
+```
+</Note>
+
+#### Naming Conventions
+
+- **Classes**: `PascalCase` (e.g., `BreezeDecoration`, `ButtonColors`)
+- **Functions**: `camelCase` (e.g., `calculateButtonColor`, `renderIcon`)
+- **Member variables**: `m_camelCase` (e.g., `m_buttonSize`, `m_titlebarOpacity`)
+- **Constants**: `UPPER_SNAKE_CASE` or `k_camelCase`
+- **Enums**: `PascalCase` for type, `PascalCase` for values
+
+```cpp
+class BreezeButton {
+public:
+    void setSize(int size);
+    int size() const;
+    
+private:
+    int m_size;
+    QColor m_backgroundColor;
+};
+```
+
+#### Header Guards
+
+Use `#pragma once` for header guards:
+
+```cpp
+#pragma once
+
+#include <QWidget>
+
+class MyClass : public QWidget
+{
+    Q_OBJECT
+    // ...
+};
+```
+
+### Qt Best Practices
+
+- Use Qt's signal/slot mechanism properly
+- Prefer `nullptr` over `NULL` or `0`
+- Use smart pointers where appropriate
+- Follow Qt naming conventions for signals and slots
+- Use `Q_EMIT` for emitting signals
+- Use `Q_OBJECT` macro for QObject-derived classes
+
+```cpp
+class MyWidget : public QWidget
+{
+    Q_OBJECT
+
+public:
+    explicit MyWidget(QWidget *parent = nullptr);
+
+Q_SIGNALS:
+    void valueChanged(int value);
+
+public Q_SLOTS:
+    void setValue(int value);
+
+private:
+    int m_value = 0;
+};
+```
+
+### CMake Guidelines
+
+- Keep CMakeLists.txt organized and commented
+- Use CMake variables for repeated values
+- Properly declare dependencies
+- Support both Qt5 and Qt6 when applicable
+
+```cmake
+# Use QT_MAJOR_VERSION for version-agnostic code
+target_link_libraries(mylib
+    Qt${QT_MAJOR_VERSION}::Core
+    Qt${QT_MAJOR_VERSION}::Gui
+    KF${QT_MAJOR_VERSION}::ConfigCore
+)
+```
+
+## Contribution Areas
+
+### Bug Fixes
+
+<Steps>
+  <Step title="Reproduce the bug">
+    Ensure you can consistently reproduce the issue.
+  </Step>
+
+  <Step title="Isolate the problem">
+    Use debugging tools to find the root cause:
+    ```bash
+    # Enable debug logging
+    QT_LOGGING_RULES="klassy6.debug=true" klassy-settings
+    ```
+  </Step>
+
+  <Step title="Fix and test">
+    - Fix the issue with minimal code changes
+    - Test that the fix works
+    - Ensure no regressions in other areas
+  </Step>
+
+  <Step title="Document the fix">
+    Explain what caused the bug and how your fix resolves it in the commit message.
+  </Step>
+</Steps>
+
+### New Features
+
+Before implementing a new feature:
+
+1. **Check existing discussions**: See if the feature has been discussed
+2. **Open a discussion or issue**: Propose the feature and get feedback
+3. **Design first**: Plan the implementation approach
+4. **Consider impact**: Ensure it fits Klassy's design philosophy
+5. **Maintain compatibility**: Don't break existing configurations
+
+#### Example: Adding a New Button Style
+
+<Steps>
+  <Step title="Create style implementation">
+    Add a new file in `libbreezecommon/`:
+    ```cpp
+    // stylemynewstyle.cpp
+    #include "stylemynewstyle.h"
+    
+    namespace Breeze
+    {
+        void StyleMyNewStyle::renderIcon(...) {
+            // Your rendering code
+        }
+    }
+    ```
+  </Step>
+
+  <Step title="Update CMakeLists.txt">
+    Add your new files to the build:
+    ```cmake
+    set(breezecommon_LIB_SRCS
+        # ... existing files ...
+        stylemynewstyle.cpp
+    )
+    ```
+  </Step>
+
+  <Step title="Register in preset system">
+    Update `presetsmodel.cpp` to include your new style.
+  </Step>
+
+  <Step title="Add preset file">
+    Create a preset in `kdecoration/config/presets/` showcasing your new style.
+  </Step>
+
+  <Step title="Update documentation">
+    Document the new style in appropriate places.
+  </Step>
+</Steps>
+
+### Translations
+
+Klassy uses KDE's ki18n framework for internationalization.
+
+#### Adding a New Translation
+
+<Steps>
+  <Step title="Extract translatable strings">
+    ```bash
+    cd po
+    ./extract-messages.sh  # If available
+    ```
+  </Step>
+
+  <Step title="Create translation file">
+    ```bash
+    mkdir -p po/YOUR_LANGUAGE_CODE
+    msginit -i klassy.pot -o po/YOUR_LANGUAGE_CODE/klassy.po -l YOUR_LANGUAGE_CODE
+    ```
+  </Step>
+
+  <Step title="Translate strings">
+    Use a PO editor like Lokalize or Poedit to translate strings:
+    ```bash
+    lokalize po/YOUR_LANGUAGE_CODE/klassy.po
+    ```
+  </Step>
+
+  <Step title="Test translation">
+    ```bash
+    # Build with your translation
+    cmake ..
+    make
+    sudo make install
+    
+    # Run with your locale
+    LANGUAGE=YOUR_LANGUAGE_CODE klassy-settings
+    ```
+  </Step>
+
+  <Step title="Submit translation">
+    Create a pull request with your `.po` file in the appropriate `po/` subdirectory.
+  </Step>
+</Steps>
+
+#### Translation Guidelines
+
+- Keep translations concise for UI elements
+- Maintain the same tone as English strings
+- Don't translate technical terms unnecessarily
+- Test translations in the actual UI to ensure they fit
+- Follow your language's typography conventions
+
+### Documentation
+
+Documentation improvements are always welcome:
+
+- Fix typos and grammatical errors
+- Clarify confusing explanations
+- Add examples and screenshots
+- Improve installation instructions for specific distros
+- Document undocumented features
+
+## Testing
+
+### Manual Testing
+
+Always test your changes with:
+
+- **Multiple color schemes**: Light, dark, custom
+- **Different screen scales**: 100%, 125%, 150%, 200%
+- **Various window states**: Normal, maximized, minimized, fullscreen
+- **Different applications**: Native Qt/KDE, GTK apps, browsers
+- **Both X11 and Wayland**: If possible
+
+### Automated Testing
+
+If you add testable functionality:
+
+```cpp
+// In appropriate test file
+#include <QTest>
+
+class MyTest : public QObject
+{
+    Q_OBJECT
+
+private Q_SLOTS:
+    void testMyFeature();
+};
+
+void MyTest::testMyFeature()
+{
+    // Your test code
+    QCOMPARE(actual, expected);
+}
+
+QTEST_MAIN(MyTest)
+#include "mytest.moc"
+```
+
+Run tests:
+```bash
+ctest --output-on-failure
+```
+
+## Pull Request Guidelines
+
+### PR Description Template
+
+```markdown
+## Description
+Brief description of what this PR does.
+
+## Motivation
+Why is this change needed? What problem does it solve?
+
+## Changes
+- List of specific changes
+- Another change
+- Yet another change
+
+## Testing
+How was this tested?
+- [ ] Tested on X11
+- [ ] Tested on Wayland
+- [ ] Tested with light theme
+- [ ] Tested with dark theme
+- [ ] Tested at different scales (HiDPI)
+
+## Screenshots
+(If applicable, add before/after screenshots)
+
+## Related Issues
+Fixes #123
+Relates to #456
+
+## Checklist
+- [ ] Code follows the project's style guidelines
+- [ ] Code has been formatted with clang-format
+- [ ] Documentation has been updated (if needed)
+- [ ] Changes have been tested
+- [ ] Commits have clear, descriptive messages
+```
+
+### Review Process
+
+1. **Automated checks**: CI runs clang-format and builds
+2. **Code review**: Maintainer reviews code quality and design
+3. **Testing**: Changes are tested on various configurations
+4. **Feedback**: You may be asked to make changes
+5. **Merge**: Once approved, your PR will be merged
+
+<Note>
+Be patient during the review process. The maintainer may be busy, and thorough reviews take time.
+</Note>
+
+## Development Tips
+
+### Live Reload Workflow
+
+For faster development iteration:
+
+```bash
+# Terminal 1: Watch and rebuild
+while true; do
+    inotifywait -e modify -r ../kdecoration ../kstyle ../libbreezecommon
+    make -j$(nproc)
+    sudo make install
+done
+
+# Terminal 2: Restart KWin after each install
+kwin_x11 --replace &
+```
+
+### Debug Logging
+
+Add debug output in your code:
+
+```cpp
+#include <QDebug>
+#include "breeze_logging.h"
+
+qCDebug(KLASSY) << "Debug message:" << variable;
+qCWarning(KLASSY) << "Warning message:" << variable;
+```
+
+Enable logging:
+```bash
+QT_LOGGING_RULES="klassy6.debug=true" klassy-settings 2>&1 | tee debug.log
+```
+
+### Useful Development Tools
+
+- **Qt Designer**: Edit `.ui` files visually
+- **GammaRay**: Qt application inspector
+- **Lokalize**: KDE translation editor
+- **KDevelop**: KDE's IDE with excellent CMake support
+- **clang-tidy**: C++ linter for finding issues
+
+## Code of Conduct
+
+While Klassy doesn't have a formal code of conduct document, please:
+
+- Be respectful and professional
+- Focus on technical merit
+- Welcome newcomers and help them learn
+- Give and receive constructive feedback gracefully
+- Respect the maintainer's decisions
+
+## Questions?
+
+If you have questions about contributing:
+
+1. Check the [GitHub Discussions](https://github.com/paulmcauley/klassy/discussions)
+2. Review existing issues and PRs for similar cases
+3. Open a new discussion for general questions
+4. Open an issue for bugs or feature requests
+
+<Note>
+Thank you for contributing to Klassy! Every contribution, no matter how small, helps make Klassy better for everyone.
+</Note>

@@ -1,0 +1,329 @@
+---
+title: Command Line Options
+description: CLI options for klassy-settings including preset import, loading, and system icon generation
+---
+
+The `klassy-settings` command supports several command-line options for automation, scripting, and headless configuration management.
+
+## Display Help
+
+View all available command-line options:
+
+```bash
+klassy-settings --help
+```
+
+This displays the usage information, available options, and version information.
+
+## Version Information
+
+Display the Klassy version:
+
+```bash
+klassy-settings --version
+```
+
+## Import Preset
+
+Import a Klassy preset file (`.klpw`) into your preset library without launching the GUI.
+
+### Basic Import
+
+```bash
+klassy-settings --import-preset /path/to/preset.klpw
+```
+
+**Short form:**
+```bash
+klassy-settings -i /path/to/preset.klpw
+```
+
+### Import Behavior
+
+<Steps>
+  <Step title="File validation">
+    The preset file is validated to ensure it's a valid Klassy Preset with the correct structure
+  </Step>
+  
+  <Step title="Version check">
+    The preset version is compared against the current Klassy version
+  </Step>
+  
+  <Step title="Name conflict handling">
+    If a preset with the same name exists, you'll be prompted whether to overwrite (when using GUI)
+    
+    When using CLI, the import will fail with an error message
+  </Step>
+  
+  <Step title="Import completion">
+    The preset is added to `~/.config/klassy/windecopresetsrc`
+  </Step>
+</Steps>
+
+### Force Import from Different Version
+
+If you're importing a preset created for a different Klassy version, use the force flag:
+
+```bash
+klassy-settings --import-preset /path/to/preset.klpw --force-import-invalid-version
+```
+
+**Short form:**
+```bash
+klassy-settings -i /path/to/preset.klpw -f
+```
+
+<Note>
+  Forcing import of presets from different versions may result in missing or incompatible settings. Use with caution.
+</Note>
+
+### Import Error Messages
+
+<CodeGroup>
+```text Invalid File
+ERROR: Invalid Klassy Preset file to import at "/path/to/preset.klpw".
+```
+
+```text Version Mismatch
+ERROR: The file to import at "/path/to/preset.klpw" was created for a different version of Klassy.
+ To force import, use the --force-import-invalid-version option.
+```
+
+```text Invalid Group
+ERROR: No preset group found in Klassy Preset file at "/path/to/preset.klpw".
+```
+
+```text Invalid Key
+ERROR: Invalid key "KeyName" in Klassy Preset file at "/path/to/preset.klpw".
+```
+</CodeGroup>
+
+### Success Message
+
+On successful import:
+```text
+Preset, "Preset Name" imported.
+```
+
+## Load Preset
+
+Load and apply a window decoration preset from your library by name.
+
+### Basic Usage
+
+```bash
+klassy-settings --load-windeco-preset "Preset Name"
+```
+
+**Short form:**
+```bash
+klassy-settings -w "Preset Name"
+```
+
+### Load Behavior
+
+<Steps>
+  <Step title="Import bundled presets">
+    Bundled presets are automatically imported/updated to ensure they're available
+  </Step>
+  
+  <Step title="Validate preset exists">
+    The command checks that the named preset exists in `~/.config/klassy/windecopresetsrc`
+  </Step>
+  
+  <Step title="Load and save configuration">
+    The preset settings are loaded and saved to `~/.config/klassy/klassyrc`
+  </Step>
+  
+  <Step title="Reload KWin">
+    KWin configuration is reloaded via D-Bus to apply window border and button layout changes
+  </Step>
+  
+  <Step title="Generate system icons">
+    System icons are automatically regenerated based on the preset's button style
+  </Step>
+</Steps>
+
+### Examples
+
+```bash
+# Load the default Kite preset
+klassy-settings --load-windeco-preset "Kite"
+
+# Load ClassiK v3 preset
+klassy-settings --load-windeco-preset "ClassiK v3"
+
+# Load a custom preset
+klassy-settings --load-windeco-preset "My Custom Style"
+```
+
+### Available Built-in Presets
+
+Some of the bundled presets you can load:
+
+- `Kite` - Default pragmatic theme
+- `Kite Light` - Light variant of Kite
+- `ClassiK v3` - Full-height rounded rectangles
+- `ClassikStyles` - Rectangle button highlights  
+- `Classik-Aurorae` - Circular button highlights
+- `Glassy Klassy` - Translucent glass effect
+- `Chroma` - Colorful accents
+- `Opal Fruits` - Vibrant colors
+- `KDE1` - Classic KDE 1 style
+- `Klasse` - KDE 1 inspired
+
+<Note>
+  To see all available presets, open the Presets dialog in the klassy-settings GUI.
+</Note>
+
+### Error Messages
+
+```text
+ERROR: Preset, "Preset Name" not found.
+```
+
+### Success Message
+
+```text
+Preset, "Preset Name" loaded...
+klassy and klassy-dark system icons generated.
+```
+
+## Generate System Icons
+
+Regenerate the `klassy` and `klassy-dark` system icon themes based on current settings.
+
+### Basic Usage
+
+```bash
+klassy-settings --generate-system-icons
+```
+
+**Short form:**
+```bash
+klassy-settings -g
+```
+
+### What It Does
+
+<Steps>
+  <Step title="Read current settings">
+    Loads button icon style and color configuration from `~/.config/klassy/klassyrc`
+  </Step>
+  
+  <Step title="Generate icon theme directories">
+    Creates/updates icon theme directories:
+    - `~/.local/share/icons/klassy/`
+    - `~/.local/share/icons/klassy-dark/`
+  </Step>
+  
+  <Step title="Render window control icons">
+    Generates SVG icons for all window controls:
+    - `window-close`, `window-minimize`, `window-maximize`
+    - `window-restore`, `window-keep-above`, `window-keep-below`
+    - `window-shade`, `window-unshade`
+    - `application-menu`
+    - Plus `-symbolic` variants
+  </Step>
+  
+  <Step title="Create HiDPI variants">
+    Generates icons at multiple scales (1x, 1.25x, 1.5x, 1.75x, 2x, 2.25x, 2.5x, 2.75x, 3x)
+  </Step>
+  
+  <Step title="Create index.theme files">
+    Writes icon theme metadata with inheritance configuration
+  </Step>
+</Steps>
+
+### When to Use
+
+Regenerate system icons when:
+
+- You've changed the button icon style in Klassy Settings
+- You've modified button colors
+- Icons appear outdated or incorrect in menus/GTK applications
+- After manually editing configuration files
+
+<Note>
+  Icon generation is automatically triggered when loading a preset with `--load-windeco-preset`, so manual generation is only needed if you change settings without loading a preset.
+</Note>
+
+### Success Message
+
+```text
+klassy and klassy-dark system icons generated.
+```
+
+## Combining Options
+
+You can combine certain options in a single command:
+
+```bash
+# Import and immediately load a preset, generating icons
+klassy-settings --import-preset ~/Downloads/mytheme.klpw \
+                --load-windeco-preset "My Theme"
+```
+
+```bash
+# Load preset and explicitly regenerate icons
+klassy-settings -w "Glassy Klassy" -g
+```
+
+<Note>
+  When combining options, they are processed in order: import → load → generate icons.
+</Note>
+
+## Scripting Examples
+
+### Automated Theme Switching
+
+```bash
+#!/bin/bash
+# Switch between day and night themes
+
+HOUR=$(date +%H)
+
+if [ $HOUR -ge 6 ] && [ $HOUR -lt 18 ]; then
+    klassy-settings -w "Kite Light"
+else
+    klassy-settings -w "Kite"
+fi
+```
+
+### Batch Import Presets
+
+```bash
+#!/bin/bash
+# Import all preset files from a directory
+
+for preset in ~/KlassyPresets/*.klpw; do
+    echo "Importing $preset..."
+    klassy-settings -i "$preset"
+done
+```
+
+### Reset to Defaults
+
+```bash
+# Load the default Kite preset to reset customizations
+klassy-settings -w "Kite" && klassy-settings -g
+```
+
+## Exit Codes
+
+The command returns standard exit codes:
+
+- `0` - Success
+- `1` - Error occurred (invalid file, preset not found, etc.)
+
+This allows for error handling in scripts:
+
+```bash
+if klassy-settings -i mypreset.klpw; then
+    echo "Import successful"
+    klassy-settings -w "MyPreset"
+else
+    echo "Import failed" >&2
+    exit 1
+fi
+```

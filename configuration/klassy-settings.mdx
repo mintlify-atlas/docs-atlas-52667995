@@ -1,0 +1,209 @@
+---
+title: Klassy Settings GUI
+description: Using the klassy-settings application to configure window decorations, buttons, and theming
+---
+
+The **Klassy Settings** GUI application is the primary tool for configuring all aspects of the Klassy theme, including window decorations, button styles, animations, and system icons.
+
+## Launching Klassy Settings
+
+<Steps>
+  <Step title="Open from terminal">
+    Run the `klassy-settings` command:
+    ```bash
+    klassy-settings
+    ```
+  </Step>
+  
+  <Step title="Access from System Settings">
+    Alternatively, access Klassy Settings through KDE System Settings under **Appearance** > **Window Decorations**.
+  </Step>
+</Steps>
+
+## Main Interface
+
+Klassy Settings provides a tabbed interface with two main configuration modules:
+
+- **Application Style** - Configure widget styles, scrollbars, and application-level theming
+- **Window Decorations** - Configure titlebar appearance, buttons, spacing, and window borders
+
+### Window Decoration Configuration
+
+The Window Decoration module is organized into several tabs:
+
+#### General Tab
+
+Configure the core appearance of window decorations:
+
+<ParamField path="Button Icon Style" type="select">
+  Choose from built-in perfectly-pixel-snapped button icons or `window-*-symbolic` system icons
+</ParamField>
+
+<ParamField path="Button Shape" type="select">
+  Options include:
+  - Integrated Rounded Rectangles (default)
+  - Full-height Rounded Rectangle
+  - Full-height Rectangle
+  - Circular
+</ParamField>
+
+<ParamField path="Corner Radius" type="number">
+  Set the corner radius for windows (pixels, scaled for HiDPI)
+</ParamField>
+
+<ParamField path="Match Titlebar to Application Color" type="boolean">
+  When enabled, the titlebar inherits colors from the application's header area
+</ParamField>
+
+<ParamField path="Draw Background Gradient" type="boolean">
+  Adds a subtle gradient effect to the titlebar background
+</ParamField>
+
+#### Advanced Configuration Dialogs
+
+Click the configuration buttons to access detailed settings:
+
+**System Icon Generation...**
+- Configure which icon theme the Klassy and Klassy Dark themes inherit from
+- See [System Icon Generation](/configuration/system-icons) for details
+
+**Button Sizing...**
+- Configure button size, spacing, and clickable area
+- Adjust button aspect ratio and padding
+
+**Button Colors...**
+- Customize colors for each button type (Close, Minimize, Maximize, etc.)
+- Configure hover and pressed states
+- Set up "traffic lights" color scheme or custom palettes
+
+**Button Behaviour...**
+- Control button hover animations
+- Configure background colors and opacity
+- Set outline styles and thickness
+
+**TitleBar Spacing...**
+- Adjust titlebar margins (sides, top/bottom)
+- Configure different spacing for maximized windows
+- Set button spacing (left and right)
+
+**TitleBar Opacity...**
+- Configure transparency for active/inactive windows
+- Set opacity for maximized windows separately
+- Enable/disable blur effects
+
+**Window Outline Style...**
+- Configure thin window outlines
+- Set accent colors and blending modes
+- Adjust outline thickness
+
+**Shadow Style...**
+- Configure window shadow appearance
+- Adjust shadow size, offset, and opacity
+
+### Animations Tab
+
+<ParamField path="Enable Animations" type="boolean">
+  Toggle button and titlebar animations on/off
+</ParamField>
+
+<ParamField path="Animation Speed" type="slider">
+  Adjust animation speed relative to system settings (percentage)
+</ParamField>
+
+### Exceptions Tab
+
+Create window-specific overrides for decoration settings based on:
+- Window class
+- Window title (supports regex)
+- Window role
+
+Exceptions allow you to apply different decoration styles to specific applications.
+
+## Presets
+
+### Using Presets
+
+Klassy includes numerous built-in presets that apply coordinated style configurations:
+
+<Steps>
+  <Step title="Open Presets dialog">
+    Click the **Presets...** button in the top-right corner of the Window Decorations tab
+  </Step>
+  
+  <Step title="Select a preset">
+    Browse the list of available presets:
+    - **Kite** - Default pragmatic theme
+    - **ClassiK v3** - Full-height rounded rectangles
+    - **ClassikStyles** - Rectangle highlights
+    - **Classik-Aurorae** - Circular button highlights
+    - **Glassy Klassy** - Translucent glass effect
+    - **Chroma** - Colorful accent-based theme
+    - And many more...
+  </Step>
+  
+  <Step title="Load the preset">
+    Click **Load** to apply the selected preset immediately
+  </Step>
+</Steps>
+
+<Note>
+  After loading a preset, you can further customize any settings. The preset serves as a starting point.
+</Note>
+
+### Managing Presets
+
+The Presets dialog provides several management options:
+
+**Add...**
+- Save your current configuration as a new preset
+- Name it for easy identification later
+
+**Remove**
+- Delete custom presets you've created
+- Built-in bundled presets cannot be removed
+
+**Export To File...**
+- Export a preset to a `.klpw` (Klassy Preset Window) file
+- Share presets with others or backup your configurations
+
+**Import From File...**
+- Import `.klpw` preset files
+- Access community-created presets
+
+See [Command Line Options](/configuration/command-line-options) for importing and loading presets via CLI.
+
+## Applying Changes
+
+Changes made in Klassy Settings are applied according to the button you click:
+
+<CodeGroup>
+```text Apply
+Applies changes immediately without closing the dialog
+```
+
+```text OK
+Applies changes and closes the dialog
+```
+
+```text Cancel
+Discards changes and closes the dialog
+```
+
+```text Defaults
+Resets all settings to Klassy defaults
+```
+</CodeGroup>
+
+<Note>
+  Most decoration changes take effect immediately for new windows. Existing windows may need to be refreshed (minimize/restore) to show changes.
+</Note>
+
+## Configuration Files
+
+Klassy Settings stores configuration in:
+
+- `~/.config/klassy/klassyrc` - Main configuration file
+- `~/.config/klassy/windecopresetsrc` - Saved presets
+- `~/.config/kwinrc` - KWin window manager settings (border size, button layout)
+
+These files use the KConfig INI-style format and can be manually edited if needed, though the GUI is recommended.

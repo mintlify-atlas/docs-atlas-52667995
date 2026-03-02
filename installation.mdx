@@ -1,0 +1,237 @@
+---
+title: "Installation"
+description: "Install Klassy on your KDE Plasma 6.3+ system using pre-built packages from repositories or by compiling from source."
+---
+
+# Installation
+
+Klassy requires **Plasma 6.3 or later**. Please check your Plasma version in KInfoCenter before attempting installation.
+
+<Warning>
+  Installing Klassy on Plasma versions older than 6.3 is not supported and may cause issues.
+</Warning>
+
+You have two main options for installation:
+
+1. **Pre-built packages** - Recommended for most users
+2. **Compile from source** - For advanced users or latest development features
+
+---
+
+<a name="prebuilt"></a>
+## Pre-built Packages
+
+Pre-built packages are available from the Open Build Service for multiple distributions.
+
+### Supported Distributions
+
+- OpenSUSE
+- Debian/Ubuntu
+- Fedora
+- Mageia
+- Arch/Manjaro
+
+### Installation via Repository
+
+<Tip>
+  Using repositories keeps you on the latest version automatically through your system updates.
+</Tip>
+
+<Steps>
+  <Step title="Visit the Open Build Service">
+    Navigate to the [Klassy package page on OBS](https://software.opensuse.org/download.html?project=home%3Apaulmcauley&package=klassy)
+  </Step>
+  
+  <Step title="Select your distribution">
+    Choose your Linux distribution from the list and follow the distribution-specific instructions to add the repository.
+  </Step>
+  
+  <Step title="Install the package">
+    Use your distribution's package manager to install Klassy after adding the repository.
+  </Step>
+</Steps>
+
+### Direct Binary Downloads
+
+If you prefer not to add a repository, raw binary packages (.rpm, .deb, etc.) are also available:
+
+1. Visit the [Open Build Service page](https://software.opensuse.org/download.html?project=home%3Apaulmcauley&package=klassy)
+2. Select "Grab binary packages directly"
+3. Download the appropriate package for your distribution
+4. Install using your package manager
+
+---
+
+<a name="compile"></a>
+## Compile from Source
+
+Compiling from source gives you access to the latest features and allows for customization.
+
+### Step 1: Install Dependencies
+
+First, install the required build tools and development libraries for your distribution.
+
+<CodeGroup>
+
+```bash OpenSUSE Tumbleweed/Leap
+# Install basic build tools
+sudo zypper in git cmake kf6-extra-cmake-modules gettext
+
+# Install KDE/Qt development libraries
+sudo zypper in "cmake(KF5Config)" "cmake(KF5CoreAddons)" "cmake(KF5FrameworkIntegration)" \
+  "cmake(KF5GuiAddons)" "cmake(KF5Kirigami2)" "cmake(KF5WindowSystem)" "cmake(KF5I18n)" \
+  "cmake(KF5KCMUtils)" "cmake(Qt5DBus)" "cmake(Qt5Quick)" "cmake(Qt5Widgets)" \
+  "cmake(Qt5X11Extras)" "cmake(KDecoration3)" "cmake(KF6ColorScheme)" "cmake(KF6Config)" \
+  "cmake(KF6CoreAddons)" "cmake(KF6FrameworkIntegration)" "cmake(KF6GuiAddons)" \
+  "cmake(KF6I18n)" "cmake(KF6KCMUtils)" "cmake(KF6KirigamiPlatform)" "cmake(KF6WindowSystem)" \
+  "cmake(Qt6Core)" "cmake(Qt6DBus)" "cmake(Qt6Quick)" "cmake(Qt6Svg)" "cmake(Qt6Widgets)" \
+  "cmake(Qt6Xml)"
+```
+
+```bash Debian/Ubuntu
+sudo apt install git build-essential cmake extra-cmake-modules libkirigami-dev \
+  libkf5style-dev libkf6kcmutils-dev libkf6colorscheme-dev libkf5config-dev \
+  libkf5configwidgets-dev libkf5coreaddons-dev libkf5guiaddons-dev libkf6i18n-dev \
+  libkf6iconthemes-dev kirigami2-dev libkf6package-dev libkf6service-dev \
+  libkf6windowsystem-dev kwayland-dev libx11-dev libkdecorations3-dev \
+  libkf5configwidgets-dev libkf5i18n-dev libkf5iconthemes-dev libkf5kcmutils-dev \
+  libkf5package-dev libkf5service-dev libkf5wayland-dev libkf5windowsystem-dev \
+  libplasma-dev libqt5x11extras5-dev qt6-base-dev qt6-declarative-dev qtbase5-dev \
+  qtdeclarative5-dev gettext qt6-svg-dev
+```
+
+```bash KDE Neon
+sudo apt install git build-essential cmake kf6-extra-cmake-modules \
+  kf6-frameworkintegration-dev kf6-kcmutils-dev kf6-kcolorscheme-dev kf6-kconfig-dev \
+  kf6-kconfigwidgets-dev kf6-kcoreaddons-dev kf6-kguiaddons-dev kf6-ki18n-dev \
+  kf6-kiconthemes-dev kf6-kirigami2-dev kf6-kpackage-dev kf6-kservice-dev \
+  kf6-kwindowsystem-dev kirigami2-dev kwayland-dev libx11-dev libkdecorations3-dev \
+  libkf5config-dev libkf5configwidgets-dev libkf5coreaddons-dev libkf5guiaddons-dev \
+  libkf5i18n-dev libkf5iconthemes-dev libkf5kcmutils-dev libkf5package-dev \
+  libkf5service-dev libkf5style-dev libkf5wayland-dev libkf5windowsystem-dev \
+  libplasma-dev libqt5x11extras5-dev qt6-base-dev qt6-declarative-dev qtbase5-dev \
+  qtdeclarative5-dev gettext qt6-svg-dev
+```
+
+```bash Arch/Manjaro
+sudo pacman -S git frameworkintegration gcc-libs glibc kcmutils kcolorscheme \
+  kconfig kcoreaddons kdecoration kguiaddons ki18n kiconthemes kirigami \
+  kwidgetsaddons kwindowsystem qt6-base qt6-declarative qt6-svg xdg-utils \
+  extra-cmake-modules kcmutils5 frameworkintegration5 kconfigwidgets5 \
+  kiconthemes5 kirigami2 kwindowsystem5
+```
+
+```bash Fedora
+# Install basic build tools
+sudo dnf install git cmake extra-cmake-modules gettext
+
+# Install KDE/Qt development libraries
+sudo dnf install "cmake(KF5Config)" "cmake(KF5CoreAddons)" "cmake(KF5FrameworkIntegration)" \
+  "cmake(KF5GuiAddons)" "cmake(KF5Kirigami2)" "cmake(KF5WindowSystem)" "cmake(KF5I18n)" \
+  "cmake(Qt5DBus)" "cmake(Qt5Quick)" "cmake(Qt5Widgets)" "cmake(Qt5X11Extras)" \
+  "cmake(KDecoration3)" "cmake(KF6ColorScheme)" "cmake(KF6Config)" "cmake(KF6CoreAddons)" \
+  "cmake(KF6FrameworkIntegration)" "cmake(KF6GuiAddons)" "cmake(KF6I18n)" \
+  "cmake(KF6KCMUtils)" "cmake(KF6KirigamiPlatform)" "cmake(KF6WindowSystem)" \
+  "cmake(Qt6Core)" "cmake(Qt6DBus)" "cmake(Qt6Quick)" "cmake(Qt6Svg)" "cmake(Qt6Widgets)" \
+  "cmake(Qt6Xml)"
+```
+
+</CodeGroup>
+
+### Step 2: Download, Build, and Install
+
+<Steps>
+  <Step title="Clone the repository">
+    ```bash
+    git clone https://github.com/paulmcauley/klassy
+    ```
+  </Step>
+  
+  <Step title="Navigate to the directory">
+    ```bash
+    cd klassy
+    ```
+  </Step>
+  
+  <Step title="Checkout the Plasma 6.3 branch">
+    ```bash
+    git checkout plasma6.3
+    ```
+  </Step>
+  
+  <Step title="Run the installation script">
+    ```bash
+    ./install.sh
+    ```
+    
+    The script will:
+    - Uninstall any previous version if found
+    - Create a clean build directory
+    - Run CMake with optimized settings
+    - Compile using all available CPU cores
+    - Install the theme system-wide
+  </Step>
+</Steps>
+
+<Note>
+  The `install.sh` script uses the following CMake configuration:
+  ```bash
+  cmake -DCMAKE_INSTALL_PREFIX=/usr \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DBUILD_TESTING=OFF \
+        -DKDE_INSTALL_USE_QT_SYS_PATHS=ON ..
+  ```
+</Note>
+
+### Uninstalling
+
+To uninstall Klassy compiled from source:
+
+```bash
+cd klassy
+./uninstall.sh
+```
+
+---
+
+## Gentoo Linux
+
+Klassy is available in the [guru](https://github.com/gentoo/guru) repository.
+
+<Steps>
+  <Step title="Install eselect repository">
+    ```bash
+    sudo emerge -av app-eselect/eselect-repository
+    ```
+  </Step>
+  
+  <Step title="Enable the guru repository">
+    ```bash
+    sudo eselect repository enable guru
+    ```
+  </Step>
+  
+  <Step title="Sync repositories">
+    ```bash
+    sudo emaint sync -r guru
+    ```
+  </Step>
+  
+  <Step title="Add package keywords">
+    ```bash
+    echo "gui-apps/klassy ~amd64" | sudo tee /etc/portage/package.accept_keywords/klassy
+    ```
+  </Step>
+  
+  <Step title="Install Klassy">
+    ```bash
+    sudo emerge -av gui-apps/klassy
+    ```
+  </Step>
+</Steps>
+
+---
+
+## Next Steps
+
+After installation, proceed to the [Quick Start guide](/quickstart) to enable and configure the Kite theme.

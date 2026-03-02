@@ -1,0 +1,527 @@
+---
+title: "Button Customization"
+description: "Customize titlebar button size, shape, colors, icons, and behavior"
+---
+
+## Overview
+
+Klassy offers arguably the most comprehensive titlebar button customization of any KDE theme. You can control every aspect of button appearance and behavior, from icon styles to shapes to colors to hover effects.
+
+## Button Icon Styles
+
+Klassy provides numerous built-in perfectly-pixel-snapped button icon sets:
+
+![Button icons menu](/images/button_icon_menu.png)
+
+### Available Icon Styles
+
+<Tabs>
+  <Tab title="Kite (Default)">
+    **StyleKite** - The default Kite icon style
+    
+    Modern, clean icons designed to complement the Kite theme and Blue Ocean design refresh.
+    
+    ![Default Integrated Rounded rectangle button style, dark](/images/highlight_gifs/icdark.gif)
+    
+    ```
+    ButtonIconStyle=StyleKite
+    ```
+  </Tab>
+  
+  <Tab title="Suessig Kite">
+    **StyleSuessigKite** - A sweeter variation of Kite icons
+    
+    Softer, gentler variation of the Kite icon set.
+    
+    ```
+    ButtonIconStyle=StyleSuessigKite
+    ```
+  </Tab>
+  
+  <Tab title="Oxygen">
+    **StyleOxygen** - Classic Oxygen icon style
+    
+    Icons inspired by the classic KDE Oxygen theme.
+    
+    ```
+    ButtonIconStyle=StyleOxygen
+    ```
+  </Tab>
+  
+  <Tab title="Klasse">
+    **StyleKlasse** - KDE 1-inspired icons
+    
+    Nostalgic icons inspired by the original KDE 1 desktop environment.
+    
+    ```
+    ButtonIconStyle=StyleKlasse
+    ```
+  </Tab>
+  
+  <Tab title="Traditional">
+    **StyleTraditional** - Traditional KDE styling
+    
+    Classic, familiar icon shapes.
+    
+    ```
+    ButtonIconStyle=StyleTraditional
+    ```
+  </Tab>
+  
+  <Tab title="Metro">
+    **StyleMetro** - Metro/Modern UI inspired
+    
+    Flat, minimalist icons inspired by Microsoft Metro design.
+    
+    ```
+    ButtonIconStyle=StyleMetro
+    ```
+  </Tab>
+  
+  <Tab title="Fluent">
+    **StyleFluent** - Microsoft Fluent Design inspired
+    
+    Modern icons inspired by Microsoft Fluent Design.
+    
+    ```
+    ButtonIconStyle=StyleFluent
+    ```
+  </Tab>
+  
+  <Tab title="Ark Series">
+    **StyleArk**, **StyleArkopal**, **StyleArkopalLeft**
+    
+    Variants of the Ark icon style with different orientations.
+    
+    ```
+    ButtonIconStyle=StyleArkopal
+    ```
+  </Tab>
+  
+  <Tab title="Kisweet">
+    **StyleKisweet** - Sweet, playful icons
+    
+    ![Kisweet preset](/images/kisweet_preset.png)
+    
+    ```
+    ButtonIconStyle=StyleKisweet
+    ```
+  </Tab>
+  
+  <Tab title="System Icons">
+    **StyleSystemIconTheme** - Use system icon theme
+    
+    Display `window-*-symbolic` icons from your system icon theme.
+    
+    ```
+    ButtonIconStyle=StyleSystemIconTheme
+    ForceColorizeSystemIcons=true
+    ```
+    
+    <Note>
+    Enable "Force Colorize System Icons" to ensure icons match your color scheme.
+    </Note>
+  </Tab>
+</Tabs>
+
+## Button Shapes
+
+Choose from multiple button background shapes:
+
+<Tabs>
+  <Tab title="Integrated Rounded Rectangle (Default)">
+    **ShapeIntegratedRoundedRectangle**
+    
+    ![Default Integrated Rounded rectangle button style, dark](/images/highlight_gifs/icdark.gif)
+    
+    Default shape with translucent outlined accent colors and large clickable area. Designed to complement the Blue Ocean refresh.
+    
+    ```
+    ButtonShape=ShapeIntegratedRoundedRectangle
+    IntegratedRoundedRectangleBottomPadding=1.5  # 0-20
+    ```
+  </Tab>
+  
+  <Tab title="Integrated Rounded Rectangle Grouped">
+    **ShapeIntegratedRoundedRectangleGrouped**
+    
+    Similar to integrated rounded rectangles, but buttons are grouped together.
+    
+    ```
+    ButtonShape=ShapeIntegratedRoundedRectangleGrouped
+    ```
+  </Tab>
+  
+  <Tab title="Full-Height Rounded Rectangle">
+    **ShapeFullHeightRoundedRectangle**
+    
+    ![Rounded rectangle button style](/images/highlight_gifs/cdark.gif)
+    
+    Classic full-height buttons with rounded corners. Featured in the _ClassiK v3_ preset.
+    
+    ```
+    ButtonShape=ShapeFullHeightRoundedRectangle
+    ```
+  </Tab>
+  
+  <Tab title="Full-Height Rectangle">
+    **ShapeFullHeightRectangle**
+    
+    ![Square highlight style](/images/highlight_gifs/squareHighlight.gif)
+    
+    Sharp rectangular buttons extending the full titlebar height. Featured in _ClassikStyles_ preset.
+    
+    ```
+    ButtonShape=ShapeFullHeightRectangle
+    ```
+  </Tab>
+  
+  <Tab title="Small Circle">
+    **ShapeSmallCircle**
+    
+    ![Circle button highlight style](/images/highlight_gifs/circleHighlight.gif)
+    
+    Circular button backgrounds. Featured in _Classik-Aurorae_ preset.
+    
+    ```
+    ButtonShape=ShapeSmallCircle
+    ```
+  </Tab>
+  
+  <Tab title="Small Square">
+    **ShapeSmallSquare**
+    
+    Small square button backgrounds.
+    
+    ```
+    ButtonShape=ShapeSmallSquare
+    ```
+  </Tab>
+  
+  <Tab title="Small Rounded Square">
+    **ShapeSmallRoundedSquare**
+    
+    Small square backgrounds with rounded corners.
+    
+    ```
+    ButtonShape=ShapeSmallRoundedSquare
+    ```
+  </Tab>
+</Tabs>
+
+## Button Sizing
+
+### Icon Size
+
+Choose from 10 predefined icon sizes:
+
+```
+IconSize=IconLargeMedium  # Default
+```
+
+Available sizes (smallest to largest):
+- `IconTiny`
+- `IconVerySmall`
+- `IconSmall`
+- `IconSmallMedium`
+- `IconMedium`
+- `IconLargeMedium` (default)
+- `IconLarge`
+- `IconVeryLarge`
+- `IconGiant`
+- `IconHumongous`
+
+### System Icon Size
+
+When using `StyleSystemIconTheme`, set the pixel size:
+
+```
+SystemIconSize=SystemIcon16  # Default
+```
+
+Available: 8, 12, 14, 16 (default), 18, 20, 22, 24, 32, 48 pixels
+
+### Background Scale
+
+For small button shapes, adjust the background size:
+
+```
+ScaleBackgroundPercent=100  # 100-250%
+```
+
+### Button Spacing
+
+<Tabs>
+  <Tab title="Non-Full-Height Buttons">
+    ```
+    ButtonSpacingLeft=6          # 0-100
+    ButtonSpacingRight=10        # 0-100
+    LockButtonSpacingLeftRight=false
+    ```
+  </Tab>
+  
+  <Tab title="Full-Height Buttons">
+    ```
+    FullHeightButtonWidthMarginLeft=6      # 0-100
+    FullHeightButtonWidthMarginRight=18    # 0-100
+    LockFullHeightButtonWidthMargins=false
+    
+    FullHeightButtonSpacingLeft=2          # 0-100
+    FullHeightButtonSpacingRight=4         # 0-100
+    LockFullHeightButtonSpacingLeftRight=false
+    ```
+  </Tab>
+</Tabs>
+
+### Button Corner Radius
+
+Control button corner roundness:
+
+```
+ButtonCornerRadius=SameAsWindow  # or Custom
+ButtonCustomCornerRadius=2.5     # 0-24.0 (when Custom)
+```
+
+### Touch Mode Scaling
+
+Increase button size for touch screens:
+
+```
+ScaleTouchMode=150  # 100-400%
+```
+
+## Button Colors
+
+### Icon Colors
+
+Choose color schemes for button icons:
+
+<Tabs>
+  <Tab title="Active Windows">
+    ```
+    ButtonIconColorsActive=TitleBarText
+    ```
+    
+    Available options:
+    - `TitleBarText` - Matches titlebar text color (default)
+    - `TitleBarTextNegativeClose` - Titlebar text, red close button
+    - `Accent` - System accent color
+    - `AccentNegativeClose` - Accent with red close
+    - `AccentTrafficLights` - Traffic light colors (red/yellow/green)
+  </Tab>
+  
+  <Tab title="Inactive Windows">
+    ```
+    ButtonIconColorsInactive=TitleBarText
+    LockButtonColorsActiveInactive=true
+    ```
+    
+    Set the lock to use the same colors for active and inactive windows.
+  </Tab>
+</Tabs>
+
+### Background Colors
+
+```
+ButtonBackgroundColorsActive=AccentNegativeClose
+ButtonBackgroundColorsInactive=AccentNegativeClose
+```
+
+<Info>
+Background colors support the same options as icon colors: TitleBarText, TitleBarTextNegativeClose, Accent, AccentNegativeClose, AccentTrafficLights.
+</Info>
+
+### Traffic Lights Mode
+
+Enable macOS-style traffic light button colors:
+
+![Traffic lights button style](/images/highlight_gifs/icdark_trafficlights.gif)
+
+```
+ButtonBackgroundColorsActive=AccentTrafficLights
+```
+
+<Note>
+This mode colors the close button red, maximize yellow, and minimize green.
+</Note>
+
+### Opacity Settings
+
+Control icon and background transparency:
+
+```
+ButtonIconOpacityActive=100        # 0-100%
+ButtonIconOpacityInactive=100      # 0-100%
+ButtonBackgroundOpacityActive=60   # 0-100%
+ButtonBackgroundOpacityInactive=60 # 0-100%
+```
+
+### Contrast Enhancement
+
+Klassy automatically enhances contrast when needed:
+
+```
+# For icon contrast
+OnPoorIconContrastActive=TitleBarBackground
+PoorIconContrastThresholdActive=1.5  # 1.0-21.0
+
+# For background contrast
+AdjustBackgroundColorOnPoorContrastActive=true
+PoorBackgroundContrastThresholdActive=1.1  # 1.0-21.0
+```
+
+Options for poor icon contrast:
+- `Nothing` - No adjustment
+- `BlackWhite` - Switch to black or white
+- `TitleBarBackground` - Use titlebar background color (default)
+
+## Close Button Customization
+
+The close button can have separate styling:
+
+### Close Icon Color
+
+```
+CloseButtonIconColorActive=WhiteWhenHoverPress
+```
+
+Options:
+- `AsSelected` - Same as other buttons
+- `NegativeWhenHoverPress` - Red when hovered/pressed
+- `White` - Always white
+- `WhiteWhenHoverPress` - White when hovered/pressed (default)
+
+### Close Background Behavior
+
+```
+NegativeCloseBackgroundHoverPressActive=false
+```
+
+When true, the close button shows a negative (red) background on hover/press.
+
+## Button Behavior
+
+Control what appears in different button states (normal, hover, press):
+
+### Standard Buttons
+
+<Tabs>
+  <Tab title="Normal State">
+    ```
+    ShowIconNormallyActive=true
+    ShowBackgroundNormallyActive=false
+    ShowOutlineNormallyActive=false
+    ```
+  </Tab>
+  
+  <Tab title="Hover State">
+    ```
+    ShowIconOnHoverActive=true
+    ShowBackgroundOnHoverActive=true
+    ShowOutlineOnHoverActive=true
+    ```
+  </Tab>
+  
+  <Tab title="Press State">
+    ```
+    ShowIconOnPressActive=true
+    ShowBackgroundOnPressActive=true
+    ShowOutlineOnPressActive=true
+    ```
+  </Tab>
+</Tabs>
+
+### Close Button Separate Behavior
+
+```
+LockCloseButtonBehaviourActive=true  # Lock to same as other buttons
+```
+
+When unlocked, you can set separate behavior:
+
+```
+ShowCloseIconNormallyActive=true
+ShowCloseBackgroundNormallyActive=false
+ShowCloseIconOnHoverActive=true
+ShowCloseBackgroundOnHoverActive=true
+# etc.
+```
+
+### Color Variation on Hover
+
+Make buttons change color dynamically:
+
+```
+VaryColorIconActive=No           # Default: no variation
+VaryColorBackgroundActive=Opaque # Default: become opaque
+VaryColorOutlineActive=Opaque    # Default: become opaque
+```
+
+Variation options:
+- `No` - No variation
+- `Opaque` / `MostOpaqueHover` - Increase opacity
+- `Transparent` / `MostTransparentHover` - Decrease opacity
+- `Light` / `LightestHover` - Lighten color
+- `Dark` / `DarkestHover` - Darken color
+- `MoreTitleBar` / `MostTitleBarHover` - Blend toward titlebar color
+- `LessTitleBar` / `LeastTitleBarHover` - Blend away from titlebar
+
+## Bold Button Icons
+
+Control icon line weight:
+
+```
+BoldButtonIcons=BoldIconsActiveHiDpi
+```
+
+Options:
+- `BoldIconsBold` - Always bold
+- `BoldIconsFine` - Always fine/thin
+- `BoldIconsHiDpiOnly` - Bold only on HiDPI displays
+- `BoldIconsActive` - Bold only on active windows
+- `BoldIconsActiveHiDpi` - Bold on active windows with HiDPI (default)
+
+## Per-Button Color Override
+
+You can override colors for individual button types:
+
+```
+ButtonOverrideColorsActiveClose=255,0,0        # Red close button
+ButtonOverrideColorsActiveMinimize=255,255,0   # Yellow minimize
+# etc.
+```
+
+Available button types:
+- Menu
+- ApplicationMenu
+- OnAllDesktops
+- Minimize
+- Maximize
+- Close
+- ContextHelp
+- Shade
+- KeepBelow
+- KeepAbove
+
+## Unison Hovering
+
+Make all buttons respond to hover when any button is hovered:
+
+```
+UnisonHovering=false  # Default: independent hover
+```
+
+<Warning>
+Unison hovering can be visually distracting and is disabled by default.
+</Warning>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Window Decorations" icon="window-maximize" href="/theming/window-decorations">
+    Customize titlebar and window styling
+  </Card>
+  <Card title="Animations" icon="wand-magic-sparkles" href="/theming/animations">
+    Configure button and window animations
+  </Card>
+</CardGroup>

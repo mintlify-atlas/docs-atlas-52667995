@@ -1,0 +1,92 @@
+---
+title: Button Shapes
+description: Reference for all button shape configuration options in Klassy
+---
+
+Button shapes define the background appearance of titlebar buttons. Klassy offers several shape options ranging from full-height rectangles to small circles.
+
+## ButtonShape
+
+<ParamField path="ButtonShape" type="enum" default="ShapeIntegratedRoundedRectangle">
+  Defines the background shape style for titlebar buttons.
+
+  <Accordion title="Available Options">
+    <ParamField path="ShapeFullHeightRectangle" type="option">
+      Full-height rectangular button backgrounds that span the entire titlebar height. Best for classic window decoration styles.
+    </ParamField>
+
+    <ParamField path="ShapeFullHeightRoundedRectangle" type="option">
+      Full-height button backgrounds with rounded corners. Combines classic full-height style with modern rounded aesthetics. See the _ClassiK v3_ preset for an example.
+    </ParamField>
+
+    <ParamField path="ShapeIntegratedRoundedRectangle" type="option">
+      **Default.** Modern integrated rounded rectangles with translucent outlined accent colours. Designed to complement the "Blue Ocean" design refresh and system accent colour feature. Features a large clickable area with bottom padding.
+    </ParamField>
+
+    <ParamField path="ShapeIntegratedRoundedRectangleGrouped" type="option">
+      Similar to integrated rounded rectangles but buttons are visually grouped together without spacing between them.
+    </ParamField>
+
+    <ParamField path="ShapeSmallCircle" type="option">
+      Compact circular button backgrounds. Creates a minimal, modern appearance. See the _Classik-Aurorae_ preset for an example.
+    </ParamField>
+
+    <ParamField path="ShapeSmallSquare" type="option">
+      Compact square button backgrounds with sharp corners.
+    </ParamField>
+
+    <ParamField path="ShapeSmallRoundedSquare" type="option">
+      Compact square button backgrounds with rounded corners. Balances the modern rounded aesthetic with a smaller button footprint.
+    </ParamField>
+  </Accordion>
+</ParamField>
+
+## Button Corner Radius
+
+<ParamField path="ButtonCornerRadius" type="enum" default="SameAsWindow">
+  Controls the corner radius of button backgrounds.
+
+  <Accordion title="Options">
+    <ParamField path="SameAsWindow" type="option">
+      **Default.** Buttons use the same corner radius as the window corner radius setting.
+    </ParamField>
+
+    <ParamField path="Custom" type="option">
+      Use a custom corner radius value defined by `ButtonCustomCornerRadius`.
+    </ParamField>
+  </Accordion>
+</ParamField>
+
+<ParamField path="ButtonCustomCornerRadius" type="double" default="2.5">
+  Custom corner radius for button backgrounds in pixels. Only applies when `ButtonCornerRadius` is set to `Custom`.
+  
+  - **Min:** 0
+  - **Max:** 24.0
+</ParamField>
+
+## Integrated Rectangle Padding
+
+<ParamField path="IntegratedRoundedRectangleBottomPadding" type="double" default="1.5">
+  Bottom padding for integrated rounded rectangle button shapes. Creates visual breathing room between buttons and the window content.
+  
+  - **Min:** 0
+  - **Max:** 20
+</ParamField>
+
+## Background Scaling
+
+<ParamField path="ScaleBackgroundPercent" type="int" default="100">
+  Scale percentage for small button backgrounds (circle, square, rounded square shapes).
+  
+  - **Min:** 100 (normal size)
+  - **Max:** 250 (2.5x larger)
+</ParamField>
+
+<Note>
+The button shape you choose affects how other settings like spacing and colors are applied. Full-height shapes have different spacing controls than small shapes.
+</Note>
+
+## Related Settings
+
+- [Button Styles](/reference/button-styles) - Icon styles, colors, and sizes
+- [Spacing & Alignment](/reference/spacing-alignment) - Button spacing and positioning

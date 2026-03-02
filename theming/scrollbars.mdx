@@ -1,0 +1,266 @@
+---
+title: "Scrollbars"
+description: "Configure Klassy's highly customizable scrollbar appearance and behavior"
+---
+
+## Overview
+
+Klassy provides what many consider **the best scrollbars on any platform**. They're highly customizable, visually refined, and designed for both aesthetics and usability.
+
+<img src="/images/configurable_scrollbars.png" width="80%" />
+
+![Default scrollbar animation](/images/scrollbar_mouseover.gif)
+
+<Note>
+Scrollbar settings are part of the Klassy Application Style, not the window decoration. Make sure you have the Klassy Application Style enabled in System Settings.
+</Note>
+
+## Enabling Klassy Scrollbars
+
+To use Klassy scrollbars:
+
+1. Open **System Settings**
+2. Go to **Appearance** → **Application Style**
+3. Select **Klassy** from the list
+4. Click **Apply**
+
+## Scrollbar Appearance
+
+### Slider Thickness
+
+Control the width of the scrollbar slider:
+
+```
+ScrollBarSliderThicknessMouseOver=8           # 1-50 pixels
+ScrollBarSliderThicknessMouseNotOverPercent=75 # 1-100%
+```
+
+<Info>
+**How it works:** The slider is 8 pixels wide when you hover over it, and 75% of that size (6 pixels) when not hovered. This creates a subtle animation effect.
+</Info>
+
+### Slider Padding
+
+Add space between the slider and the scrollbar track edge:
+
+```
+ScrollBarSliderPadding=5  # 0-20 pixels
+```
+
+### Minimum Slider Height
+
+Ensure the slider is never too small to grab:
+
+```
+ScrollBarMinSliderHeight=36  # 5-80 pixels
+```
+
+<Note>
+Even in very long documents, the slider will maintain this minimum height for easy clicking and dragging.
+</Note>
+
+### Top and Bottom Margins
+
+Add breathing room at the scrollbar ends:
+
+```
+ScrollBarTopBottomMargins=4  # 0-20 pixels
+```
+
+## Scrollbar Buttons
+
+Classic scrollbars featured arrow buttons for line-by-line scrolling. Klassy lets you configure these:
+
+### Add Line Buttons (Bottom)
+
+Number of down/right arrow buttons at the bottom/right:
+
+```
+ScrollBarAddLineButtons=1  # 0-2
+```
+
+### Sub Line Buttons (Top)
+
+Number of up/left arrow buttons at the top/left:
+
+```
+ScrollBarSubLineButtons=1  # 0-2
+```
+
+<Info>
+Set both to 0 for modern, buttonless scrollbars. Set to 1 or 2 for classic scrollbar appearance.
+</Info>
+
+### Button Spacing
+
+Fine-tune spacing around scroll buttons:
+
+<Tabs>
+  <Tab title="One Button">
+    When you have one button at top or bottom:
+    
+    ```
+    ScrollBarTopOneButtonSpacing=-4    # -10 to 10
+    ScrollBarBottomOneButtonSpacing=-4 # -10 to 10
+    ```
+    
+    Negative values bring buttons closer to the slider.
+  </Tab>
+  
+  <Tab title="Two Buttons">
+    When you have two buttons at top or bottom:
+    
+    ```
+    ScrollBarTopTwoButtonSpacing=-1    # -10 to 10
+    ScrollBarBottomTwoButtonSpacing=-1 # -10 to 10
+    ```
+  </Tab>
+</Tabs>
+
+### Auto-Hide Arrows
+
+Hide arrow buttons when not needed:
+
+```
+ScrollBarAutoHideArrows=true
+```
+
+<Note>
+When enabled, arrow buttons automatically hide when the content fits entirely in the viewport (no scrolling needed).
+</Note>
+
+## Visual Effects
+
+### Scrollbar Separator
+
+Add a subtle line separating the scrollbar from content:
+
+```
+ScrollBarSeparator=false  # Default: no separator
+```
+
+## Scrollbar Behavior
+
+Klassy scrollbars feature smooth animations:
+
+### Hover Animation
+
+When you hover over a scrollbar, it smoothly grows from `ScrollBarSliderThicknessMouseNotOverPercent` to `ScrollBarSliderThicknessMouseOver`.
+
+![Scrollbar mouseover animation](/images/scrollbar_mouseover.gif)
+
+### Animation Speed
+
+Scrollbar animations respect the global animation settings. See the [Animations](/theming/animations) page for controlling animation speed.
+
+## Configuration Examples
+
+### Modern Minimal
+
+Sleek, buttonless scrollbars:
+
+```
+ScrollBarAddLineButtons=0
+ScrollBarSubLineButtons=0
+ScrollBarSliderThicknessMouseOver=6
+ScrollBarSliderThicknessMouseNotOverPercent=50
+ScrollBarSliderPadding=6
+ScrollBarTopBottomMargins=4
+ScrollBarSeparator=false
+```
+
+### Classic Full-Featured
+
+Traditional scrollbars with all features:
+
+```
+ScrollBarAddLineButtons=1
+ScrollBarSubLineButtons=1
+ScrollBarSliderThicknessMouseOver=12
+ScrollBarSliderThicknessMouseNotOverPercent=100
+ScrollBarSliderPadding=2
+ScrollBarTopBottomMargins=0
+ScrollBarAutoHideArrows=false
+ScrollBarSeparator=true
+```
+
+### Touch-Friendly
+
+Larger scrollbars for touch screens:
+
+```
+ScrollBarSliderThicknessMouseOver=14
+ScrollBarSliderThicknessMouseNotOverPercent=90
+ScrollBarSliderPadding=3
+ScrollBarMinSliderHeight=48
+```
+
+## Application Compatibility
+
+### Qt Applications
+
+Klassy scrollbars work perfectly in all Qt5 and Qt6 applications, including:
+- Dolphin file manager
+- Kate text editor
+- Konsole terminal
+- Okular document viewer
+- KMail
+- Any KDE application
+
+### GTK Applications
+
+GTK applications use their own theming system and won't display Klassy scrollbars. However, you can use GTK themes that match the Klassy aesthetic.
+
+<Info>
+For consistent theming across Qt and GTK apps, consider using a GTK theme that complements Klassy, such as Breeze-GTK.
+</Info>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Scrollbars don't change">
+    **Solution:** Ensure you've applied the Klassy Application Style in System Settings → Appearance → Application Style. Window decorations and application styles are separate components.
+  </Accordion>
+  
+  <Accordion title="Scrollbars are too thin/thick">
+    **Solution:** Adjust `ScrollBarSliderThicknessMouseOver` to your preferred width. Remember to restart applications after changing settings.
+  </Accordion>
+  
+  <Accordion title="Animations are jerky">
+    **Solution:** Check if animations are enabled in System Settings → Appearance → Application Style → Configure Klassy. Also ensure your system has sufficient graphics performance.
+  </Accordion>
+  
+  <Accordion title="Buttons don't appear">
+    **Solution:** Make sure `ScrollBarAddLineButtons` and `ScrollBarSubLineButtons` are set to 1 or 2, not 0.
+  </Accordion>
+</AccordionGroup>
+
+## Advanced Tips
+
+### Coordinating with Theme
+
+For a cohesive look, coordinate scrollbar settings with your button and window decoration choices:
+
+- **Minimal themes:** Use thinner scrollbars (6-8px) with no buttons
+- **Classic themes:** Use thicker scrollbars (10-12px) with buttons
+- **Round themes:** Increase `ScrollBarSliderPadding` for rounded appearance
+- **Sharp themes:** Decrease padding for angular look
+
+### HiDPI Displays
+
+Scrollbar dimensions automatically scale on HiDPI displays. You don't need to double values manually.
+
+### Performance Considerations
+
+Scrollbar animations are highly optimized and have negligible performance impact, even on older hardware.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Animations" icon="wand-magic-sparkles" href="/theming/animations">
+    Configure animation speeds for scrollbars and other elements
+  </Card>
+  <Card title="Presets" icon="palette" href="/theming/presets">
+    Load presets with pre-configured scrollbar settings
+  </Card>
+</CardGroup>

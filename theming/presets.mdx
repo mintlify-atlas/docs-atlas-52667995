@@ -1,0 +1,254 @@
+---
+title: "Presets"
+description: "Explore bundled presets and learn how to use them for quick customization"
+---
+
+## Overview
+
+Klassy includes numerous bundled **presets** that provide complete window decoration configurations. Presets are an easy way to quickly transform your desktop's appearance without manual fine-tuning.
+
+![Preset selection](/images/presets_opal_fruits.png)
+
+<Info>
+It's recommended to try the bundled presets in Klassy Settings before doing any fine-tuning of individual options.
+</Info>
+
+## Available Presets
+
+Klassy ships with the following bundled presets:
+
+<AccordionGroup>
+  <Accordion title="Kite (Default)">
+    The default Kite preset featuring:
+    - Integrated rounded rectangle button shape
+    - Kite icon style
+    - Translucent accent-colored backgrounds
+    - Designed for the "Blue Ocean" refresh
+    - Large clickable button areas
+    
+    **Best for:** Modern, polished everyday use
+  </Accordion>
+  
+  <Accordion title="ClassiK v3">
+    Features full-height rounded rectangle button shapes inspired by classic KDE aesthetics.
+    
+    ![Rounded rectangle button style](/images/highlight_gifs/cdark.gif)
+    
+    **Best for:** Users who prefer traditional full-height buttons
+  </Accordion>
+  
+  <Accordion title="ClassikStyles">
+    Full-height rectangular button highlights that inherit system highlight colors.
+    
+    ![Square highlight style](/images/highlight_gifs/squareHighlight.gif)
+    
+    **Best for:** Traditional rectangular aesthetics
+  </Accordion>
+  
+  <Accordion title="Kite-Aurorae">
+    Circular button highlights with Kite styling.
+    
+    ![Circle button highlight style](/images/highlight_gifs/circleHighlight.gif)
+    
+    **Best for:** Rounded, modern button highlights
+  </Accordion>
+  
+  <Accordion title="Opal Fruits">
+    Colorful preset with vibrant accent colors.
+    
+    ![Opal preset](/images/opal_preset.png)
+    
+    **Best for:** Users who want more colorful, playful aesthetics
+  </Accordion>
+  
+  <Accordion title="Glassy Klassy">
+    Features translucent, glass-like window decorations.
+    
+    ![Button icons menu](/images/button_icon_menu.png)
+    
+    **Best for:** Modern, transparent aesthetic preferences
+  </Accordion>
+  
+  <Accordion title="Chroma">
+    Designed for vibrant, chromatic color schemes.
+    
+    <img src="/images/mdi_test.png" alt="Chroma preset example" width="512" />
+    
+    **Best for:** Users who want bold, colorful interfaces
+  </Accordion>
+  
+  <Accordion title="SuessigKite">
+    A sweeter variation of the Kite theme.
+    
+    **Best for:** Softer, gentler visual styling
+  </Accordion>
+  
+  <Accordion title="Breeze Original">
+    Matches the original Breeze theme appearance.
+    
+    **Best for:** Users migrating from standard Breeze who want familiarity
+  </Accordion>
+  
+  <Accordion title="Garden Ornaments">
+    Nature-inspired decorative styling.
+    
+    **Best for:** Organic, natural aesthetic preferences
+  </Accordion>
+  
+  <Accordion title="Eaten Fruits">
+    Playful preset with fun styling.
+    
+    **Best for:** Whimsical, playful desktop aesthetics
+  </Accordion>
+  
+  <Accordion title="Plastik">
+    Inspired by the classic Plastik theme.
+    
+    **Best for:** Nostalgia for classic KDE 3.x styling
+  </Accordion>
+  
+  <Accordion title="KLCXP">
+    Windows XP-inspired styling.
+    
+    **Best for:** Classic Windows XP aesthetic
+  </Accordion>
+  
+  <Accordion title="Defenestrated Series">
+    Multiple variants (7, 8, 10, 11) inspired by different Windows versions.
+    
+    **Best for:** Users transitioning from Windows or preferring Windows-like aesthetics
+  </Accordion>
+</AccordionGroup>
+
+## Using Presets
+
+### Loading a Preset
+
+To load a bundled preset:
+
+1. Open **Klassy Settings** (search for "Klassy" in the application launcher)
+2. Look for the **Presets** section
+3. Click the dropdown menu to view available presets
+4. Select a preset from the list
+5. Click **Apply** to load the preset
+
+<Note>
+Presets will configure multiple settings at once, including button shapes, icons, colors, spacing, and more.
+</Note>
+
+### What Presets Configure
+
+When you load a preset, it configures:
+
+- **Button Icon Style** - Which icon set to use (Kite, Oxygen, Metro, etc.)
+- **Button Shape** - Full-height, integrated rounded, circular, square, etc.
+- **Button Colors** - Icon and background color schemes
+- **Button Sizing** - Size, spacing, and margins
+- **Titlebar Settings** - Opacity, gradients, separators
+- **Window Settings** - Corner radius, borders, outlines
+- **Animations** - Speed and enabled effects
+- **KWin Border Size** - Window border thickness
+- **Button Position** - Left/right button placement
+
+## Command-Line Usage
+
+Klassy Settings also supports command-line operations for preset management:
+
+```bash
+# View all available options
+klassy-settings --help
+
+# Import a preset file
+klassy-settings --import-preset /path/to/preset.klpw
+
+# Load a specific preset
+klassy-settings --load-preset "Preset Name"
+
+# Generate system icons
+klassy-settings --generate-icons
+```
+
+## Creating Custom Presets
+
+### Saving Your Configuration
+
+After customizing settings in Klassy Settings, you can save your configuration as a preset:
+
+1. Configure all desired settings
+2. Click the **Save Preset** button
+3. Enter a name for your preset
+4. Click **OK**
+
+### Exporting Presets
+
+To share or backup a preset:
+
+1. Open **Klassy Settings**
+2. Select the preset you want to export
+3. Click **Export Preset**
+4. Choose a location and filename (`.klpw` extension)
+5. Click **Save**
+
+<Info>
+Preset files use the `.klpw` (Klassy Preset Window decoration) extension.
+</Info>
+
+### Importing Presets
+
+To import a preset file:
+
+1. Open **Klassy Settings**
+2. Click **Import Preset**
+3. Browse to the `.klpw` file
+4. Click **Open**
+5. The preset will be added to your available presets
+
+<Warning>
+If you import a preset created with a different Klassy version, you may see a version warning. You can choose to force the import, but some settings may not apply correctly.
+</Warning>
+
+## Preset File Format
+
+Preset files are configuration files with a specific structure:
+
+```ini
+[Klassy Window Decoration Preset File]
+version=6.5.3
+
+[Windeco Preset YourPresetName]
+ButtonIconStyle=StyleKite
+ButtonShape=ShapeIntegratedRoundedRectangle
+IconSize=IconLargeMedium
+WindowCornerRadius=4
+AnimationsEnabled=true
+# ... additional settings
+KwinBorderSize=Normal
+KwinButtonsOnLeft=MS
+KwinButtonsOnRight=HIAX
+```
+
+## Bundled vs Custom Presets
+
+Klassy distinguishes between bundled and custom presets:
+
+| Feature | Bundled Presets | Custom Presets |
+|---------|-----------------|----------------|
+| **Source** | Shipped with Klassy | Created by you |
+| **Updates** | Refreshed with Klassy updates | Persist across updates |
+| **Modification** | Can be modified (becomes custom) | Fully editable |
+| **Deletion** | Can be deleted locally | Can be deleted |
+
+<Note>
+If you modify a bundled preset, it becomes a custom preset and won't be overwritten by Klassy updates.
+</Note>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Button Customization" icon="circle" href="/theming/button-customization">
+    Fine-tune button appearance beyond presets
+  </Card>
+  <Card title="Window Decorations" icon="window-maximize" href="/theming/window-decorations">
+    Customize titlebar and window styling
+  </Card>
+</CardGroup>
