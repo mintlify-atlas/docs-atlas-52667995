@@ -1,0 +1,106 @@
+{
+  "projectType": "general",
+  "projectName": "Klassy",
+  "projectDescription": "Highly customizable theming utility for the KDE Plasma desktop environment",
+  "theme": "palm",
+  "primaryColor": "#3DAEE9",
+  "lightColor": "#93CEE9",
+  "darkColor": "#1D99D2",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "introduction",
+              "installation",
+              "quickstart"
+            ]
+          },
+          {
+            "group": "Theming",
+            "pages": [
+              "theming/kite-global-theme",
+              "theming/presets",
+              "theming/window-decorations",
+              "theming/button-customization",
+              "theming/scrollbars",
+              "theming/animations"
+            ]
+          },
+          {
+            "group": "Configuration",
+            "pages": [
+              "configuration/klassy-settings",
+              "configuration/command-line-options",
+              "configuration/system-icons"
+            ]
+          },
+          {
+            "group": "Guides",
+            "pages": [
+              "guides/color-schemes",
+              "guides/application-style",
+              "guides/titlebar-customization",
+              "guides/button-icons",
+              "guides/opacity-blur"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Reference",
+        "groups": [
+          {
+            "group": "Configuration Reference",
+            "pages": [
+              "reference/button-shapes",
+              "reference/button-styles",
+              "reference/spacing-alignment",
+              "reference/window-outline",
+              "reference/shadow-settings"
+            ]
+          },
+          {
+            "group": "Development",
+            "pages": [
+              "development/building-from-source",
+              "development/architecture",
+              "development/contributing"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Highly customizable window decorations with multiple button styles and shapes",
+    "Configurable scrollbars with smooth animations",
+    "Multiple built-in presets (Kite, Glassy Klassy, Chroma, ClassiK)",
+    "System icon theme generation for consistent UI across applications",
+    "Titlebar transparency, blur effects, and color customization",
+    "Application Style for consistent UI in MDI applications and dockable panels",
+    "Configurable button spacing, sizing, colors, and translucency",
+    "Thin window outlines with optional accent colors",
+    "Integrated Rounded Rectangles and Traffic Lights button styles",
+    "Full support for KDE Plasma 6.3+ with Qt5 and Qt6 builds"
+  ],
+  "publicApiSurface": [
+    "Window Decoration Plugin (KDecoration3)",
+    "Application Style Plugin (Qt Style)",
+    "klassy-settings GUI application",
+    "klassy-settings --help (command-line interface)",
+    "klassy-settings --import-preset <file>",
+    "klassy-settings --load-preset <name>",
+    "klassy-settings --generate-system-icons",
+    "Global Themes: Kite (dark/light, left/bottom panel variants)",
+    "Color Schemes: KlassyDark, KlassyLight, OpalFruitsDark, OpalFruitsLight",
+    "System Icon Themes: klassy, klassy-dark",
+    "Preset System (bundled and custom presets)",
+    "Configuration API (breezesettings.kcfg)",
+    "Button Icon Rendering API",
+    "Decoration Colors API"
+  ]
+}
